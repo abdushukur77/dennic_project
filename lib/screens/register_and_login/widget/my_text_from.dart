@@ -54,7 +54,9 @@ class MyTextFromField extends StatelessWidget {
         prefixIcon: perefixIcon.contains("png")
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("+9989")],
+                children: [
+                  Text("+9989"),
+                ],
               )
             : Padding(
                 padding: EdgeInsets.symmetric(
@@ -71,6 +73,5 @@ class MyTextFromField extends StatelessWidget {
             : null,
       ),
     );
-    ;
   }
 }

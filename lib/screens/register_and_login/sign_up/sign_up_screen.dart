@@ -77,6 +77,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               labelText: 'Type your email',
               perefixIcon: AppImages.callPng,
             ),
+            Checkbox.adaptive(
+                value: obthorText,
+                onChanged: (v) {
+                  obthorText = !obthorText;
+                  setState(() {});
+                }),
           ],
         ),
       ),
