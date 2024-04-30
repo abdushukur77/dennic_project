@@ -6,8 +6,15 @@ import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  bool obthorText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class SignInScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            100.getH(),
+            96.getH(),
             Text(
               "Welcome Back!",
               style: AppTextStyle.urbanistBold.copyWith(
@@ -33,10 +40,76 @@ class SignInScreen extends StatelessWidget {
                 fontSize: 16.sp,
               ),
             ),
-            68.getH(),
+            70.getH(),
             MyTextFromField(
               labelText: 'Type your email',
               perefixIcon: AppImages.callPng,
+            ),
+            30.getH(),
+            MyTextFromField(
+              onTab: () {
+                setState(() {
+                  obthorText = !obthorText;
+                });
+              },
+              labelText: 'Type your password',
+              perefixIcon: AppImages.lock,
+              obzorText: obthorText,
+              suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
+            ),
+            16.getH(),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Forgot Password?",
+                  style: AppTextStyle.urbanistBold.copyWith(
+                    fontSize: 14.sp,
+                    color: AppColors.c257CFF,
+                  ),
+                ),
+              ),
+            ),
+            73.getH(),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                    backgroundColor: AppColors.c257CFF,
+                    padding: EdgeInsets.symmetric(vertical: 15.he())),
+                onPressed: () {},
+                child: Text(
+                  "Sign In",
+                  style: AppTextStyle.urbanistBold.copyWith(
+                    fontSize: 14.sp,
+                    color: AppColors.cFFFFFF,
+                  ),
+                ),
+              ),
+            ),
+            27.getH(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Don’t have account?",
+                  style: AppTextStyle.urbanistRegular.copyWith(
+                    fontSize: 14.sp,
+                    color: const Color(0xFF9CA3AF),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Sign Up",
+                    style: AppTextStyle.urbanistBold.copyWith(
+                      fontSize: 14.sp,
+                      color: AppColors.c257CFF,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
