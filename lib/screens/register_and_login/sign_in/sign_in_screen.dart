@@ -1,3 +1,4 @@
+import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
@@ -24,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            96.getH(),
+            100.getH(),
             Text(
               "Welcome Back!",
               style: AppTextStyle.urbanistBold.copyWith(
@@ -100,7 +101,16 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return SignUpScreen();
+                        },
+                      ),
+                    );
+                  },
                   child: Text(
                     "Sign Up",
                     style: AppTextStyle.urbanistBold.copyWith(
