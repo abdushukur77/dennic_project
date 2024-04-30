@@ -15,7 +15,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  bool obthorText = false;
+  bool obthorText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            100.getH(),
+            96.getH(),
             Text(
               "Welcome Back!",
               style: AppTextStyle.urbanistBold.copyWith(
@@ -48,6 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             30.getH(),
             MyTextFromField(
+              textInputAction: TextInputAction.done,
               onTab: () {
                 setState(() {
                   obthorText = !obthorText;
@@ -77,6 +78,8 @@ class _SignInScreenState extends State<SignInScreen> {
               width: double.infinity,
               child: TextButton(
                 style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.r)),
                     backgroundColor: AppColors.c257CFF,
                     padding: EdgeInsets.symmetric(vertical: 15.he())),
                 onPressed: () {},
@@ -101,6 +104,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 TextButton(
+                  style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.r),
+                  )),
                   onPressed: () {
                     Navigator.push(
                       context,

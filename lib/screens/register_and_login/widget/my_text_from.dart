@@ -6,24 +6,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyTextFromField extends StatelessWidget {
-  const MyTextFromField({
-    super.key,
-    required this.labelText,
-    this.obzorText = false,
-    required this.perefixIcon,
-    this.suffixIcon,
-    this.onTab,
-  });
+  const MyTextFromField(
+      {super.key,
+      required this.labelText,
+      this.obzorText = false,
+      required this.perefixIcon,
+      this.suffixIcon,
+      this.onTab,
+      this.textInputAction = TextInputAction.next});
 
   final String labelText;
   final bool obzorText;
   final String perefixIcon;
   final String? suffixIcon;
   final VoidCallback? onTab;
+  final TextInputAction textInputAction;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textInputAction: textInputAction,
       style: AppTextStyle.urbanistBold.copyWith(
         fontSize: 14.sp,
         color: AppColors.c191A26,
@@ -35,7 +37,6 @@ class MyTextFromField extends StatelessWidget {
             color: AppColors.c257CFF,
             width: 1.we(),
           ),
-
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
@@ -50,18 +51,18 @@ class MyTextFromField extends StatelessWidget {
             color: AppColors.c7E8CA0,
           ),
         ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.we(), vertical: 10.we()),
-          child: perefixIcon.contains("png")
-              ? Image.asset(
-                  perefixIcon,
-                  width: 30.we(),
-                  height: 30.we(),
-                )
-              : SvgPicture.asset(
+        prefixIcon: perefixIcon.contains("png")
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text("+9989")],
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 10.we(), vertical: 10.we()),
+                child: SvgPicture.asset(
                   perefixIcon,
                 ),
-        ),
+              ),
         suffixIcon: suffixIcon != null
             ? IconButton(
                 onPressed: onTab,
