@@ -4,11 +4,11 @@ double height = 0.0;
 double width = 0.0;
 
 extension Size on int {
-  double h() {
+  double he() {
     return (this / 812) * height;
   }
 
-  double w() {
+  double we() {
     return (this / 375) * width;
   }
 
