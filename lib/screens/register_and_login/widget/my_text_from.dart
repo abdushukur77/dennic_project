@@ -2,6 +2,7 @@ import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,6 +28,12 @@ class MyTextFromField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: perefixIcon.contains("call")
+          ? [
+              FilteringTextInputFormatter.digitsOnly,
+            ]
+          : null,
+      maxLength: perefixIcon.contains("call") ? 8 : null,
       onChanged: valueChanged,
       textInputAction: textInputAction,
       style: AppTextStyle.urbanistBold.copyWith(
