@@ -13,7 +13,8 @@ class MyTextFromField extends StatelessWidget {
       required this.perefixIcon,
       this.suffixIcon,
       this.onTab,
-      this.textInputAction = TextInputAction.next});
+      this.textInputAction = TextInputAction.next,
+      required this.valueChanged});
 
   final String labelText;
   final bool obzorText;
@@ -21,10 +22,12 @@ class MyTextFromField extends StatelessWidget {
   final String? suffixIcon;
   final VoidCallback? onTab;
   final TextInputAction textInputAction;
+  final ValueChanged<String> valueChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: valueChanged,
       textInputAction: textInputAction,
       style: AppTextStyle.urbanistBold.copyWith(
         fontSize: 14.sp,
