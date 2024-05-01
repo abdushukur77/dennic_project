@@ -14,6 +14,7 @@ class AppImages {
   // static const String facebook="assets/icons/facebook.svg";
   static const String log = "assets/icons/login.svg";
   static const String sms = "assets/icons/sms.svg";
+  static const String cansel = "assets/icons/cansel.svg";
   static const String person = "assets/icons/person.svg";
   static const String arrowLeft = "assets/icons/arrow_left.svg";
   static const String arrowRight = "assets/icons/arrow_right.svg";

@@ -1,9 +1,11 @@
+import 'package:dennic_project/screens/register_and_login/sign_up/widget/check.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/constants/app_constants.dart';
+import 'package:dennic_project/utils/extention/extantions.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,7 +19,11 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool obthorText = true;
-  bool chek = false;
+  bool check = false;
+  bool write = false;
+  bool minimumEightcharacters = false;
+  bool atleastNumber = false;
+  bool atleastLowercaseOrUppercaseLetters = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               perefixIcon: AppImages.lock,
               obzorText: obthorText,
               suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
-              valueChanged: (String value) {},
+              valueChanged: _onChange,
             ),
             20.getH(),
             MyTextFromField(
@@ -83,6 +89,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               valueChanged: (String value) {},
             ),
             16.getH(),
+            if (write)
+              CheckInput(
+                  check: minimumEightcharacters, title: "Minimum 8 characters"),
+            if (write)
+              CheckInput(check: atleastNumber, title: "Atleast 1 number (1-9)"),
+            if (write)
+              CheckInput(
+                  check: atleastLowercaseOrUppercaseLetters,
+                  title: "Atleast lowercase or uppercase letters"),
+            16.getH(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -90,12 +106,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   scale: 1.3,
                   child: Checkbox.adaptive(
                       side: BorderSide(
-                          color: AppColors.c808D9E, width: chek ? 0 : 1.2.w),
+                          color: AppColors.c808D9E, width: check ? 0 : 1.2.w),
                       checkColor: AppColors.cFFFFFF,
                       activeColor: AppColors.c257CFF,
-                      value: chek,
+                      value: check,
                       onChanged: (v) {
-                        chek = !chek;
+                        check = !check;
                         setState(() {});
                       }),
                 ),
@@ -135,9 +151,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
+            42.getH(),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.r)),
+                    backgroundColor: AppColors.c257CFF,
+                    padding: EdgeInsets.symmetric(vertical: 15.he())),
+                onPressed: () {},
+                child: Text(
+                  "Sign Up",
+                  style: AppTextStyle.urbanistBold.copyWith(
+                    fontSize: 14.sp,
+                    color: AppColors.cFFFFFF,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  _onChange(String value) {
+    write = true;
+    if (value.length > 7) {
+      minimumEightcharacters = true;
+    }
+    if (value.length < 7) {
+      minimumEightcharacters = false;
+    }
+    if (value.isDigitMy()) {
+      atleastNumber = true;
+    }
+    if (!value.isDigitMy()) {
+      atleastNumber = false;
+    }
+    if (value.isAlphaMy()) {
+      atleastLowercaseOrUppercaseLetters = true;
+    }
+    if (!value.isAlphaMy()) {
+      atleastLowercaseOrUppercaseLetters = false;
+    }
+    setState(() {});
   }
 }
