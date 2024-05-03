@@ -4,13 +4,13 @@ double height = 0.0;
 double width = 0.0;
 
 extension Size on int {
-  double h() {
-    return (this / 812) * height;
-  }
-
-  double w() {
-    return (this / 375) * width;
-  }
+  // double h() {
+  //   return (this / 812) * height;
+  // }
+  //
+  // double w() {
+  //   return (this / 375) * width;
+  // }
 
   SizedBox getH() {
     return SizedBox(

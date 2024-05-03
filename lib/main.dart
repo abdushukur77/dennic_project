@@ -1,4 +1,5 @@
 import 'package:dennic_project/screens/helper_screen.dart';
+import 'package:dennic_project/screens/my_screen/my_screen.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: const Size(375, 812),
       builder: (context, child) {
         ScreenUtil.init(context);
         return MaterialApp(
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const HelperScreen(),
+      child: const PinScreen(),
     );
   }
 }
