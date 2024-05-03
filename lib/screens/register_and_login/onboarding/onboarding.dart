@@ -30,8 +30,8 @@ class OnboardingScreen extends StatelessWidget {
           Stack(
             children: [
               Container(
-                width: 400.w(),
-                height: 400.h(),
+                width: 400.w,
+                height: 400.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100.r),
                   boxShadow: [
@@ -53,8 +53,8 @@ class OnboardingScreen extends StatelessWidget {
                 right: 0,
                 child: Image.asset(
                   AppImages.girl,
-                  width: 207.w(),
-                  height: 297.h(),
+                  width: 207.w,
+                  height: 297.h,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -63,8 +63,8 @@ class OnboardingScreen extends StatelessWidget {
                 bottom: 0,
                 child: Image.asset(
                   AppImages.boy,
-                  width: 253.w(),
-                  height: 357.h(),
+                  width: 253.w,
+                  height: 357.h,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -73,9 +73,9 @@ class OnboardingScreen extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsets.only(
-                top: 39.h(),
-                left: 24.w(),
-                right: 24.w(),
+                top: 39.h,
+                left: 24.w,
+                right: 24.w,
               ),
               color: Colors.white,
               child: Column(
@@ -96,7 +96,7 @@ class OnboardingScreen extends StatelessWidget {
                       style: TextButton.styleFrom(
                         backgroundColor: AppColors.c257CFF,
                         padding: EdgeInsets.symmetric(
-                          vertical: 15.h(),
+                          vertical: 15.h,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4.r),

@@ -9,6 +9,8 @@ class AppImages {
   static const String boy = "assets/images/boy.png";
   static const String girl = "assets/images/girl.png";
   static const String phone  = "assets/images/phone.png";
+  static const String callPng  = "assets/images/call.png";
+  static const String cansel  = "assets/images/cancel.png";
 
   //.svg
 

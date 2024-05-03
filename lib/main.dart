@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
-            scaffoldBackgroundColor: AppColors.cFFFFFF,
           ),
           home: child,
         );
