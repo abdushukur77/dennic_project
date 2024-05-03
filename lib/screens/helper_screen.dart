@@ -85,7 +85,7 @@ class HelperScreen extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return VerifyScreen();
+                  return VerifyCodeScreen();
                 }));
               },
               child: Text(

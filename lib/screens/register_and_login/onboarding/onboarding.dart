@@ -4,6 +4,7 @@ import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -18,20 +19,13 @@ class OnboardingScreen extends StatelessWidget {
         children: [
           52.getH(),
           Center(
-            child: Text(
-              "ECARE",
-              style: AppTextStyle.urbanistLight.copyWith(
-                color: const Color(0xFF1D1E25),
-                fontSize: 36.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: SvgPicture.asset(AppImages.ecare, width: 162.w,)
           ),
           Stack(
             children: [
               Container(
                 width: 400.w,
-                height: 400.h,
+                height: 300.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100.r),
                   boxShadow: [
@@ -42,7 +36,7 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     BoxShadow(
                       color: AppColors.c68DBFF.withOpacity(.5),
-                      blurRadius: 40,
+                      blurRadius: 60,
                       spreadRadius: 0,
                     ),
                   ],
@@ -50,21 +44,21 @@ class OnboardingScreen extends StatelessWidget {
               ),
               Positioned(
                 bottom: 0,
-                right: 0,
+                right: 25.w,
                 child: Image.asset(
                   AppImages.girl,
-                  width: 207.w,
-                  height: 297.h,
+                  width: 167.w,
+                  height: 267.h,
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                left: 0,
+                left: 20,
                 bottom: 0,
                 child: Image.asset(
                   AppImages.boy,
-                  width: 253.w,
-                  height: 357.h,
+                  width: 183.w,
+                  height: 287.h,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -83,9 +77,9 @@ class OnboardingScreen extends StatelessWidget {
                   Text(
                     textAlign: TextAlign.center,
                     "Improve the Quality of Service for Patient Happiness",
-                    style: TextStyle(
+                    style: AppTextStyle.urbanistBold.copyWith(
                       color: AppColors.c1D1E25,
-                      fontSize: 32.sp,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
