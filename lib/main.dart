@@ -1,5 +1,4 @@
 import 'package:dennic_project/screens/helper_screen.dart';
-import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
