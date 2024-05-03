@@ -1,4 +1,5 @@
 import 'package:dennic_project/screens/helper_screen.dart';
+
 import 'package:dennic_project/screens/my_screen/my_screen.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,10 @@ class MyApp extends StatelessWidget {
         ScreenUtil.init(context);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(useMaterial3: false),
+          theme: ThemeData(
+            useMaterial3: true,
+            scaffoldBackgroundColor: AppColors.cFFFFFF,
+          ),
           home: child,
         );
       },
