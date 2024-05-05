@@ -76,7 +76,7 @@ class OnboardingScreen extends StatelessWidget {
                 children: [
                   Text(
                     textAlign: TextAlign.center,
-                    "Improve the Quality of Service for Patient Happiness",
+                    " Improve the Quality of Service for Patient Happiness",
                     style: AppTextStyle.urbanistBold.copyWith(
                       color: AppColors.c1D1E25,
                       fontSize: 24.sp,
