@@ -65,7 +65,9 @@ class MyTextFromField extends StatelessWidget {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("+9989"),
+                  Text("+998",style: AppTextStyle.urbanistBold.copyWith(
+                    color: AppColors.c7E8CA0
+                  ),),
                 ],
               )
             : Padding(

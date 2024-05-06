@@ -1,112 +1,121 @@
-import 'package:dennic_project/utils/colors/app_colors.dart';
-import 'package:dennic_project/utils/images/app_images.dart';
-import 'package:dennic_project/utils/size/size_utils.dart';
-import 'package:dennic_project/utils/styles/app_text_style.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
-  const VerifyCodeScreen({super.key});
+  const VerifyCodeScreen({Key? key}) : super(key: key);
 
   @override
-  State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
+  _VerifyCodeScreenState createState() => _VerifyCodeScreenState();
 }
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   String pinCode = "";
-  String againCode = "";
-  bool isAgain = false;
   List<String> list = [];
+  int _start = 60;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+          (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  Widget buttonItems({required String title}) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.symmetric(
+          horizontal: 28,
+          vertical: 8,
+        ),
+        backgroundColor: Colors.white10,
+      ),
+      onPressed: () {
+        list = [];
+        pinCode += title;
+        list = pinCode.split('');
+        setState(() {});
+      },
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 24,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
-
-    Widget buttonItems({required String title}) {
-      return TextButton(
-        style: TextButton.styleFrom(
-          padding: EdgeInsets.symmetric(
-            horizontal: 28.w,
-            vertical: 8.w,
-          ),
-          backgroundColor: Colors.white10,
-        ),
-        onPressed: () {
-          list = [];
-          pinCode += title;
-          list = pinCode.split('');
-          if (isAgain) {
-            againCode = pinCode;
-          }
-          if (pinCode.length == 4) {
-            if (!isAgain) {
-              // context.read<CheckCubit>().createPassword(pinCode);
-              isAgain = true;
-            }
-            // context.read<CheckCubit>().toVerifyPinCode(againCode, context);
-          }
-          setState(() {});
-        },
-        child: Text(
-          title,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon:
-            SvgPicture.asset(AppImages.arrowLeft)
-          ,
+          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
         ),
         elevation: 0,
       ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            16.getH(),
+            SizedBox(height: 16),
             Text(
-              "Verify Code",
+              "Verify Phone",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 24.sp,
+                fontSize: 24,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            8.getH(),
+            SizedBox(height: 8),
             Text(
               "Please enter the code we just sent to phone number (+1) 234 567 XXX",
               style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.black),
+                  color: Colors.black),
             ),
-            37.getH(),
+            SizedBox(height: 37),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ...List.generate(4, (index) {
-                  debugPrint("AAAAAAAAAAAAAAAAAA$list $pinCode");
                   return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 8.w),
-                    width: 56.w,
-                    height: 56.h,
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    width: 56,
+                    height: 56,
                     decoration: BoxDecoration(
                       color: (index < pinCode.length)
                           ? Colors.white
@@ -119,39 +128,42 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     ),
                     child: (index < pinCode.length)
                         ? Center(
-                            child: Text(
-                              list[index],
-                              style: AppTextStyle.urbanistBold.copyWith(
-                                  color: AppColors.black, fontSize: 20.sp),
-                            ),
-                          )
-                        : const SizedBox(),
+                      child: Text(
+                        list[index],
+                        style: TextStyle(
+                            color: Colors.black, fontSize: 20),
+                      ),
+                    )
+                        : SizedBox(),
                   );
                 }),
               ],
             ),
-            37.getH(),
+            SizedBox(height: 37),
             Center(
-                child: Text(
-              "Resend code in Time",
-              style: AppTextStyle.urbanistBold
-                  .copyWith(color: AppColors.black, fontSize: 16.sp),
-            )),
-            58.getH(),
+              child: Text(
+                "Resend code in $_start seconds",
+                style: TextStyle(
+                    color: Colors.black, fontSize: 16),
+              ),
+            ),
+            SizedBox(height: 58),
             SizedBox(
-              width: width,
+              width: MediaQuery.of(context).size.width,
               child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 15.h),
+                      padding: EdgeInsets.symmetric(vertical: 15),
                       backgroundColor: Colors.blue),
                   child: Text(
                     "Continue",
-                    style: AppTextStyle.urbanistBold
-                        .copyWith(color: AppColors.white, fontSize: 14.sp),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
                   )),
             ),
-            33.getH(),
+            SizedBox(height: 33),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -160,7 +172,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 buttonItems(title: "3"),
               ],
             ),
-            15.getH(),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -169,7 +181,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 buttonItems(title: "6"),
               ],
             ),
-            15.getH(),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -184,8 +196,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 TextButton(
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 30.w,
-                      vertical: 16.h,
+                      horizontal: 30,
+                      vertical: 16,
                     ),
                   ),
                   onPressed: () {},
@@ -193,7 +205,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     ".",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 24.sp,
+                      fontSize: 24,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -202,19 +214,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 TextButton(
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 22.w,
-                      vertical: 16.h,
+                      horizontal: 22,
+                      vertical: 16,
                     ),
                   ),
                   onPressed: () {
-                    if (pinCode.isEmpty) {
-                      pinCode = "";
-                    } else {
-                      pinCode = pinCode.substring(0, pinCode.length - 1);
+                    if (pinCode.isNotEmpty) {
+                      setState(() {
+                        pinCode = pinCode.substring(0, pinCode.length - 1);
+                        list = pinCode.split('');
+                      });
                     }
-                    setState(() {});
                   },
-                  child: SvgPicture.asset(AppImages.backSpace)
+                  child: SvgPicture.asset('assets/icons/back_space.svg'),
                 ),
               ],
             ),
@@ -223,4 +235,10 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: VerifyCodeScreen(),
+  ));
 }

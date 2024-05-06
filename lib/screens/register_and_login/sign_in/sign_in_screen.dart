@@ -42,6 +42,8 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             70.getH(),
+
+
             MyTextFromField(
               labelText: 'Type your phone',
               perefixIcon: AppImages.callPng,
@@ -61,6 +63,8 @@ class _SignInScreenState extends State<SignInScreen> {
               suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
               valueChanged: (String value) {},
             ),
+
+
             16.getH(),
             Align(
               alignment: Alignment.centerRight,

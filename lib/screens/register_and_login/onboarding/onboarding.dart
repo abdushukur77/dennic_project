@@ -1,3 +1,4 @@
+import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
@@ -19,8 +20,11 @@ class OnboardingScreen extends StatelessWidget {
         children: [
           52.getH(),
           Center(
-            child: SvgPicture.asset(AppImages.ecare, width: 162.w,)
-          ),
+              child: Image.asset(
+            AppImages.dennic,
+            width: 230.w,
+            fit: BoxFit.contain,
+          )),
           Stack(
             children: [
               Container(
@@ -83,7 +87,7 @@ class OnboardingScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  35.getH(),
+                  25.getH(),
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
@@ -107,7 +111,7 @@ class OnboardingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  20.getH(),
+                  10.getH(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -120,7 +124,12 @@ class OnboardingScreen extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return SignUpScreen();
+                          }));
+                        },
                         child: Text(
                           "Login",
                           style: TextStyle(
