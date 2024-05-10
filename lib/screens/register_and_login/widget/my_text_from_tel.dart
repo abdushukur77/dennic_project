@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MyTextFromField extends StatelessWidget {
-  const MyTextFromField(
+class MyTextFromFieldTel extends StatelessWidget {
+  const MyTextFromFieldTel(
       {super.key,
       required this.labelText,
       this.obzorText = false,
@@ -33,7 +33,7 @@ class MyTextFromField extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
             ]
           : null,
-      maxLength: perefixIcon.contains("call") ? 8 : null,
+      maxLength:  9,
       onChanged: valueChanged,
       textInputAction: textInputAction,
       style: AppTextStyle.urbanistBold.copyWith(
@@ -50,17 +50,18 @@ class MyTextFromField extends StatelessWidget {
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.cED2828,
+            color: AppColors.cE9ECF2,
             width: 1.we(),
           ),
         ),
         label: Text(
-          labelText,
+          "Type your phone number",
           style: AppTextStyle.urbanistRegular.copyWith(
             fontSize: 14.sp,
-            color: AppColors.c68DBFF,
+            color: AppColors.c7E8CA0,
           ),
         ),
+        prefixText: "+998",
         prefixIcon: perefixIcon.contains("png")
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -73,6 +74,8 @@ class MyTextFromField extends StatelessWidget {
                     horizontal: 10.we(), vertical: 10.we()),
                 child: SvgPicture.asset(
                   perefixIcon,
+                  height: 20.h,
+                  width:20.w
                 ),
               ),
         suffixIcon: suffixIcon != null

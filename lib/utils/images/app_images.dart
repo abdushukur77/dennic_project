@@ -7,9 +7,15 @@ class AppImages {
   static const String books = "assets/images/books.png";
   static const String img = "assets/images/app_icon.png";
   static const String splash = "assets/images/splash.png";
+  static const String uzb = "assets/icons/uzb.svg";
+  static const String call = "assets/icons/call.svg";
   static const String boy = "assets/images/boy.png";
   static const String girl = "assets/images/girl.png";
   static const String phone  = "assets/images/phone.png";
+  static const String callPng  = "assets/images/call.png";
+  static const String dennic  = "assets/images/dennic.png";
+  static const String cansel  = "assets/icons/cansel.svg";
+  static const String calendar  = "assets/icons/calendar.svg";
 
   //.svg
 
@@ -31,6 +37,7 @@ class AppImages {
   static const String openEye = "assets/icons/open_eye.svg";
   static const String personal = "assets/icons/personal.svg";
   static const String plus = "assets/icons/plus.svg";
+  static const String ecare = "assets/icons/ecare.svg";
   static const String radioButtonCircle =
       "assets/icons/radio_button_circle.svg";
   static const String radioButtonCircleDone =

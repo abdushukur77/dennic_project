@@ -1,3 +1,4 @@
+import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
@@ -16,22 +17,20 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          52.getH(),
+          12.getH(),
           Center(
-            child: Text(
-              "ECARE",
-              style: AppTextStyle.urbanistLight.copyWith(
-                color: const Color(0xFF1D1E25),
-                fontSize: 36.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
+              child: Image.asset(
+            AppImages.dennic,
+            width: 350.w,
+            fit: BoxFit.contain,
+          )),
           Stack(
             children: [
               Container(
                 width: 400.w,
-                height: 400.h,
+
+                height: 280.h,
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100.r),
                   boxShadow: [
@@ -42,7 +41,7 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     BoxShadow(
                       color: AppColors.c68DBFF.withOpacity(.5),
-                      blurRadius: 40,
+                      blurRadius: 60,
                       spreadRadius: 0,
                     ),
                   ],
@@ -50,96 +49,104 @@ class OnboardingScreen extends StatelessWidget {
               ),
               Positioned(
                 bottom: 0,
-                right: 0,
+                right: 25.w,
                 child: Image.asset(
                   AppImages.girl,
-                  width: 207.w,
-                  height: 297.h,
+
+                  width: 167.w,
+                  height: 267.h,
+
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                left: 0,
+                top: 20.h,
+                left: 5.w,
                 bottom: 0,
                 child: Image.asset(
                   AppImages.boy,
-                  width: 253.w,
-                  height: 357.h,
+                  width: 220.w,
+                  height: 287.h,
+
                   fit: BoxFit.cover,
                 ),
               ),
             ],
           ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(
-                top: 39.h,
-                left: 24.w,
-                right: 24.w,
-              ),
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    "Improve the Quality of Service for Patient Happiness",
-                    style: TextStyle(
-                      color: AppColors.c1D1E25,
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.w700,
+
+          Container(
+            padding: EdgeInsets.only(
+              top: 39.h,
+              left: 24.w,
+              right: 24.w,
+            ),
+            color: Colors.white,
+            child: Column(
+              children: [
+                Text(
+                  textAlign: TextAlign.center,
+                  " Improve the Quality of Service for Patient Happiness",
+                  style: AppTextStyle.urbanistBold.copyWith(
+                    color: AppColors.c1D1E25,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                20.getH(),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.c257CFF,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 15.h,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Get Started",
+                      style: TextStyle(
+                        color: AppColors.cFFFFFF,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  35.getH(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: AppColors.c257CFF,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 15.h,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
+                ),
+                10.getH(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Have an account?",
+                      style: TextStyle(
+                        color: AppColors.c9CA3AF,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
                       ),
-                      onPressed: () {},
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return SignUpScreen();
+                        }));
+                      },
                       child: Text(
-                        "Get Started",
+                        "Login",
                         style: TextStyle(
-                          color: AppColors.cFFFFFF,
-                          fontSize: 14.sp,
+                          color: AppColors.c257CFF,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                  ),
-                  20.getH(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Have an account?",
-                        style: TextStyle(
-                          color: AppColors.c9CA3AF,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                            color: AppColors.c257CFF,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

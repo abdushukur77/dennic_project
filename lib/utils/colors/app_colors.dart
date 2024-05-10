@@ -14,6 +14,9 @@ class AppColors {
   static const Color cED2828 = Color(0xFFED2828);
   static const Color cFFC046 = Color(0xFF45C552);
   static const Color c1D1E25 = Color(0xFF1D1E25);
+  static const Color cE9ECF2 = Color(0xFFE9ECF2);
+  static const Color c7E8CA0 = Color(0xFF7E8CA0);
+  static const Color c808D9E = Color(0xFF808D9E);
 
   //GreyScale
   static const Color cFFFFFF = Color(0xFFFFFFFF);

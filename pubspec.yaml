@@ -21,6 +21,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
+  animated_custom_dropdown: 3.0.0
 
 
 dev_dependencies:
@@ -37,6 +38,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+
+
 
 fonts:
   - family: Urbanist

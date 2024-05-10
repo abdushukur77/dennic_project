@@ -1,5 +1,7 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:dennic_project/screens/register_and_login/sign_up/widget/check.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
+import 'package:dennic_project/screens/register_and_login/widget/my_text_from_tel.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/extention/extantions.dart';
@@ -24,9 +26,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool minimumEightcharacters = false;
   bool atleastNumber = false;
   bool atleastLowercaseOrUppercaseLetters = false;
+  TextEditingController genderController = TextEditingController();
+
+
+  DateTime? selectedDate;
+
+
 
   @override
   Widget build(BuildContext context) {
+    const List<String> _list = [
+      "Male",
+      "Female",
+    ];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.cFFFFFF,
@@ -62,13 +74,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 fontSize: 16.sp,
               ),
             ),
-            30.getH(),
+            8.getH(),
             MyTextFromField(
-              labelText: "Type your username",
+              labelText: 'Type your firstname',
+              perefixIcon: AppImages.person,
+              valueChanged: (String value) {},
+            ),
+            10.getH(),
+            MyTextFromField(
+              labelText: 'Type your lastname',
               perefixIcon: AppImages.person,
               valueChanged: (String value) {},
             ),
             20.getH(),
+            InkWell(
+              onTap: () {
+                _selectDate(context);
+              },
+              child: InputDecorator(
+                decoration: InputDecoration(
+
+                  labelText: 'Date of Birth',
+                  prefixIcon: SvgPicture.asset(AppImages.calendar,width: 7.w, height: 7.h,),
+                  // border: OutlineInputBorder(),
+                ),
+                child: selectedDate != null
+                    ? Text(selectedDate.toString().substring(0,10),style: AppTextStyle.urbanistBold.copyWith(
+                    color :AppColors.c7E8CA0
+                ),)
+                    : Text('Select Date'),
+              ),
+            ),
+            10.getH(),
+            CustomDropdown<String>(
+
+              hintText: 'Select your gender',
+              items: _list,
+              initialItem: _list[0],
+              onChanged: (value) {
+                genderController.text = value;
+              },
+            ),
+            5.getH(),
+            MyTextFromFieldTel(
+              labelText: 'Type your phone number',
+              perefixIcon: AppImages.call,
+              valueChanged: (String value) {},
+            ),
             MyTextFromField(
               textInputAction: TextInputAction.done,
               onTab: () {
@@ -82,11 +134,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
               suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
               valueChanged: _onChange,
             ),
-            20.getH(),
+            10.getH(),
+
             MyTextFromField(
-              labelText: 'Type your email',
-              perefixIcon: AppImages.arrowLeft,
-              valueChanged: (String value) {},
+
+              textInputAction: TextInputAction.done,
+              onTab: () {
+                setState(() {
+                  obthorText = !obthorText;
+                });
+              },
+              labelText: 'Confirm your password',
+              perefixIcon: AppImages.lock,
+              obzorText: obthorText,
+              suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
+              valueChanged: _onChange,
             ),
             16.getH(),
             if (write)
@@ -197,5 +259,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       atleastLowercaseOrUppercaseLetters = false;
     }
     setState(() {});
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
   }
 }
