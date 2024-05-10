@@ -1,4 +1,4 @@
-import 'package:dennic_project/user_model.dart';
+import 'package:dennic_project/data/user_model.dart';
 import 'package:equatable/equatable.dart';
 
 class AuthEvent extends Equatable {
