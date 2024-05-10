@@ -6,6 +6,8 @@ class AppImages {
   static const String books = "assets/images/books.png";
   static const String img = "assets/images/app_icon.png";
   static const String splash = "assets/images/splash.png";
+  static const String uzb = "assets/icons/uzb.svg";
+  static const String call = "assets/icons/call.svg";
   static const String boy = "assets/images/boy.png";
   static const String girl = "assets/images/girl.png";
   static const String phone  = "assets/images/phone.png";

@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:dennic_project/screens/register_and_login/sign_up/widget/check.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
+import 'package:dennic_project/screens/register_and_login/widget/my_text_from_tel.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/extention/extantions.dart';
@@ -75,7 +76,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             8.getH(),
             MyTextFromField(
-              labelText: 'Type your username',
+              labelText: 'Type your firstname',
+              perefixIcon: AppImages.person,
+              valueChanged: (String value) {},
+            ),
+            10.getH(),
+            MyTextFromField(
+              labelText: 'Type your lastname',
               perefixIcon: AppImages.person,
               valueChanged: (String value) {},
             ),
@@ -88,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 decoration: InputDecoration(
 
                   labelText: 'Date of Birth',
-                  prefixIcon: SvgPicture.asset(AppImages.calendar,width: 10, height: 16.h,),
+                  prefixIcon: SvgPicture.asset(AppImages.calendar,width: 7.w, height: 7.h,),
                   // border: OutlineInputBorder(),
                 ),
                 child: selectedDate != null
@@ -98,8 +105,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     : Text('Select Date'),
               ),
             ),
-            20.getH(),
+            10.getH(),
             CustomDropdown<String>(
+
               hintText: 'Select your gender',
               items: _list,
               initialItem: _list[0],
@@ -107,7 +115,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 genderController.text = value;
               },
             ),
-            20.getH(),
+            5.getH(),
+            MyTextFromFieldTel(
+              labelText: 'Type your phone number',
+              perefixIcon: AppImages.call,
+              valueChanged: (String value) {},
+            ),
             MyTextFromField(
               textInputAction: TextInputAction.done,
               onTab: () {
@@ -121,7 +134,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
               valueChanged: _onChange,
             ),
-            20.getH(),  MyTextFromField(
+            10.getH(),
+
+            MyTextFromField(
               textInputAction: TextInputAction.done,
               onTab: () {
                 setState(() {
@@ -133,12 +148,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               obzorText: obthorText,
               suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
               valueChanged: _onChange,
-            ),
-            20.getH(),
-            MyTextFromField(
-              labelText: 'Type your phone number',
-              perefixIcon: AppImages.callPng,
-              valueChanged: (String value) {},
             ),
             16.getH(),
             if (write)

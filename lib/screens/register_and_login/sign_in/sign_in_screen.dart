@@ -7,6 +7,8 @@ import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../widget/my_text_from_tel.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -44,9 +46,9 @@ class _SignInScreenState extends State<SignInScreen> {
             70.getH(),
 
 
-            MyTextFromField(
+            MyTextFromFieldTel(
               labelText: 'Type your phone',
-              perefixIcon: AppImages.callPng,
+              perefixIcon: AppImages.call,
               valueChanged: (String value) {},
             ),
             30.getH(),
