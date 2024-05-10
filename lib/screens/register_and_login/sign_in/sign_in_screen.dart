@@ -37,14 +37,14 @@ class _SignInScreenState extends State<SignInScreen> {
             Text(
               "Sign In to your account",
               style: AppTextStyle.urbanistRegular.copyWith(
-                color: AppColors.c808D9E,
+                color: AppColors.c68DBFF,
                 fontSize: 16.sp,
               ),
             ),
             70.getH(),
             MyTextFromField(
               labelText: 'Type your phone',
-              perefixIcon: AppImages.callPng,
+              perefixIcon: AppImages.books,
               valueChanged: (String value) {},
             ),
             30.getH(),

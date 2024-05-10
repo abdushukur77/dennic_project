@@ -50,7 +50,7 @@ class MyTextFromField extends StatelessWidget {
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.cE9ECF2,
+            color: AppColors.cED2828,
             width: 1.we(),
           ),
         ),
@@ -58,7 +58,7 @@ class MyTextFromField extends StatelessWidget {
           labelText,
           style: AppTextStyle.urbanistRegular.copyWith(
             fontSize: 14.sp,
-            color: AppColors.c7E8CA0,
+            color: AppColors.c68DBFF,
           ),
         ),
         prefixIcon: perefixIcon.contains("png")
