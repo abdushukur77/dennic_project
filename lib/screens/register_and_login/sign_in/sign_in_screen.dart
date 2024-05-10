@@ -39,7 +39,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Text(
               "Sign In to your account",
               style: AppTextStyle.urbanistRegular.copyWith(
-                color: AppColors.c808D9E,
+                color: AppColors.c68DBFF,
                 fontSize: 16.sp,
               ),
             ),
@@ -48,6 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
             MyTextFromFieldTel(
               labelText: 'Type your phone',
+
               perefixIcon: AppImages.call,
               valueChanged: (String value) {},
             ),

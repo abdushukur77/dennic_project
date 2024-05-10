@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Text(
               "Create account and enjoy all services",
               style: AppTextStyle.urbanistRegular.copyWith(
-                color: AppColors.c808D9E,
+                color: AppColors.white,
                 fontSize: 16.sp,
               ),
             ),
@@ -137,6 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             10.getH(),
 
             MyTextFromField(
+
               textInputAction: TextInputAction.done,
               onTab: () {
                 setState(() {
@@ -167,7 +168,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   scale: 1.3,
                   child: Checkbox.adaptive(
                       side: BorderSide(
-                          color: AppColors.c808D9E, width: check ? 0 : 1.2.w),
+                          color: AppColors.cCBD5E0 , width: check ? 0 : 1.2.w),
                       checkColor: AppColors.cFFFFFF,
                       activeColor: AppColors.c257CFF,
                       value: check,

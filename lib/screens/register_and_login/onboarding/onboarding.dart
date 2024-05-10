@@ -28,7 +28,9 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               Container(
                 width: 400.w,
+
                 height: 280.h,
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100.r),
                   boxShadow: [
@@ -50,8 +52,10 @@ class OnboardingScreen extends StatelessWidget {
                 right: 25.w,
                 child: Image.asset(
                   AppImages.girl,
+
                   width: 167.w,
                   height: 267.h,
+
                   fit: BoxFit.cover,
                 ),
               ),
@@ -63,11 +67,13 @@ class OnboardingScreen extends StatelessWidget {
                   AppImages.boy,
                   width: 220.w,
                   height: 287.h,
+
                   fit: BoxFit.cover,
                 ),
               ),
             ],
           ),
+
           Container(
             padding: EdgeInsets.only(
               top: 39.h,
