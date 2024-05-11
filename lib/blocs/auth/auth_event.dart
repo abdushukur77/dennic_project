@@ -1,3 +1,4 @@
+import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,13 +15,12 @@ class CheckAuthenticationEvent extends AuthEvent {
 }
 
 class LoginUserEvent extends AuthEvent {
-  LoginUserEvent({required this.username, required this.password});
+  LoginUserEvent({required this.loginModel});
 
-  final String username;
-  final String password;
+  final LoginModel loginModel;
 
   @override
-  List<Object?> get props => [username, password];
+  List<Object?> get props => [loginModel];
 }
 
 class RegisterUserEvent extends AuthEvent {
@@ -40,7 +40,6 @@ class AuthRequestPassword extends AuthEvent {
   @override
   List<Object?> get props => [verifyModel];
 }
-
 
 class LogOutUserEvent extends AuthEvent {
   @override

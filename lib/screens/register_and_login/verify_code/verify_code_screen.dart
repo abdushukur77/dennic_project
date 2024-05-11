@@ -209,7 +209,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                     _start = 60;
                     visibleRestart = false;
 
-                    debugPrint(widget.userModel.toJson().toString());
+                    // debugPrint(widget.userModel.toJson().toString());
+                    // context.read<AuthBloc>().add(AuthRequestPassword(verifyModel: ));
                     startTimer();
                     setState(() {});
                   },

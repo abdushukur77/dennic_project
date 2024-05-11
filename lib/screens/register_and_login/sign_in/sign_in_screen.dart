@@ -1,10 +1,16 @@
+import 'package:dennic_project/blocs/auth/auth_bloc.dart';
+import 'package:dennic_project/blocs/auth/auth_event.dart';
+import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
+import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widget/my_text_from_tel.dart';
@@ -18,9 +24,10 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool obthorText = true;
+  bool _loading = false;
 
-  TextEditingController phoneNumberController= TextEditingController();
-  TextEditingController passwordController= TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +54,15 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             70.getH(),
-
-
             MyTextFromFieldTel(
               controller: phoneNumberController,
               labelText: 'Type your phone',
-
               perefixIcon: AppImages.call,
-              valueChanged: (String value) {},
+              valueChanged: (String value) {
+                // debugPrint(value);
+
+                setState(() {});
+              },
             ),
             30.getH(),
             MyTextFromField(
@@ -69,10 +77,12 @@ class _SignInScreenState extends State<SignInScreen> {
               perefixIcon: AppImages.lock,
               obzorText: obthorText,
               suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
-              valueChanged: (String value) {},
+              valueChanged: (String value) {
+                // debugPrint(value);
+
+                setState(() {});
+              },
             ),
-
-
             16.getH(),
             Align(
               alignment: Alignment.centerRight,
@@ -96,14 +106,31 @@ class _SignInScreenState extends State<SignInScreen> {
                         borderRadius: BorderRadius.circular(4.r)),
                     backgroundColor: AppColors.c257CFF,
                     padding: EdgeInsets.symmetric(vertical: 15.he())),
-                onPressed: () {},
-                child: Text(
-                  "Sign In",
-                  style: AppTextStyle.urbanistBold.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.cFFFFFF,
-                  ),
-                ),
+                onPressed: () {
+                  _loading = true;
+                  setState(() {});
+
+                  LoginModel loginModel = LoginModel(
+                    fcmToken: "",
+                    password: passwordController.text,
+                    phoneNumber: phoneNumberController.text,
+                    platformName: "",
+                    platformType: "",
+                  );
+
+                  context.read<AuthBloc>().add(
+                        LoginUserEvent(loginModel: loginModel),
+                      );
+                },
+                child: _loading
+                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    : Text(
+                        "Sign In",
+                        style: AppTextStyle.urbanistBold.copyWith(
+                          fontSize: 14.sp,
+                          color: AppColors.cFFFFFF,
+                        ),
+                      ),
               ),
             ),
             27.getH(),
@@ -127,7 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return SignUpScreen();
+                          return const SignUpScreen();
                         },
                       ),
                     );
@@ -142,9 +169,34 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ],
             ),
+            BlocListener<AuthBloc, AuthState>(
+              listener: (BuildContext context, AuthState state) {
+                if (state.formStatus == FormStatus.error) {
+                  debugPrint(state.errorText);
+                  _loading = false;
+                  setState(() {});
+                }
+                if (state.formStatus == FormStatus.authenticated) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const SplashScreen();
+                      },
+                    ),
+                  );
+                }
+              },
+              child: const SizedBox(),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  bool get _validation {
+    return passwordController.text.length > 7 &&
+        phoneNumberController.text.length == 13;
   }
 }

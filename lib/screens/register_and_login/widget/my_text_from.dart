@@ -15,7 +15,8 @@ class MyTextFromField extends StatelessWidget {
       this.suffixIcon,
       this.onTab,
       this.textInputAction = TextInputAction.next,
-      required this.valueChanged, required this.controller});
+      required this.valueChanged,
+      required this.controller});
 
   final String labelText;
   final bool obzorText;

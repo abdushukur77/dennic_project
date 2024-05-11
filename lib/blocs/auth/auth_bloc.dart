@@ -2,20 +2,20 @@ import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
-import 'package:dennic_project/data/network/network_response.dart';
+import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required this.appRepository})
-      : super(
-    AuthState(
-      errorText: "",
-      formStatus: FormStatus.pure,
-      userModel: UserModel.initial(),
-      statusMessage: "",
-    ),
-  ) {
+  AuthBloc({required AuthRepository appRepository})
+      : _appRepository = appRepository, super(
+          AuthState(
+            errorText: "",
+            formStatus: FormStatus.pure,
+            userModel: UserModel.initial(),
+            statusMessage: "",
+          ),
+        ) {
     on<LoginUserEvent>(_loginUser);
     on<RegisterUserEvent>(_registerUser);
     on<CheckAuthenticationEvent>(_checkAuthenticationUser);
@@ -23,14 +23,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRequestPassword>(_check);
   }
 
-  final AuthRepository appRepository;
+  final AuthRepository _appRepository;
 
-  _loginUser(LoginUserEvent event, emit) async {}
+  Future<void> _loginUser(LoginUserEvent event, emit) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    networkResponse =
+        await _appRepository.loginUser(loginModel: event.loginModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.authenticated,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          errorText: networkResponse.errorText,
+          formStatus: FormStatus.error,
+        ),
+      );
+    }
+  }
 
   _check(AuthRequestPassword even, emit) async {
-    NetworkResponse networkResponse = await appRepository.registerUserVerify(
-        verifyModel: even.verifyModel);
-
+    NetworkResponse networkResponse =
+        await _appRepository.registerUserVerify(verifyModel: even.verifyModel);
 
     if (networkResponse.errorText.isEmpty) {
       emit(
@@ -47,14 +66,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(errorText: "Register else error"));
       }
     }
-
   }
 
   _registerUser(RegisterUserEvent event, emit) async {
     debugPrint("Qonday");
 
     NetworkResponse networkResponse =
-    await appRepository.registerUser(userModel: event.userModel);
+        await _appRepository.registerUser(userModel: event.userModel);
 
     if (networkResponse.errorText.isEmpty) {
       emit(
