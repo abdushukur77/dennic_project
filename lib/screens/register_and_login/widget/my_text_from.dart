@@ -15,7 +15,7 @@ class MyTextFromField extends StatelessWidget {
       this.suffixIcon,
       this.onTab,
       this.textInputAction = TextInputAction.next,
-      required this.valueChanged});
+      required this.valueChanged, required this.controller});
 
   final String labelText;
   final bool obzorText;
@@ -24,6 +24,7 @@ class MyTextFromField extends StatelessWidget {
   final VoidCallback? onTab;
   final TextInputAction textInputAction;
   final ValueChanged<String> valueChanged;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class MyTextFromField extends StatelessWidget {
         fontSize: 14.sp,
         color: AppColors.c191A26,
       ),
+      controller: controller,
       obscureText: obzorText,
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
@@ -50,7 +52,7 @@ class MyTextFromField extends StatelessWidget {
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.cED2828,
+            color: AppColors.c257CFF,
             width: 1.we(),
           ),
         ),
@@ -58,7 +60,7 @@ class MyTextFromField extends StatelessWidget {
           labelText,
           style: AppTextStyle.urbanistRegular.copyWith(
             fontSize: 14.sp,
-            color: AppColors.c68DBFF,
+            color: AppColors.c_7E8CA0,
           ),
         ),
         prefixIcon: perefixIcon.contains("png")

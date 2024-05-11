@@ -6,6 +6,8 @@ import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../sign_in/sign_in_screen.dart';
+
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
@@ -28,9 +30,7 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               Container(
                 width: 400.w,
-
                 height: 280.h,
-
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100.r),
                   boxShadow: [
@@ -52,10 +52,8 @@ class OnboardingScreen extends StatelessWidget {
                 right: 25.w,
                 child: Image.asset(
                   AppImages.girl,
-
                   width: 167.w,
                   height: 267.h,
-
                   fit: BoxFit.cover,
                 ),
               ),
@@ -67,13 +65,11 @@ class OnboardingScreen extends StatelessWidget {
                   AppImages.boy,
                   width: 220.w,
                   height: 287.h,
-
                   fit: BoxFit.cover,
                 ),
               ),
             ],
           ),
-
           Container(
             padding: EdgeInsets.only(
               top: 39.h,
@@ -105,7 +101,12 @@ class OnboardingScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SignUpScreen();
+                      }));
+                    },
                     child: Text(
                       "Get Started",
                       style: TextStyle(
@@ -132,7 +133,7 @@ class OnboardingScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return SignUpScreen();
+                          return SignInScreen();
                         }));
                       },
                       child: Text(

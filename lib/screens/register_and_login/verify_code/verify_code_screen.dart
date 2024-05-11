@@ -1,12 +1,21 @@
 import 'dart:async';
 
+import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/data/model/user_model/user_model.dart';
+import 'package:dennic_project/data/model/verify_model/verify_model.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../blocs/auth/auth_bloc.dart';
+import '../../../blocs/auth/auth_event.dart';
+
 class VerifyCodeScreen extends StatefulWidget {
-  const VerifyCodeScreen({Key? key}) : super(key: key);
+  const VerifyCodeScreen({Key? key, required this.userModel}) : super(key: key);
+
+  final UserModel userModel;
 
   @override
   _VerifyCodeScreenState createState() => _VerifyCodeScreenState();
@@ -18,7 +27,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
   late AnimationController animationController;
   String pinCode = "";
   List<String> list = [];
-  int _start = 60;
+  int _start = 10;
   late Timer _timer;
   bool visibleRestart = false;
   bool error = false;
@@ -175,22 +184,22 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                           ? Center(
                               child: Text(
                                 list[index],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     );
                   }),
                 ],
               ),
             ),
-            SizedBox(height: 37),
+            const SizedBox(height: 37),
             if (!visibleRestart)
               Center(
                 child: Text(
                   "Resend code in $_start seconds",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
             if (visibleRestart)
@@ -199,6 +208,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                   onPressed: () {
                     _start = 60;
                     visibleRestart = false;
+
+                    debugPrint(widget.userModel.toJson().toString());
                     startTimer();
                     setState(() {});
                   },
@@ -222,7 +233,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
             SizedBox(
               width: MediaQuery.of(context).size.width,
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          AuthRequestPassword(
+                            verifyModel: VerifyModel(
+                              code: int.parse(list.join('')),
+                              fcmToken: '',
+                              phoneNumber: widget.userModel.phoneNumber,
+                              platformName: 'Samsung',
+                              platformType: 'mobile',
+                            ),
+                          ),
+                        );
+                  },
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15.h),
                       backgroundColor: Colors.blue),
@@ -243,7 +266,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "3"),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -252,7 +275,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "6"),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -266,13 +289,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
               children: [
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 30,
                       vertical: 16,
                     ),
                   ),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     ".",
                     style: TextStyle(
                       color: Colors.black,
@@ -284,7 +307,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "0"),
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 22,
                       vertical: 16,
                     ),
@@ -303,6 +326,14 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                   child: SvgPicture.asset('assets/icons/back_space.svg'),
                 ),
               ],
+            ),
+            BlocListener<AuthBloc, AuthState>(
+              listener: (BuildContext context, AuthState state) {
+                if (state.statusMessage == "query_ok") {
+                  Navigator.pop(context);
+                }
+              },
+              child: const SizedBox(),
             ),
           ],
         ),

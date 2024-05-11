@@ -1,4 +1,4 @@
-import 'package:dennic_project/data/user_model.dart';
+import 'package:dennic_project/data/model/user_model/user_model.dart';
 
 class AuthState {
   const AuthState({

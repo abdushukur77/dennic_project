@@ -19,6 +19,9 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   bool obthorText = true;
 
+  TextEditingController phoneNumberController= TextEditingController();
+  TextEditingController passwordController= TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +50,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
             MyTextFromFieldTel(
+              controller: phoneNumberController,
               labelText: 'Type your phone',
 
               perefixIcon: AppImages.call,
@@ -54,6 +58,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             30.getH(),
             MyTextFromField(
+              controller: passwordController,
               textInputAction: TextInputAction.done,
               onTab: () {
                 setState(() {

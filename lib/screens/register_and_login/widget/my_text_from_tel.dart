@@ -15,7 +15,7 @@ class MyTextFromFieldTel extends StatelessWidget {
       this.suffixIcon,
       this.onTab,
       this.textInputAction = TextInputAction.next,
-      required this.valueChanged});
+      required this.valueChanged, required this.controller});
 
   final String labelText;
   final bool obzorText;
@@ -24,10 +24,12 @@ class MyTextFromFieldTel extends StatelessWidget {
   final VoidCallback? onTab;
   final TextInputAction textInputAction;
   final ValueChanged<String> valueChanged;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       inputFormatters: perefixIcon.contains("call")
           ? [
               FilteringTextInputFormatter.digitsOnly,

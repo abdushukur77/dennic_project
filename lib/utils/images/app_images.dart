@@ -29,6 +29,7 @@ class AppImages {
   static const String bell = "assets/icons/bell.svg";
   static const String closeEye = "assets/icons/close_eye.svg";
   static const String done = "assets/icons/done.svg";
+  static const String done1 = "assets/icons/done1.svg";
   static const String home = "assets/icons/home.svg";
   static const String list = "assets/icons/list.svg";
   static const String lock = "assets/icons/lock.svg";
