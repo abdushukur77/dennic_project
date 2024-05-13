@@ -126,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             style: AppTextStyle.urbanistBold
                                 .copyWith(color: AppColors.c7E8CA0),
                           )
-                        : Text('Select Date'),
+                        : const Text('Select Date'),
                   ),
                 ),
                 10.getH(),

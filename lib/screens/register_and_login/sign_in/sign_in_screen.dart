@@ -32,165 +32,180 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.we()),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            96.getH(),
-            Text(
-              "Welcome Back!",
-              style: AppTextStyle.urbanistBold.copyWith(
-                color: AppColors.c1D1E25,
-                fontSize: 24.sp,
-              ),
-            ),
-            8.getH(),
-            Text(
-              "Sign In to your account",
-              style: AppTextStyle.urbanistRegular.copyWith(
-                color: AppColors.c68DBFF,
-                fontSize: 16.sp,
-              ),
-            ),
-            70.getH(),
-            MyTextFromFieldTel(
-              controller: phoneNumberController,
-              labelText: 'Type your phone',
-              perefixIcon: AppImages.call,
-              valueChanged: (String value) {
-                // debugPrint(value);
-
-                setState(() {});
-              },
-            ),
-            30.getH(),
-            MyTextFromField(
-              controller: passwordController,
-              textInputAction: TextInputAction.done,
-              onTab: () {
-                setState(() {
-                  obthorText = !obthorText;
-                });
-              },
-              labelText: 'Type your password',
-              perefixIcon: AppImages.lock,
-              obzorText: obthorText,
-              suffixIcon: obthorText ? AppImages.openEye : AppImages.closeEye,
-              valueChanged: (String value) {
-                // debugPrint(value);
-
-                setState(() {});
-              },
-            ),
-            16.getH(),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Forgot Password?",
-                  style: AppTextStyle.urbanistBold.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.c257CFF,
-                  ),
-                ),
-              ),
-            ),
-            73.getH(),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.r)),
-                    backgroundColor: AppColors.c257CFF,
-                    padding: EdgeInsets.symmetric(vertical: 15.he())),
-                onPressed: () {
-                  _loading = true;
-                  setState(() {});
-
-                  LoginModel loginModel = LoginModel(
-                    fcmToken: "",
-                    password: passwordController.text,
-                    phoneNumber: phoneNumberController.text,
-                    platformName: "",
-                    platformType: "",
-                  );
-
-                  context.read<AuthBloc>().add(
-                        LoginUserEvent(loginModel: loginModel),
-                      );
-                },
-                child: _loading
-                    ? const Center(child: CircularProgressIndicator.adaptive())
-                    : Text(
-                        "Sign In",
-                        style: AppTextStyle.urbanistBold.copyWith(
-                          fontSize: 14.sp,
-                          color: AppColors.cFFFFFF,
-                        ),
-                      ),
-              ),
-            ),
-            27.getH(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 20.we()),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                96.getH(),
                 Text(
-                  "Don’t have account?",
-                  style: AppTextStyle.urbanistRegular.copyWith(
-                    fontSize: 14.sp,
-                    color: const Color(0xFF9CA3AF),
+                  "Welcome Back!",
+                  style: AppTextStyle.urbanistBold.copyWith(
+                    color: AppColors.c1D1E25,
+                    fontSize: 24.sp,
                   ),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.r),
-                  )),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const SignUpScreen();
-                        },
-                      ),
-                    );
+                8.getH(),
+                Text(
+                  "Sign In to your account",
+                  style: AppTextStyle.urbanistRegular.copyWith(
+                    color: AppColors.c68DBFF,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                70.getH(),
+                MyTextFromFieldTel(
+                  controller: phoneNumberController,
+                  labelText: 'Type your phone',
+                  perefixIcon: AppImages.call,
+                  valueChanged: (String value) {
+                    // debugPrint(value);
+
+                    setState(() {});
                   },
-                  child: Text(
-                    "Sign Up",
-                    style: AppTextStyle.urbanistBold.copyWith(
-                      fontSize: 14.sp,
-                      color: AppColors.c257CFF,
+                ),
+                30.getH(),
+                MyTextFromField(
+                  controller: passwordController,
+                  textInputAction: TextInputAction.done,
+                  onTab: () {
+                    setState(() {
+                      obthorText = !obthorText;
+                    });
+                  },
+                  labelText: 'Type your password',
+                  perefixIcon: AppImages.lock,
+                  obzorText: obthorText,
+                  suffixIcon:
+                      obthorText ? AppImages.openEye : AppImages.closeEye,
+                  valueChanged: (String value) {
+                    // debugPrint(value);
+
+                    setState(() {});
+                  },
+                ),
+                16.getH(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Forgot Password?",
+                      style: AppTextStyle.urbanistBold.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.c257CFF,
+                      ),
                     ),
                   ),
+                ),
+                73.getH(),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.r)),
+                        backgroundColor: AppColors.c257CFF,
+                        padding: EdgeInsets.symmetric(vertical: 15.he())),
+                    onPressed: () {
+                      _loading = true;
+                      setState(() {});
+
+                      LoginModel loginModel = LoginModel(
+                        fcmToken: "",
+                        password: passwordController.text,
+                        phoneNumber: phoneNumberController.text,
+                        platformName: "",
+                        platformType: "",
+                      );
+
+                      context.read<AuthBloc>().add(
+                            LoginUserEvent(
+                              loginModel: loginModel,
+                            ),
+                          );
+                    },
+                    child: _loading
+                        ? const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : Text(
+                            "Sign In",
+                            style: AppTextStyle.urbanistBold.copyWith(
+                              fontSize: 14.sp,
+                              color: AppColors.cFFFFFF,
+                            ),
+                          ),
+                  ),
+                ),
+                27.getH(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don’t have account?",
+                      style: AppTextStyle.urbanistRegular.copyWith(
+                        fontSize: 14.sp,
+                        color: const Color(0xFF9CA3AF),
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.r),
+                      )),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const SignUpScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: AppTextStyle.urbanistBold.copyWith(
+                          fontSize: 14.sp,
+                          color: AppColors.c257CFF,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                BlocListener<AuthBloc, AuthState>(
+                  listener: (BuildContext context, AuthState state) {
+                    if (state.formStatus == FormStatus.error) {
+                      debugPrint(state.errorText);
+                      _loading = false;
+                      setState(() {});
+                    }
+                    if (state.formStatus == FormStatus.authenticated) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const SplashScreen();
+                          },
+                        ),
+                      );
+                    }
+                  },
+                  child: const SizedBox(),
                 ),
               ],
             ),
-            BlocListener<AuthBloc, AuthState>(
-              listener: (BuildContext context, AuthState state) {
-                if (state.formStatus == FormStatus.error) {
-                  debugPrint(state.errorText);
-                  _loading = false;
-                  setState(() {});
-                }
-                if (state.formStatus == FormStatus.authenticated) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const SplashScreen();
-                      },
-                    ),
-                  );
-                }
-              },
-              child: const SizedBox(),
-            ),
-          ],
-        ),
+          );
+        },
+        listener: (BuildContext context, AuthState state) {
+          if (state.statusMessage == "login") {
+            debugPrint(
+                "Login bo'ldi -------------------------------------------");
+          }
+        },
       ),
     );
   }
