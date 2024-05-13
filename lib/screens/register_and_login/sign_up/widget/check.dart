@@ -21,7 +21,7 @@ class CheckInput extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              check ? AppImages.done : AppImages.arrowLeft,
+              check ? AppImages.done : AppImages.cansel,
               width: 16.we(),
               height: 16.we(),
             ),
@@ -30,7 +30,7 @@ class CheckInput extends StatelessWidget {
               child: Text(
                 title,
                 style: AppTextStyle.urbanistRegular.copyWith(
-                  color: AppColors.cED2828,
+                  color: AppColors.c808D9E,
                   fontSize: 14.sp,
                 ),
               ),

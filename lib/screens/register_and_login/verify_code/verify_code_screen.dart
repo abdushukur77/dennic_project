@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
+import 'package:dennic_project/screens/register_and_login/verified/verified.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -149,7 +150,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
             ),
             SizedBox(height: 8.w),
             Text(
-              "Please enter the code we just sent to phone number (+1) 234 567 XXX",
+              "Please enter the code we just sent to phone number +(998) ${widget.userModel.phoneNumber.substring(4)}",
               style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
@@ -331,7 +332,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
             BlocListener<AuthBloc, AuthState>(
               listener: (BuildContext context, AuthState state) {
                 if (state.statusMessage == "query_ok") {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                    return VerifiedScreen();
+                  }));
                 }
               },
               child: const SizedBox(),

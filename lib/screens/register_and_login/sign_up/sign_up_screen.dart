@@ -34,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController controllerConfirm = TextEditingController();
 
   bool obthorText = true;
+  bool obthorText2 = true;
   bool check = false;
   bool write = false;
   bool minimumEightcharacters = false;
@@ -168,14 +169,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputAction: TextInputAction.done,
                   onTab: () {
                     setState(() {
-                      obthorText = !obthorText;
+                      obthorText2 = !obthorText2;
                     });
                   },
                   labelText: 'Confirm your password',
                   perefixIcon: AppImages.lock,
-                  obzorText: obthorText,
+                  obzorText: obthorText2,
                   suffixIcon:
-                      obthorText ? AppImages.openEye : AppImages.closeEye,
+                      obthorText2 ? AppImages.openEye : AppImages.closeEye,
                   valueChanged: _onChange,
                 ),
                 16.getH(),
