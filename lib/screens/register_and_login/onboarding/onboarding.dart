@@ -19,13 +19,15 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          12.getH(),
+          52.getH(),
           Center(
-              child: Image.asset(
-            AppImages.dennic,
-            width: 350.w,
-            fit: BoxFit.contain,
-          )),
+            child: Image.asset(
+              AppImages.dennic,
+              width: 350.w,
+              height: 70.h,
+              fit: BoxFit.cover,
+            ),
+          ),
           Stack(
             children: [
               Container(
@@ -131,10 +133,14 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return SignInScreen();
-                        }));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const SignInScreen();
+                            },
+                          ),
+                        );
                       },
                       child: Text(
                         "Login",
