@@ -82,32 +82,6 @@ class ApiProvider {
     return networkResponse;
   }
 
-  static Future<NetworkResponse> forgetPassword(
-      {required String phoneNumber}) async {
-    NetworkResponse networkResponse = NetworkResponse();
-
-    try {
-      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/forget-password");
-
-      http.Response response = await http.post(
-        uri,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode({"phone_number": phoneNumber}),
-      );
-      if (response.statusCode == 200) {
-        networkResponse.data = "of_course";
-      } else if (response.statusCode == 270) {
-        networkResponse.errorText = "you haven't registered before";
-      }
-    } catch (error) {
-      networkResponse.errorText = "network error :)";
-    }
-
-    return networkResponse;
-  }
-
   static Future<NetworkResponse> logoutUser({required String token}) async {
     NetworkResponse networkResponse = NetworkResponse();
 
@@ -133,6 +107,32 @@ class ApiProvider {
     return networkResponse;
   }
 
+  static Future<NetworkResponse> forgetPassword(
+      {required String phoneNumber}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/forget-password");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({"phone_number": phoneNumber}),
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = "of_course";
+      } else if (response.statusCode == 400) {
+        networkResponse.errorText = "you haven't registered before";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
   static Future<NetworkResponse> verifyOtpCode(
       {required String phoneNumber, required int code}) async {
     NetworkResponse networkResponse = NetworkResponse();
@@ -150,8 +150,35 @@ class ApiProvider {
       if (response.statusCode == 200) {
         networkResponse.data = response.body;
         // debugPrint("${response.body} ----------------");
-      } else if (response.statusCode == 270) {
-        networkResponse.errorText = "you haven't registered before";
+      } else if (response.statusCode == 400) {
+        networkResponse.errorText = "Time End :)";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> updateUserPassword(
+      {required String newPassword, required String token}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      Uri uri = Uri.parse(
+          "http://dennic.uz:9050/v1/customer/update-password?NewPassword=$newPassword");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Authorization": token,
+          "Content-Type": "application/json",
+        },
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = response.body;
+        // debugPrint("${response.body} ----------------");
+      } else {
+        networkResponse.errorText = response.statusCode.toString();
       }
     } catch (error) {
       networkResponse.errorText = "network error :)";
