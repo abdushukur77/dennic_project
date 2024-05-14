@@ -3,6 +3,7 @@ import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
+import 'package:dennic_project/screens/register_and_login/forgot_password/new_pasword.dart';
 import 'package:dennic_project/screens/register_and_login/verified/verified.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +12,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../blocs/auth/auth_bloc.dart';
 
-class VerifyCodeScreen extends StatefulWidget {
-  const VerifyCodeScreen({Key? key, required this.userModel}) : super(key: key);
+class ForgotVerifyCodeScreen extends StatefulWidget {
+  const ForgotVerifyCodeScreen({Key? key, required this.userModel}) : super(key: key);
 
   final UserModel userModel;
 
   @override
-  _VerifyCodeScreenState createState() => _VerifyCodeScreenState();
+  _ForgotVerifyCodeScreenState createState() => _ForgotVerifyCodeScreenState();
 }
 
-class _VerifyCodeScreenState extends State<VerifyCodeScreen>
+class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
     with SingleTickerProviderStateMixin {
   late Animation<Alignment> animationAlign;
   late AnimationController animationController;
@@ -96,6 +97,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           list = pinCode.split('');
           if (pinCode.length == 4) {
             if (pinCode == "7777") {
+setState(() {
+
+});
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return NewPassworScreen();
+              }));
               context.read<AuthBloc>().add(
                     AuthRequestPassword(
                       verifyModel: VerifyModel(

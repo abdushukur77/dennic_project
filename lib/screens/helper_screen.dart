@@ -4,7 +4,7 @@
 // import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
 // import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
 // import 'package:dennic_project/screens/register_and_login/verified/verified.dart';
-// import 'package:dennic_project/screens/register_and_login/verify_code/verify_code_screen.dart';
+// import 'package:dennic_project/screens/register_and_login/verify_code/forgot_verify_code_screen.dart';
 // import 'package:dennic_project/utils/colors/app_colors.dart';
 // import 'package:dennic_project/utils/size/size_utils.dart';
 // import 'package:dennic_project/utils/styles/app_text_style.dart';

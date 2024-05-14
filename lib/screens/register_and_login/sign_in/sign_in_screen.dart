@@ -2,6 +2,7 @@ import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
+import 'package:dennic_project/screens/register_and_login/forgot_password/forget_password.dart';
 import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
 import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
@@ -95,7 +96,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ForgetPassword();
+                      }));
+                    },
                     child: Text(
                       "Forgot Password?",
                       style: AppTextStyle.urbanistBold.copyWith(
