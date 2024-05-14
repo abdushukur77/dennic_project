@@ -114,11 +114,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       setState(() {});
 
                       LoginModel loginModel = LoginModel(
-                        fcmToken: "",
+                        fcmToken: "asdfasdfsaf",
                         password: passwordController.text,
-                        phoneNumber: phoneNumberController.text,
-                        platformName: "",
-                        platformType: "",
+                        phoneNumber: "+998${phoneNumberController.text}",
+                        platformName: "mobile",
+                        platformType: "mobile",
                       );
 
                       context.read<AuthBloc>().add(

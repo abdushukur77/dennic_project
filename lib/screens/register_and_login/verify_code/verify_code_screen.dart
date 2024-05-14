@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../blocs/auth/auth_bloc.dart';
 import '../../../blocs/auth/auth_event.dart';
 
@@ -166,8 +165,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                   ...List.generate(4, (index) {
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: 8.w),
-                      width: 56,
-                      height: 56,
+                      width: 56.w,
+                      height: 56.h,
                       decoration: BoxDecoration(
                         color: (index < pinCode.length)
                             ? Colors.white
@@ -185,8 +184,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                           ? Center(
                               child: Text(
                                 list[index],
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                style:  TextStyle(
+                                    color: Colors.black, fontSize: 20.sp),
                               ),
                             )
                           : const SizedBox(),
@@ -239,8 +238,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                     context.read<AuthBloc>().add(
                           AuthRequestPassword(
                             verifyModel: VerifyModel(
-                              code: int.parse(list.join('')),
-                              fcmToken: '',
+                              code: 7777,
+                              fcmToken: 'aaaaaadvdaa',
                               phoneNumber: widget.userModel.phoneNumber,
                               platformName: 'Samsung',
                               platformType: 'mobile',
@@ -268,7 +267,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "3"),
               ],
             ),
-            const SizedBox(height: 15),
+             SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -277,7 +276,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "6"),
               ],
             ),
-            const SizedBox(height: 15),
+             SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -291,17 +290,17 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
               children: [
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 16,
+                    padding:  EdgeInsets.symmetric(
+                      horizontal: 30.w,
+                      vertical: 16.h,
                     ),
                   ),
                   onPressed: () {},
-                  child: const Text(
+                  child:  Text(
                     ".",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -309,9 +308,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "0"),
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 16,
+                    padding:  EdgeInsets.symmetric(
+                      horizontal: 22.h,
+                      vertical: 16.w,
                     ),
                   ),
                   onPressed: () {

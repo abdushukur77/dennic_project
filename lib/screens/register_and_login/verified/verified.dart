@@ -39,7 +39,7 @@ class VerifiedScreen extends StatelessWidget {
                     color: AppColors.white,fontSize: 24.sp
                 ),),
                 SizedBox(height: 8.h,),
-                Text('Your account has been verified succesfully, now let’s enjoy Paypay features!',
+                Text('Your account has been verified succesfully, now let’s enjoy Dennic features!',
                   textAlign: TextAlign.center,
                   style: AppTextStyle.urbanistRegular.copyWith(
                       color: AppColors.white,fontSize:16.sp

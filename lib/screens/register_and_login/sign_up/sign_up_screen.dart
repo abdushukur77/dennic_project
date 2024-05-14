@@ -28,10 +28,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController controllerFirstName = TextEditingController();
   TextEditingController controllerLastName = TextEditingController();
   TextEditingController controllerBirthDate = TextEditingController();
-  TextEditingController controllerGender = TextEditingController();
   TextEditingController controllerPhoneNumber = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerConfirm = TextEditingController();
+
+  String gender = 'male';
 
   bool obthorText = true;
   bool obthorText2 = true;
@@ -46,8 +47,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     const List<String> _list = [
-      "Male",
-      "Female",
+      "male",
+      "female",
     ];
     return Scaffold(
       appBar: AppBar(
@@ -133,10 +134,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 CustomDropdown<String>(
                   hintText: 'Select your gender',
                   items: _list,
-                  initialItem: _list[0],
+                  initialItem: _list.first,
                   onChanged: (value) {
                     setState(() {});
-                    controllerGender.text = value;
+                    gender = value;
                   },
                 ),
                 5.getH(),
@@ -259,7 +260,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       UserModel userMoidel = UserModel(
                         birthDate: selectedDate.toString().substring(0, 10),
                         firstName: controllerFirstName.text,
-                        gender: "universal",
+                        gender: gender,
                         lastName: controllerLastName.text,
                         password: controllerPassword.text,
                         phoneNumber: "+998${controllerPhoneNumber.text}",
@@ -304,7 +305,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   userModel: UserModel(
                     birthDate: selectedDate.toString().substring(0, 10),
                     firstName: controllerFirstName.text,
-                    gender: "universal",
+                    gender: "male",
                     lastName: controllerLastName.text,
                     password: controllerPassword.text,
                     phoneNumber: "+998${controllerPhoneNumber.text}",

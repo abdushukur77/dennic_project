@@ -82,7 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } else {
-      debugPrint("Error :(");
+      debugPrint("Error MAkkamik :( ${networkResponse.errorText}");
 
       if (networkResponse.errorText == "this_number_already_registered") {
         emit(state.copyWith(statusMessage: "this_number_already_registered"));
