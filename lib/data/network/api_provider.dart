@@ -109,6 +109,31 @@ class ApiProvider {
     return networkResponse;
   }
 
+  static Future<NetworkResponse> logoutUser({required String token}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/logout");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = "Log out done!";
+      } else if (response.statusCode == 270) {
+        networkResponse.errorText = "illegal base64 data at input byte 225";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
   static Future<NetworkResponse> verifyOtpCode(
       {required String phoneNumber, required int code}) async {
     NetworkResponse networkResponse = NetworkResponse();
