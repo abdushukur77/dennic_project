@@ -3,8 +3,7 @@ import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
 
 class ApiProvider {
   static Future<NetworkResponse> registerUser(UserModel userModel) async {
