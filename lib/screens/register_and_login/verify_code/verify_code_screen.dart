@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../blocs/auth/auth_bloc.dart';
-import '../../../blocs/auth/auth_event.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
   const VerifyCodeScreen({Key? key, required this.userModel}) : super(key: key);
@@ -38,7 +37,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
     startTimer();
 
     animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
 
     animationAlign = TweenSequence<Alignment>([
       TweenSequenceItem<Alignment>(
@@ -54,7 +55,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
         CurvedAnimation(parent: animationController, curve: Curves.decelerate));
 
     animationController.addListener(() {
-      // debugPrint("New Anumation :)");
       setState(() {});
     });
 
@@ -95,9 +95,23 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           pinCode += title;
           list = pinCode.split('');
           if (pinCode.length == 4) {
-            // list = [];
-            // pinCode = "";
-            error = true;
+            if (pinCode == "7777") {
+              context.read<AuthBloc>().add(
+                    AuthRequestPassword(
+                      verifyModel: VerifyModel(
+                        code: 7777,
+                        fcmToken: 'aaaaaadvdaa',
+                        phoneNumber: widget.userModel.phoneNumber,
+                        platformName: 'Samsung',
+                        platformType: 'mobile',
+                      ),
+                    ),
+                  );
+            } else {
+              pinCode = "";
+              list.clear();
+              error = true;
+            }
             if (reversAnimation) {
               animationController.reverse();
               reversAnimation = false;
@@ -162,35 +176,38 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ...List.generate(4, (index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8.w),
-                      width: 56.w,
-                      height: 56.h,
-                      decoration: BoxDecoration(
-                        color: (index < pinCode.length)
-                            ? Colors.white
-                            : Colors.grey.shade200,
-                        border: Border.all(
-                          color: index < pinCode.length
-                              ? error
-                                  ? Colors.red
-                                  : Colors.blue
+                  ...List.generate(
+                    4,
+                    (index) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8.w),
+                        width: 56.w,
+                        height: 56.h,
+                        decoration: BoxDecoration(
+                          color: (index < pinCode.length)
+                              ? Colors.white
                               : Colors.grey.shade200,
+                          border: Border.all(
+                            color: index < pinCode.length
+                                ? error
+                                    ? Colors.red
+                                    : Colors.blue
+                                : Colors.grey.shade200,
+                          ),
+                          shape: BoxShape.circle,
                         ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: (index < pinCode.length)
-                          ? Center(
-                              child: Text(
-                                list[index],
-                                style:  TextStyle(
-                                    color: Colors.black, fontSize: 20.sp),
-                              ),
-                            )
-                          : const SizedBox(),
-                    );
-                  }),
+                        child: (index < pinCode.length)
+                            ? Center(
+                                child: Text(
+                                  list[index],
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20.sp),
+                                ),
+                              )
+                            : const SizedBox(),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -208,9 +225,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                   onPressed: () {
                     _start = 60;
                     visibleRestart = false;
-
-                    // debugPrint(widget.userModel.toJson().toString());
-                    // context.read<AuthBloc>().add(AuthRequestPassword(verifyModel: ));
                     startTimer();
                     setState(() {});
                   },
@@ -231,33 +245,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 ),
               ),
             SizedBox(height: visibleRestart ? 35.h : 58.h),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: TextButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(
-                          AuthRequestPassword(
-                            verifyModel: VerifyModel(
-                              code: 7777,
-                              fcmToken: 'aaaaaadvdaa',
-                              phoneNumber: widget.userModel.phoneNumber,
-                              platformName: 'Samsung',
-                              platformType: 'mobile',
-                            ),
-                          ),
-                        );
-                  },
-                  style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 15.h),
-                      backgroundColor: Colors.blue),
-                  child: Text(
-                    "Continue",
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Colors.white,
-                    ),
-                  )),
-            ),
             SizedBox(height: 33.w),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -267,7 +254,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "3"),
               ],
             ),
-             SizedBox(height: 15.h),
+            SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -276,7 +263,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "6"),
               ],
             ),
-             SizedBox(height: 15.h),
+            SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -290,13 +277,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
               children: [
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding:  EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 30.w,
                       vertical: 16.h,
                     ),
                   ),
                   onPressed: () {},
-                  child:  Text(
+                  child: Text(
                     ".",
                     style: TextStyle(
                       color: Colors.black,
@@ -308,7 +295,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 buttonItems(title: "0"),
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding:  EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 22.h,
                       vertical: 16.w,
                     ),
@@ -331,7 +318,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
             BlocListener<AuthBloc, AuthState>(
               listener: (BuildContext context, AuthState state) {
                 if (state.statusMessage == "query_ok") {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
                     return VerifiedScreen();
                   }));
                 }

@@ -331,6 +331,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
+                  20.getH(),
                 ],
               ),
             );
