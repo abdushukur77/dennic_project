@@ -47,10 +47,8 @@ class ApiProvider {
         body: jsonEncode(verifyModel.toJson()),
       );
       if (response.statusCode == 200) {
-
         networkResponse.data = "Logged";
       } else if (response.statusCode == 400) {
-
         networkResponse.errorText = "this_number_already_registered";
       }
     } catch (error) {
@@ -75,6 +73,33 @@ class ApiProvider {
       );
       if (response.statusCode == 200) {
         networkResponse.data = "login";
+      } else if (response.statusCode == 500) {
+        networkResponse.errorText = "no_user";
+      }
+    } catch (error) {
+      return NetworkResponse(errorText: error.toString());
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> resetPasswordUser(String phoneNumber) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/forget-password");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(
+          {"phone_number": phoneNumber},
+        ),
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = "forget_password";
       } else if (response.statusCode == 500) {
         networkResponse.errorText = "no_user";
       }

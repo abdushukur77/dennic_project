@@ -8,7 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required AuthRepository appRepository})
-      : _appRepository = appRepository, super(
+      : _appRepository = appRepository,
+        super(
           AuthState(
             errorText: "",
             formStatus: FormStatus.pure,

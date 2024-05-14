@@ -7,18 +7,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyTextFromField extends StatelessWidget {
-  const MyTextFromField(
-      {super.key,
-      required this.labelText,
-      this.obzorText = false,
-      required this.perefixIcon,
-      this.suffixIcon,
-      this.onTab,
-      this.textInputAction = TextInputAction.next,
-      required this.valueChanged,
-      required this.controller});
+  const MyTextFromField({
+    super.key,
+    required this.labelText,
+    this.obzorText = false,
+    required this.perefixIcon,
+    this.suffixIcon,
+    this.onTab,
+    this.textInputAction = TextInputAction.next,
+    required this.valueChanged,
+    required this.controller,
+    required this.regExp,
+    required this.errorText,
+  });
 
   final String labelText;
+  final String errorText;
+  final RegExp regExp;
   final bool obzorText;
   final String perefixIcon;
   final String? suffixIcon;
@@ -42,6 +47,14 @@ class MyTextFromField extends StatelessWidget {
         fontSize: 14.sp,
         color: AppColors.c191A26,
       ),
+      validator: (String? value) {
+        if (value == null || value.length < 3 || !regExp.hasMatch(value)) {
+          return errorText;
+        } else {
+          return null;
+        }
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       obscureText: obzorText,
       decoration: InputDecoration(
