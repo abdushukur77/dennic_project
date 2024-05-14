@@ -6,6 +6,7 @@ import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen
 import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
@@ -25,6 +26,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   bool obthorText = true;
   bool _loading = false;
+
+  final formKey = GlobalKey<FormState>();
 
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -57,17 +60,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 70.getH(),
                 MyTextFromFieldTel(
+                  regExp: AppConstants.phoneRegExp,
+                  errorText: 'Phone number error',
                   controller: phoneNumberController,
                   labelText: 'Type your phone',
                   perefixIcon: AppImages.call,
                   valueChanged: (String value) {
-                    // debugPrint(value);
-
                     setState(() {});
                   },
                 ),
                 30.getH(),
                 MyTextFromField(
+                  errorText: 'Password error',
+                  regExp: AppConstants.passwordRegExp,
                   controller: passwordController,
                   textInputAction: TextInputAction.done,
                   onTab: () {

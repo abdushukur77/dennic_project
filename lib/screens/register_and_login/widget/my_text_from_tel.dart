@@ -7,17 +7,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyTextFromFieldTel extends StatelessWidget {
-  const MyTextFromFieldTel(
-      {super.key,
-      required this.labelText,
-      this.obzorText = false,
-      required this.perefixIcon,
-      this.suffixIcon,
-      this.onTab,
-      this.textInputAction = TextInputAction.next,
-      required this.valueChanged, required this.controller});
+  const MyTextFromFieldTel({
+    super.key,
+    required this.labelText,
+    this.obzorText = false,
+    required this.perefixIcon,
+    this.suffixIcon,
+    this.onTab,
+    this.textInputAction = TextInputAction.next,
+    required this.valueChanged,
+    required this.controller,
+    required this.regExp,
+    required this.errorText,
+  });
 
   final String labelText;
+  final RegExp regExp;
+  final String errorText;
   final bool obzorText;
   final String perefixIcon;
   final String? suffixIcon;
@@ -35,13 +41,21 @@ class MyTextFromFieldTel extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
             ]
           : null,
-      maxLength:  9,
+      maxLength: 9,
       onChanged: valueChanged,
       textInputAction: textInputAction,
       style: AppTextStyle.urbanistBold.copyWith(
         fontSize: 14.sp,
         color: AppColors.c191A26,
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (String? value) {
+        if (value == null || value.isEmpty || !regExp.hasMatch(value)) {
+          return errorText;
+        } else {
+          return null;
+        }
+      },
       obscureText: obzorText,
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
@@ -74,11 +88,7 @@ class MyTextFromFieldTel extends StatelessWidget {
             : Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: 10.we(), vertical: 10.we()),
-                child: SvgPicture.asset(
-                  perefixIcon,
-                  height: 20.h,
-                  width:20.w
-                ),
+                child: SvgPicture.asset(perefixIcon, height: 20.h, width: 20.w),
               ),
         suffixIcon: suffixIcon != null
             ? IconButton(
