@@ -20,7 +20,7 @@ class ApiProvider {
         },
         body: jsonEncode(userModel.toJson()),
       );
-      debugPrint("Status Coed: ${response.statusCode} ---------");
+      // debugPrint("Status Coed: ${response.statusCode} ---------");
       if (response.statusCode == 200) {
         networkResponse.data = "Registered";
       } else if (response.statusCode == 400) {
@@ -47,10 +47,8 @@ class ApiProvider {
         body: jsonEncode(verifyModel.toJson()),
       );
       if (response.statusCode == 200) {
-
         networkResponse.data = "Logged";
       } else if (response.statusCode == 400) {
-
         networkResponse.errorText = "this_number_already_registered";
       }
     } catch (error) {
@@ -80,6 +78,59 @@ class ApiProvider {
       }
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> forgetPassword(
+      {required String phoneNumber}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/forget-password");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({"phone_number": phoneNumber}),
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = "of_course";
+      } else if (response.statusCode == 270) {
+        networkResponse.errorText = "you haven't registered before";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> verifyOtpCode(
+      {required String phoneNumber, required int code}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse(
+          "http://dennic.uz:9050/v1/customer/verify-otp-code?code=$code&phone_number=%2B${phoneNumber.replaceAll("+", "")}");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = response.body;
+        // debugPrint("${response.body} ----------------");
+      } else if (response.statusCode == 270) {
+        networkResponse.errorText = "you haven't registered before";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
     }
 
     return networkResponse;
