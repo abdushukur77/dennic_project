@@ -10,9 +10,24 @@ class AuthRepository {
       await ApiProvider.registerUser(userModel);
 
   Future<NetworkResponse> registerUserVerify(
-          {required VerifyModel verifyModel}) async =>
+      {required VerifyModel verifyModel}) async =>
       await ApiProvider.verifyUser(verifyModel);
 
   Future<NetworkResponse> loginUser({required LoginModel loginModel}) async =>
       await ApiProvider.loginUser(loginModel);
+
+  Future<NetworkResponse> logoutUser({required String token}) async =>
+      await ApiProvider.logoutUser(token: token);
+
+  Future<NetworkResponse> forgetPassword({required String phoneNumber}) async =>
+      await ApiProvider.forgetPassword(phoneNumber: phoneNumber);
+
+  Future<NetworkResponse> verifyOtpCodeUser(
+      {required String phoneNumber, required int password}) async =>
+      await ApiProvider.verifyOtpCode(phoneNumber: phoneNumber, code: password);
+
+  Future<NetworkResponse> updatePassword(
+      {required String newPassword, required String token}) async =>
+      await ApiProvider.updateUserPassword(
+          newPassword: newPassword, token: token);
 }

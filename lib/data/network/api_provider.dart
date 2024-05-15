@@ -3,8 +3,7 @@ import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
 
 class ApiProvider {
   static Future<NetworkResponse> registerUser(UserModel userModel) async {
@@ -20,7 +19,7 @@ class ApiProvider {
         },
         body: jsonEncode(userModel.toJson()),
       );
-      debugPrint("Status Coed: ${response.statusCode} ---------");
+      // debugPrint("Status Coed: ${response.statusCode} ---------");
       if (response.statusCode == 200) {
         networkResponse.data = "Registered";
       } else if (response.statusCode == 400) {
@@ -83,7 +82,33 @@ class ApiProvider {
     return networkResponse;
   }
 
-  static Future<NetworkResponse> resetPasswordUser(String phoneNumber) async {
+  static Future<NetworkResponse> logoutUser({required String token}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/logout");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = "Log out done!";
+      } else if (response.statusCode == 270) {
+        networkResponse.errorText = "illegal base64 data at input byte 225";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> forgetPassword(
+      {required String phoneNumber}) async {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
@@ -94,17 +119,69 @@ class ApiProvider {
         headers: {
           "Content-Type": "application/json",
         },
-        body: jsonEncode(
-          {"phone_number": phoneNumber},
-        ),
+        body: jsonEncode({"phone_number": phoneNumber}),
       );
       if (response.statusCode == 200) {
-        networkResponse.data = "forget_password";
-      } else if (response.statusCode == 500) {
-        networkResponse.errorText = "no_user";
+        networkResponse.data = "of_course";
+      } else if (response.statusCode == 400) {
+        networkResponse.errorText = "you haven't registered before";
       }
     } catch (error) {
-      return NetworkResponse(errorText: error.toString());
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> verifyOtpCode(
+      {required String phoneNumber, required int code}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse(
+          "http://dennic.uz:9050/v1/customer/verify-otp-code?code=$code&phone_number=%2B${phoneNumber.replaceAll("+", "")}");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = response.body;
+        // debugPrint("${response.body} ----------------");
+      } else if (response.statusCode == 400) {
+        networkResponse.errorText = "Time End :)";
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
+    }
+
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> updateUserPassword(
+      {required String newPassword, required String token}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      Uri uri = Uri.parse(
+          "http://dennic.uz:9050/v1/customer/update-password?NewPassword=$newPassword");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Authorization": token,
+          "Content-Type": "application/json",
+        },
+      );
+      if (response.statusCode == 200) {
+        networkResponse.data = jsonDecode(response.body)["token"];
+        // debugPrint("${response.body} ----------------");
+      } else {
+        networkResponse.errorText = response.statusCode.toString();
+      }
+    } catch (error) {
+      networkResponse.errorText = "network error :)";
     }
 
     return networkResponse;

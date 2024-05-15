@@ -15,6 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             formStatus: FormStatus.pure,
             userModel: UserModel.initial(),
             statusMessage: "",
+            userToken: '',
           ),
         ) {
     on<LoginUserEvent>(_loginUser);
@@ -22,6 +23,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CheckAuthenticationEvent>(_checkAuthenticationUser);
     on<LogOutUserEvent>(_logOutUser);
     on<AuthRequestPassword>(_check);
+    on<AuthForgetPasswordEvent>(_forgetPassword);
+    on<AuthVerifyOtpCoderEvent>(_verifyOtpCode);
+    on<AuthUpdatePasswordEvent>(_updatePassword);
   }
 
   final AuthRepository _appRepository;
@@ -48,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  _check(AuthRequestPassword even, emit) async {
+  Future<void> _check(AuthRequestPassword even, emit) async {
     NetworkResponse networkResponse =
         await _appRepository.registerUserVerify(verifyModel: even.verifyModel);
 
@@ -69,7 +73,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  _registerUser(RegisterUserEvent event, emit) async {
+  Future<void> _registerUser(RegisterUserEvent event, emit) async {
     debugPrint("Qonday");
 
     NetworkResponse networkResponse =
@@ -93,7 +97,80 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  _checkAuthenticationUser(CheckAuthenticationEvent event, emit) async {}
+  Future<void> _checkAuthenticationUser(
+      CheckAuthenticationEvent event, emit) async {}
 
-  _logOutUser(LogOutUserEvent event, emit) async {}
+  Future<void> _logOutUser(LogOutUserEvent event, emit) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    networkResponse = await _appRepository.logoutUser(token: "");
+  }
+
+  Future<void> _verifyOtpCode(AuthVerifyOtpCoderEvent event, emit) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    networkResponse = await _appRepository.verifyOtpCodeUser(
+      phoneNumber: event.phoneNumber,
+      password: event.password,
+    );
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint(networkResponse.data.toString());
+
+      emit(
+        state.copyWith(
+            userToken: networkResponse.data as String? ?? "",
+            statusMessage: "token",
+            formStatus: FormStatus.pure),
+      );
+    } else {
+      emit(state.copyWith(
+          errorText: networkResponse.errorText, formStatus: FormStatus.error));
+    }
+  }
+
+  Future<void> _forgetPassword(AuthForgetPasswordEvent event, emit) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    networkResponse =
+        await _appRepository.forgetPassword(phoneNumber: event.phoneNumber);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(state.copyWith(
+          statusMessage: "forget_password", formStatus: FormStatus.pure));
+    } else {
+      emit(state.copyWith(
+          statusMessage: networkResponse.errorText,
+          formStatus: FormStatus.error));
+    }
+  }
+
+  Future<void> _updatePassword(AuthUpdatePasswordEvent event, emit) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    if (state.userToken.isNotEmpty) {
+      networkResponse = await _appRepository.updatePassword(
+        newPassword: event.newPassword,
+        token: state.userToken,
+      );
+
+      if (networkResponse.errorText.isEmpty) {
+        emit(
+          state.copyWith(
+            formStatus: FormStatus.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            statusMessage: "_updatePassword",
+            errorText: networkResponse.errorText,
+            formStatus: FormStatus.error,
+          ),
+        );
+      }
+    }
+  }
 }
