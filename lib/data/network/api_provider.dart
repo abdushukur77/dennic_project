@@ -148,7 +148,7 @@ class ApiProvider {
         },
       );
       if (response.statusCode == 200) {
-        networkResponse.data = response.body;
+        networkResponse.data = jsonDecode(response.body);
         // debugPrint("${response.body} ----------------");
       } else if (response.statusCode == 400) {
         networkResponse.errorText = "Time End :)";
@@ -167,7 +167,7 @@ class ApiProvider {
       Uri uri = Uri.parse(
           "http://dennic.uz:9050/v1/customer/update-password?NewPassword=$newPassword");
 
-      http.Response response = await http.post(
+      http.Response response = await http.put(
         uri,
         headers: {
           "Authorization": token,
@@ -175,7 +175,7 @@ class ApiProvider {
         },
       );
       if (response.statusCode == 200) {
-        networkResponse.data = jsonDecode(response.body)["token"];
+        networkResponse.data = jsonDecode(response.body);
         // debugPrint("${response.body} ----------------");
       } else {
         networkResponse.errorText = response.statusCode.toString();

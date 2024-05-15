@@ -24,6 +24,7 @@ class SignInScreen extends StatefulWidget {
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
+
 class _SignInScreenState extends State<SignInScreen> {
   bool obthorText = true;
   bool _loading = false;
@@ -212,6 +213,17 @@ class _SignInScreenState extends State<SignInScreen> {
                   title: Text(state.errorText),
                 );
               },
+            );
+          }
+
+          if (state.formStatus == FormStatus.authenticated) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SplashScreen();
+                },
+              ),
             );
           }
         },
