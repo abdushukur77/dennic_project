@@ -7,6 +7,7 @@ class AppImages {
   static const String books = "assets/images/books.png";
   static const String img = "assets/images/app_icon.png";
   static const String splash = "assets/images/splash.png";
+  static const String doctor = "assets/images/doctor.png";
   static const String uzb = "assets/icons/uzb.svg";
   static const String call = "assets/icons/call.svg";
   static const String boy = "assets/images/boy.png";
@@ -34,6 +35,7 @@ class AppImages {
   static const String list = "assets/icons/list.svg";
   static const String lock = "assets/icons/lock.svg";
   static const String logo = "assets/icons/logo.svg";
+  static const String favorite = "assets/icons/favorite.svg";
   static const String notification = "assets/icons/notification.svg";
   static const String openEye = "assets/icons/open_eye.svg";
   static const String personal = "assets/icons/personal.svg";
