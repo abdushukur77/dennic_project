@@ -175,7 +175,7 @@ class ApiProvider {
         },
       );
       if (response.statusCode == 200) {
-        networkResponse.data = response.body;
+        networkResponse.data = jsonDecode(response.body)["token"];
         // debugPrint("${response.body} ----------------");
       } else {
         networkResponse.errorText = response.statusCode.toString();

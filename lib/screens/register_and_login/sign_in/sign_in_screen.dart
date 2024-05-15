@@ -27,6 +27,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   bool obthorText = true;
   bool _loading = false;
+  bool reversAnimation = false;
 
   final formKey = GlobalKey<FormState>();
 
@@ -97,10 +98,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ForgetPassword();
-                      }));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ForgetPassword();
+                          },
+                        ),
+                      );
                     },
                     child: Text(
                       "Forgot Password?",
@@ -164,9 +169,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.r),
-                      )),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -187,34 +193,26 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ],
                 ),
-                BlocListener<AuthBloc, AuthState>(
-                  listener: (BuildContext context, AuthState state) {
-                    if (state.formStatus == FormStatus.error) {
-                      debugPrint(state.errorText);
-                      _loading = false;
-                      setState(() {});
-                    }
-                    if (state.formStatus == FormStatus.authenticated) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const SplashScreen();
-                          },
-                        ),
-                      );
-                    }
-                  },
-                  child: const SizedBox(),
-                ),
               ],
             ),
           );
         },
         listener: (BuildContext context, AuthState state) {
-          if (state.statusMessage == "login") {
-            debugPrint(
-                "Login bo'ldi -------------------------------------------");
+          if (state.formStatus == FormStatus.success) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+
+          if (state.formStatus == FormStatus.error) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(state.errorText),
+                );
+              },
+            );
           }
         },
       ),
@@ -226,3 +224,5 @@ class _SignInScreenState extends State<SignInScreen> {
         phoneNumberController.text.length == 13;
   }
 }
+
+late AnimationController globalAnimationController;

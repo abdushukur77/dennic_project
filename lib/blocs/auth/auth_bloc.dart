@@ -10,14 +10,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required AuthRepository appRepository})
       : _appRepository = appRepository,
         super(
-        AuthState(
-          errorText: "",
-          formStatus: FormStatus.pure,
-          userModel: UserModel.initial(),
-          statusMessage: "",
-          userToken: '',
-        ),
-      ) {
+          AuthState(
+            errorText: "",
+            formStatus: FormStatus.pure,
+            userModel: UserModel.initial(),
+            statusMessage: "",
+            userToken: '',
+          ),
+        ) {
     on<LoginUserEvent>(_loginUser);
     on<RegisterUserEvent>(_registerUser);
     on<CheckAuthenticationEvent>(_checkAuthenticationUser);
@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     NetworkResponse networkResponse = NetworkResponse();
 
     networkResponse =
-    await _appRepository.loginUser(loginModel: event.loginModel);
+        await _appRepository.loginUser(loginModel: event.loginModel);
 
     if (networkResponse.errorText.isEmpty) {
       emit(
@@ -54,7 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _check(AuthRequestPassword even, emit) async {
     NetworkResponse networkResponse =
-    await _appRepository.registerUserVerify(verifyModel: even.verifyModel);
+        await _appRepository.registerUserVerify(verifyModel: even.verifyModel);
 
     if (networkResponse.errorText.isEmpty) {
       emit(
@@ -77,7 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     debugPrint("Qonday");
 
     NetworkResponse networkResponse =
-    await _appRepository.registerUser(userModel: event.userModel);
+        await _appRepository.registerUser(userModel: event.userModel);
 
     if (networkResponse.errorText.isEmpty) {
       emit(
@@ -108,35 +108,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _verifyOtpCode(AuthVerifyOtpCoderEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
     networkResponse = await _appRepository.verifyOtpCodeUser(
       phoneNumber: event.phoneNumber,
       password: event.password,
     );
     if (networkResponse.errorText.isEmpty) {
+      debugPrint(networkResponse.data.toString());
+
       emit(
         state.copyWith(
-            userToken: networkResponse.data["token"], statusMessage: "token"),
+            userToken: networkResponse.data as String? ?? "",
+            statusMessage: "token",
+            formStatus: FormStatus.pure),
       );
     } else {
-      emit(state.copyWith(errorText: networkResponse.errorText));
+      emit(state.copyWith(
+          errorText: networkResponse.errorText, formStatus: FormStatus.error));
     }
   }
 
   Future<void> _forgetPassword(AuthForgetPasswordEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
+    emit(state.copyWith(formStatus: FormStatus.loading));
 
     networkResponse =
-    await _appRepository.forgetPassword(phoneNumber: event.phoneNumber);
+        await _appRepository.forgetPassword(phoneNumber: event.phoneNumber);
 
     if (networkResponse.errorText.isEmpty) {
-      emit(state.copyWith(statusMessage: "forget_password"));
+      emit(state.copyWith(
+          statusMessage: "forget_password", formStatus: FormStatus.pure));
     } else {
-      emit(state.copyWith(statusMessage: networkResponse.errorText));
+      emit(state.copyWith(
+          statusMessage: networkResponse.errorText,
+          formStatus: FormStatus.error));
     }
   }
 
   Future<void> _updatePassword(AuthUpdatePasswordEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
     if (state.userToken.isNotEmpty) {
       networkResponse = await _appRepository.updatePassword(
         newPassword: event.newPassword,
@@ -154,6 +167,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           state.copyWith(
             statusMessage: "_updatePassword",
             errorText: networkResponse.errorText,
+            formStatus: FormStatus.error,
           ),
         );
       }
