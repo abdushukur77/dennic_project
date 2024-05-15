@@ -115,11 +115,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       password: event.password,
     );
     if (networkResponse.errorText.isEmpty) {
-      debugPrint(networkResponse.data.toString());
+      debugPrint(networkResponse.data["token"].toString());
 
       emit(
         state.copyWith(
-            userToken: networkResponse.data as String? ?? "",
+            userToken: networkResponse.data["token"],
             statusMessage: "token",
             formStatus: FormStatus.pure),
       );

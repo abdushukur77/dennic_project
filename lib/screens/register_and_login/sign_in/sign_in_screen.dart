@@ -214,6 +214,17 @@ class _SignInScreenState extends State<SignInScreen> {
               },
             );
           }
+
+          if (state.formStatus == FormStatus.authenticated) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SplashScreen();
+                },
+              ),
+            );
+          }
         },
       ),
     );
