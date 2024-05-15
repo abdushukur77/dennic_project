@@ -45,3 +45,34 @@ class LogOutUserEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class AuthVerifyOtpCoderEvent extends AuthEvent {
+  final int password;
+  final String phoneNumber;
+
+  AuthVerifyOtpCoderEvent({
+    required this.phoneNumber,
+    required this.password,
+  });
+
+  @override
+  List<Object?> get props => [phoneNumber, password];
+}
+
+class AuthForgetPasswordEvent extends AuthEvent {
+  final String phoneNumber;
+
+  AuthForgetPasswordEvent({required this.phoneNumber});
+
+  @override
+  List<Object?> get props => [phoneNumber];
+}
+
+class AuthUpdatePasswordEvent extends AuthEvent {
+  final String newPassword;
+
+  AuthUpdatePasswordEvent({required this.newPassword});
+
+  @override
+  List<Object?> get props => [newPassword];
+}

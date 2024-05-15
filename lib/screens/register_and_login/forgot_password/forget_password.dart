@@ -55,7 +55,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               },
             ),
             400.getH(),
-
             SizedBox(
               width: double.infinity,
               child: TextButton(
@@ -65,18 +64,23 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     backgroundColor: AppColors.c257CFF,
                     padding: EdgeInsets.symmetric(vertical: 15.he())),
                 onPressed: () {
-                  UserModel userModel = UserModel(birthDate: "",
-                    firstName: "firstName",
-                    gender: "gender",
-                    lastName: "lastName",
-                    password: "password",
-                    phoneNumber: "+998${controllerPhoneNumber.text}");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ForgotVerifyCodeScreen(
-
-                      userModel: userModel,
-                    );
-                  }));
+                  UserModel userModel = UserModel(
+                      birthDate: "",
+                      firstName: "firstName",
+                      gender: "gender",
+                      lastName: "lastName",
+                      password: "password",
+                      phoneNumber: "+998${controllerPhoneNumber.text}");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ForgotVerifyCodeScreen(
+                          userModel: userModel,
+                        );
+                      },
+                    ),
+                  );
                 },
                 child: Text(
                   "Send Code",
