@@ -5,22 +5,22 @@ double width = 0.0;
 
 extension Size on int {
   double he() {
-    return (this / 812) * height;
+    return (this / 926) * height;
   }
 
   double we() {
-    return (this / 375) * width;
+    return (this / 428) * width;
   }
 
   SizedBox getH() {
     return SizedBox(
-      height: (this / 812) * height,
+      height: (this / 926) * height,
     );
   }
 
   SizedBox getW() {
     return SizedBox(
-      width: (this / 375) * width,
+      width: (this / 428) * width,
     );
   }
 }
