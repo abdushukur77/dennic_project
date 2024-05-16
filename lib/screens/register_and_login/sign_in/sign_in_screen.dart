@@ -185,7 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         );
                       },
                       child: Text(
-                        "Sign Up",
+                        "Sign Up ",
                         style: AppTextStyle.urbanistBold.copyWith(
                           fontSize: 14.sp,
                           color: AppColors.c257CFF,
@@ -222,6 +222,7 @@ class _SignInScreenState extends State<SignInScreen> {
               MaterialPageRoute(
                 builder: (context) {
                   return SplashScreen();
+
                 },
               ),
             );
