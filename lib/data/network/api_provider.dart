@@ -11,7 +11,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/register");
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/register");
 
 
       http.Response response = await http.post(
@@ -40,7 +40,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/verify");
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/verify");
 
       http.Response response = await http.post(
         uri,
@@ -95,7 +95,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/logout");
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/logout");
 
       http.Response response = await http.post(
         uri,
@@ -148,7 +148,7 @@ class ApiProvider {
 
     try {
       Uri uri = Uri.parse(
-          "http://dennic.uz:9050/v1/customer/verify-otp-code?code=$code&phone_number=%2B${phoneNumber.replaceAll("+", "")}");
+          "https://swag.dennic.uz/v1/customer/verify-otp-code?code=$code&phone_number=%2B${phoneNumber.replaceAll("+", "")}");
 
       http.Response response = await http.post(
         uri,
@@ -174,7 +174,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
     try {
       Uri uri = Uri.parse(
-          "http://dennic.uz:9050/v1/customer/update-password?NewPassword=$newPassword");
+          "https://swag.dennic.uz/v1/customer/update-password?NewPassword=$newPassword");
 
       http.Response response = await http.put(
         uri,
