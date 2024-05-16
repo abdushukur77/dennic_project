@@ -17,6 +17,7 @@ class AppImages {
   static const String dennic  = "assets/images/dennic.png";
   static const String cansel  = "assets/icons/cansel.svg";
   static const String calendar  = "assets/icons/calendar.svg";
+  static const String belll  = "assets/icons/belll.svg";
 
   //.svg
 

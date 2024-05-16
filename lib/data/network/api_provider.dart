@@ -3,6 +3,7 @@ import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
+import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
 
 class ApiProvider {
@@ -11,6 +12,7 @@ class ApiProvider {
 
     try {
       Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/register");
+
 
       http.Response response = await http.post(
         uri,
@@ -23,6 +25,8 @@ class ApiProvider {
       if (response.statusCode == 200) {
         networkResponse.data = "Registered";
       } else if (response.statusCode == 400) {
+        debugPrint(
+            "Status Coed: ${response.body}-----------------------------------");
         networkResponse.errorText = "this_number_already_registered";
       }
     } catch (error) {
@@ -61,7 +65,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/login");
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/login");
 
       http.Response response = await http.post(
         uri,
@@ -70,10 +74,15 @@ class ApiProvider {
         },
         body: jsonEncode(loginModel.toJson()),
       );
+      debugPrint(response.body);
+
       if (response.statusCode == 200) {
+
         networkResponse.data = "login";
-      } else if (response.statusCode == 500) {
-        networkResponse.errorText = "no_user";
+      } else {
+
+        debugPrint(response.body);
+        networkResponse.errorText = "Parol yoki login xato !";
       }
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
@@ -112,7 +121,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("http://dennic.uz:9050/v1/customer/forget-password");
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/forget-password");
 
       http.Response response = await http.post(
         uri,

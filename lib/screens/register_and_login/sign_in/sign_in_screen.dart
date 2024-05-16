@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../forgot_password/new_pasword.dart';
 import '../widget/my_text_from_tel.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -205,7 +206,7 @@ class _SignInScreenState extends State<SignInScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return SignInScreen();
+                  return const SignInScreen();
 
                 },
               ),
@@ -216,14 +217,28 @@ class _SignInScreenState extends State<SignInScreen> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
+                _loading=false;
                 return AlertDialog(
                   title: Text(state.errorText),
                 );
               },
             );
           }
+          if (state.statusMessage == "token") {
+            print("Tokennnnnnn ${state.userToken}");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const NewPassworScreen();
+                },
+              ),
+            );
+          }
 
-          if (state.formStatus == FormStatus.authenticated) {
+          if (state.statusMessage=="logged") {
+
+            debugPrint("${state.statusMessage=='logged'}  ");
             Navigator.push(
               context,
               MaterialPageRoute(

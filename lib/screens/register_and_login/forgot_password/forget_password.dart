@@ -97,6 +97,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         },
         listener: (BuildContext context, AuthState state) {
           if (state.statusMessage == "forget_password") {
+            debugPrint("CODE");
             Navigator.push(
               context,
               MaterialPageRoute(

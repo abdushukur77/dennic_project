@@ -303,6 +303,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                 ),
                 BlocListener<AuthBloc, AuthState>(
                   listener: (BuildContext context, AuthState state) {
+                    debugPrint("KELDI ");
                     if (state.statusMessage == "query_ok") {
                       Navigator.pushReplacement(
                         context,
@@ -321,16 +322,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
           );
         },
         listener: (BuildContext context, AuthState state) {
-          if (state.statusMessage == "token") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const NewPassworScreen();
-                },
-              ),
-            );
-          }
+
         },
       ),
     );
