@@ -80,7 +80,7 @@ class PasswordVerifiedScreen extends StatelessWidget {
                         )),
                   ),
                   SizedBox(
-                    height: 30.h,
+                    height: 30.h
                   )
                 ],
               )
