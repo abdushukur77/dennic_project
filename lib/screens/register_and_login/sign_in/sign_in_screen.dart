@@ -201,9 +201,15 @@ class _SignInScreenState extends State<SignInScreen> {
         },
         listener: (BuildContext context, AuthState state) {
           if (state.formStatus == FormStatus.success) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SignInScreen();
+
+                },
+              ),
+            );
           }
 
           if (state.formStatus == FormStatus.error) {

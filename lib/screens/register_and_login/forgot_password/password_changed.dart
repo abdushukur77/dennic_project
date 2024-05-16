@@ -74,7 +74,7 @@ class PasswordVerifiedScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.r))),
                         child: Text(
-                          "Get Started",
+                          "Sign In Now",
                           style: AppTextStyle.urbanistBold.copyWith(
                               color: AppColors.c257CFF, fontSize: 14.sp),
                         )),
