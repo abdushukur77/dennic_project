@@ -109,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _verifyOtpCode(AuthVerifyOtpCoderEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
-    emit(state.copyWith(formStatus: FormStatus.loading));
+    emit(state.copyWith(formStatus: FormStatus.loading,statusMessage: ""));
 
     networkResponse = await _appRepository.verifyOtpCodeUser(
       phoneNumber: event.phoneNumber,
@@ -131,7 +131,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _forgetPassword(AuthForgetPasswordEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
-    emit(state.copyWith(formStatus: FormStatus.loading));
+    emit(state.copyWith(formStatus: FormStatus.loading,statusMessage: ""));
 
     networkResponse =
         await _appRepository.forgetPassword(phoneNumber: event.phoneNumber);
@@ -147,7 +147,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _updatePassword(AuthUpdatePasswordEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
-    emit(state.copyWith(formStatus: FormStatus.loading));
+    emit(state.copyWith(formStatus: FormStatus.loading, statusMessage: ""));
 
     if (state.userToken.isNotEmpty) {
       networkResponse = await _appRepository.updatePassword(

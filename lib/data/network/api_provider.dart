@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
+import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
@@ -12,7 +14,6 @@ class ApiProvider {
 
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/register");
-
 
       http.Response response = await http.post(
         uri,
@@ -51,6 +52,16 @@ class ApiProvider {
       );
       if (response.statusCode == 200) {
         networkResponse.data = "Logged";
+        Map<String, dynamic> myInfo = jsonDecode(response.body);
+
+        await StorageRepository.setString(
+          key: "access_token",
+          value: myInfo["access_token"],
+        );
+        await StorageRepository.setString(
+          key: "refresh_token",
+          value: myInfo["refresh_token"],
+        );
       } else if (response.statusCode == 400) {
         networkResponse.errorText = "this_number_already_registered";
       }
@@ -76,13 +87,22 @@ class ApiProvider {
       );
       debugPrint(response.body);
 
+      Map<String, dynamic> myInfo = jsonDecode(response.body);
+
       if (response.statusCode == 200) {
-
         networkResponse.data = "login";
-      } else {
 
+        await StorageRepository.setString(
+          key: "access_token",
+          value: myInfo["access_token"],
+        );
+        await StorageRepository.setString(
+          key: "refresh_token",
+          value: myInfo["refresh_token"],
+        );
+      } else {
         debugPrint(response.body);
-        networkResponse.errorText = "Parol yoki login xato !";
+        networkResponse.errorText = myInfo["data"];
       }
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
@@ -193,6 +213,80 @@ class ApiProvider {
       networkResponse.errorText = "network error :)";
     }
 
+    return networkResponse;
+  }
+
+  Future<String> _updateToken() async {
+    String error = "";
+
+    String myRefreshToken = StorageRepository.getString(key: "refresh_token");
+
+    try {
+      Uri uri =
+          Uri.parse("https://swag.dennic.uz/v1/user/update-refresh-token");
+      http.Response response = await http.put(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(
+          {"refresh_token": myRefreshToken},
+        ),
+      );
+
+      Map<String, dynamic> myInfo = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        await StorageRepository.setString(
+          key: "access_token",
+          value: myInfo["access_token"],
+        );
+        await StorageRepository.setString(
+          key: "refresh_token",
+          value: myInfo["refresh_token"],
+        );
+      } else {
+        error = "Karoche akauntga yti :)";
+      }
+    } catch (_) {
+      error = "Bo'madiz :)";
+    }
+
+    return error;
+  }
+
+  Future<NetworkResponse> getUser() async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    String userToken = StorageRepository.getString(key: 'access_token');
+
+    try {
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/get");
+      http.Response response = await http.get(
+        uri,
+        headers: {
+          "Authorization": userToken,
+          "Content-Type": "application/json",
+        },
+      );
+      Map<String, dynamic> myInfo = jsonDecode(response.body);
+
+      if (myInfo["status"] == "Unauthorized") {
+        String myError = await _updateToken();
+
+        if (myError.isEmpty) {
+          getUser();
+        } else {
+          networkResponse.errorText = "the_end_token";
+        }
+      } else if (response.statusCode == 200) {
+        networkResponse.data = MyUserModel.fromJson(myInfo);
+      } else {
+        networkResponse.errorText = myInfo["message"] as String? ?? "";
+      }
+    } catch (error) {
+      networkResponse.errorText = error.toString();
+    }
     return networkResponse;
   }
 }
