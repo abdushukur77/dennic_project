@@ -1,7 +1,6 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
-import 'package:dennic_project/screens/home/home_screen.dart';
-import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
+import 'package:dennic_project/screens/top_doctor/top_doctor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,12 +28,12 @@ class App extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                useMaterial3: true,
+                useMaterial3: false,
               ),
               home: child,
             );
           },
-          child: const SplashScreen(),
+          child: const TopDoctorScreen(),
         ),
       ),
     );
