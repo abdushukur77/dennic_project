@@ -62,7 +62,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
             child: GridView.count(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               crossAxisCount: 2,
-              childAspectRatio: 0.96,
+              childAspectRatio: 0.90,
               crossAxisSpacing: 20.w,
               mainAxisSpacing: 24.h,
               children: [

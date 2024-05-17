@@ -1,11 +1,10 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
-import 'package:dennic_project/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../screens/tab_box/home/home_screen.dart';
+import '../screens/specialist_doctor/specialist_doctor_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -35,7 +34,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const TopDoctorScreen(),
+          child: const SpecialistDoctorScreen(),
         ),
       ),
     );
