@@ -2,10 +2,8 @@ import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
-import 'package:dennic_project/screens/home/home_screen.dart';
 import 'package:dennic_project/screens/register_and_login/forgot_password/forget_password.dart';
 import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
-import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
@@ -16,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../tab_box/home/home_screen.dart';
 import '../forgot_password/new_pasword.dart';
 import '../widget/my_text_from_tel.dart';
 

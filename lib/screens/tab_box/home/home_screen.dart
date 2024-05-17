@@ -1,10 +1,11 @@
 import 'package:dennic_project/data/network/api_provider.dart';
-import 'package:dennic_project/screens/home/widgets/doctor_items.dart';
-import 'package:dennic_project/screens/home/widgets/doctor_logo.dart';
-import 'package:dennic_project/screens/home/widgets/ring_and_favorite_items.dart';
-import 'package:dennic_project/screens/home/widgets/see_all_items.dart';
-import 'package:dennic_project/screens/home/widgets/specialist_items.dart';
-import 'package:dennic_project/screens/home/widgets/textfield_items.dart';
+
+import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/specialist_items.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/textfield_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';

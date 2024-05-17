@@ -1,10 +1,10 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
-import 'package:dennic_project/screens/home/home_screen.dart';
-import 'package:dennic_project/screens/register_and_login/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../screens/tab_box/home/home_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
