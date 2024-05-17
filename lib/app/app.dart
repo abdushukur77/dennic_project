@@ -34,7 +34,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const SplashScreen(),
+          child: const HomeScreen(),
         ),
       ),
     );

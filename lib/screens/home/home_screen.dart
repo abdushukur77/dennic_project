@@ -1,3 +1,4 @@
+import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/home/widgets/doctor_items.dart';
 import 'package:dennic_project/screens/home/widgets/doctor_logo.dart';
 import 'package:dennic_project/screens/home/widgets/ring_and_favorite_items.dart';
@@ -187,6 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
             24.getH(),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ApiProvider.getUser();
+        },
       ),
     );
   }

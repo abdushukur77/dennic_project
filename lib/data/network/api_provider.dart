@@ -91,6 +91,7 @@ class ApiProvider {
 
       if (response.statusCode == 200) {
         networkResponse.data = "login";
+        // debugPrint(myInfo.toString());
 
         await StorageRepository.setString(
           key: "access_token",
@@ -216,10 +217,11 @@ class ApiProvider {
     return networkResponse;
   }
 
-  Future<String> _updateToken() async {
+  static Future<String> _updateToken() async {
     String error = "";
 
     String myRefreshToken = StorageRepository.getString(key: "refresh_token");
+    debugPrint("${myRefreshToken} ------------------");
 
     try {
       Uri uri =
@@ -229,9 +231,7 @@ class ApiProvider {
         headers: {
           "Content-Type": "application/json",
         },
-        body: jsonEncode(
-          {"refresh_token": myRefreshToken},
-        ),
+        body: jsonEncode({"refresh_token": myRefreshToken}),
       );
 
       Map<String, dynamic> myInfo = jsonDecode(response.body);
@@ -255,7 +255,7 @@ class ApiProvider {
     return error;
   }
 
-  Future<NetworkResponse> getUser() async {
+  static Future<NetworkResponse> getUser() async {
     NetworkResponse networkResponse = NetworkResponse();
 
     String userToken = StorageRepository.getString(key: 'access_token');
@@ -275,16 +275,26 @@ class ApiProvider {
         String myError = await _updateToken();
 
         if (myError.isEmpty) {
+          // debugPrint("myError.isEmpty -----------------------------------");
           getUser();
         } else {
+          // debugPrint(
+          //     "the_end_token the_end_token the_end_token the_end_token the_end_token -------------------------$myError--------");
+
           networkResponse.errorText = "the_end_token";
         }
       } else if (response.statusCode == 200) {
+        // debugPrint(
+        //     "response.statusCode == 200    -----------------------------------");
+
         networkResponse.data = MyUserModel.fromJson(myInfo);
+        // debugPrint((networkResponse.data as MyUserModel).toJson().toString());
       } else {
         networkResponse.errorText = myInfo["message"] as String? ?? "";
       }
     } catch (error) {
+      // debugPrint(
+      //     "response.statusCode == ???    -----------------------$error");
       networkResponse.errorText = error.toString();
     }
     return networkResponse;
