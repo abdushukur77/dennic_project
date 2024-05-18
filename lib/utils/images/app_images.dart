@@ -15,9 +15,7 @@ class AppImages {
   static const String phone  = "assets/images/phone.png";
   static const String callPng  = "assets/images/call.png";
   static const String dennic  = "assets/images/dennic.png";
-  static const String cansel  = "assets/icons/cansel.svg";
-  static const String calendar  = "assets/icons/calendar.svg";
-  static const String belll  = "assets/icons/belll.svg";
+
 
   //.svg
 
@@ -50,4 +48,8 @@ class AppImages {
       "assets/icons/radio_button_square.svg";
   static const String radioButtonSquareDone =
       "assets/icons/radio_button_square_done.svg";
+  static const String cansel  = "assets/icons/cansel.svg";
+  static const String calendar  = "assets/icons/calendar.svg";
+  static const String belll  = "assets/icons/belll.svg";
+  static const String pluss  = "assets/icons/pluss.svg";
 }

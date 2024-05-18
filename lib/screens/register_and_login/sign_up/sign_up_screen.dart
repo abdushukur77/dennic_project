@@ -18,6 +18,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../data/local/storage_repository.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -286,8 +288,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             controllerPassword.text.length > 7) {
                           debugPrint("Qonday");
 
-                          if (controllerPassword.text !=
-                              controllerConfirm.text) {
+                          if ((controllerPassword.text !=
+                              controllerConfirm.text)&& !check) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.red,
@@ -340,6 +342,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             if (state.statusMessage == "this_number_already_registered") {}
 
             if (state.statusMessage == "registered") {
+              StorageRepository.setBool(
+                key: "is_new_user",
+                value: true,
+              );
               debugPrint("registered------------");
 
               Navigator.pushReplacement(

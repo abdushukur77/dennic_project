@@ -22,6 +22,7 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
   animated_custom_dropdown: 3.0.0
+  shared_preferences: ^2.2.3
 
 
 dev_dependencies:
@@ -30,8 +31,8 @@ dev_dependencies:
 
 
   flutter_lints: ^2.0.0
-
 flutter:
+  uses-material-design: true
 
 
   # To add assets to your application, add an assets section, like this:

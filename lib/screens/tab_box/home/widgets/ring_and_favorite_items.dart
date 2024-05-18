@@ -11,8 +11,9 @@ class RingAndFavoriteItems extends StatelessWidget {
     required this.onTap,
   });
 
-  final String icon;
   final VoidCallback onTap;
+
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +29,7 @@ class RingAndFavoriteItems extends StatelessWidget {
         ),
       ),
       onPressed: onTap,
-      child: SvgPicture.asset(
-        icon,
-        width: 24.w,
-        height: 24.h,
-        fit: BoxFit.cover,
-      ),
+      child: icon,
     );
   }
 }

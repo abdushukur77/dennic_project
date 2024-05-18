@@ -42,9 +42,17 @@ class AuthRequestPassword extends AuthEvent {
 }
 
 class LogOutUserEvent extends AuthEvent {
+  final String token;
+
+  LogOutUserEvent({
+    required this.token
+});
   @override
   List<Object?> get props => [];
 }
+
+
+
 
 class AuthVerifyOtpCoderEvent extends AuthEvent {
   final int password;
