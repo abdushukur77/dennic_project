@@ -24,7 +24,7 @@ class DoctorLogo extends StatelessWidget {
         ),
       ),
       child: SvgPicture.asset(
-        AppImages.belll,
+        AppImages.pluss,
         width: 14.w,
         height: 17.h,
       ),

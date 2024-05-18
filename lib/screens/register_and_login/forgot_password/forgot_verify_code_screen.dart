@@ -32,6 +32,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
   late Timer _timer;
   bool visibleRestart = false;
   bool error = false;
+  bool isBlue = false;
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-      (Timer timer) {
+          (Timer timer) {
         if (_start == 0) {
           setState(() {
             visibleRestart = true;
@@ -98,11 +99,11 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
           if (pinCode.length == 4) {
             debugPrint(pinCode);
             context.read<AuthBloc>().add(
-                  AuthVerifyOtpCoderEvent(
-                    phoneNumber: widget.phoneNumber,
-                    password: int.parse(pinCode),
-                  ),
-                );
+              AuthVerifyOtpCoderEvent(
+                phoneNumber: widget.phoneNumber,
+                password: int.parse(pinCode),
+              ),
+            );
           }
         }
         setState(() {});
@@ -120,210 +121,228 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.statusMessage == "token") {
+          isBlue=true;
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const NewPassworScreen();
+              },
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
-      backgroundColor: Colors.white,
-      body: BlocConsumer<AuthBloc, AuthState>(
-        builder: (BuildContext context, AuthState state) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.we()),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16.we()),
-                Text(
-                  "Verify Phone",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w700,
+        backgroundColor: Colors.white,
+        body: BlocConsumer<AuthBloc, AuthState>(
+          builder: (BuildContext context, AuthState state) {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.we()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 16.we()),
+                  Text(
+                    "Verify Phone",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                SizedBox(height: 8.w),
-                Text(
-                  "Please enter the code we just sent to phone number",
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black),
-                ),
-                SizedBox(height: 37.w),
-                Align(
-                  alignment: animationAlign.value,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ...List.generate(
-                        4,
-                        (index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 8.w),
-                            width: 56.w,
-                            height: 56.h,
-                            decoration: BoxDecoration(
-                              color: (index < pinCode.length)
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
-                              border: Border.all(
-                                color: index < pinCode.length
-                                    ? error
-                                        ? Colors.red
-                                        : Colors.blue
+                  SizedBox(height: 8.w),
+                  Text(
+                    "Please enter the code we just sent to phone number",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
+                  ),
+                  SizedBox(height: 37.w),
+                  Align(
+                    alignment: animationAlign.value,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ...List.generate(
+                          4,
+                              (index) {
+
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8.w),
+                              width: 56.w,
+                              height: 56.h,
+                              decoration: BoxDecoration(
+                                color: (index < pinCode.length)
+                                    ? Colors.white
                                     : Colors.grey.shade200,
+                                border: Border.all(
+                                  color: index < pinCode.length
+                                      ? error
+                                      ? Colors.red
+                                      : Colors.blue
+                                      : Colors.grey.shade200,
+                                ),
+                                shape: BoxShape.circle,
                               ),
-                              shape: BoxShape.circle,
-                            ),
-                            child: (index < pinCode.length)
-                                ? Center(
-                                    child: Text(
-                                      list[index],
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20.sp),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          );
+                              child: (index < pinCode.length)
+                                  ? Center(
+                                child: Text(
+                                  list[index],
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20.sp),
+                                ),
+                              )
+                                  : const SizedBox(),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 37),
+                  if (!visibleRestart)
+                    Center(
+                      child: Text(
+                        "Resend code in $_start seconds",
+                        style: const TextStyle(
+                            color: Colors.black, fontSize: 16),
+                      ),
+                    ),
+                  if (visibleRestart)
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          _start = 60;
+                          visibleRestart = false;
+                          startTimer();
+                          setState(() {});
                         },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.r),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 5.h, horizontal: 5.w),
+                        ),
+                        child: Text(
+                          "Resend code",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  SizedBox(height: visibleRestart ? 35.h : 58.h),
+                  SizedBox(height: 33.w),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      buttonItems(title: "1"),
+                      buttonItems(title: "2"),
+                      buttonItems(title: "3"),
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      buttonItems(title: "4"),
+                      buttonItems(title: "5"),
+                      buttonItems(title: "6"),
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      buttonItems(title: "7"),
+                      buttonItems(title: "8"),
+                      buttonItems(title: "9"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30.w,
+                            vertical: 16.h,
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          ".",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      buttonItems(title: "0"),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 22.h,
+                            vertical: 16.w,
+                          ),
+                        ),
+                        onPressed: () {
+                          if (pinCode.isNotEmpty) {
+                            setState(() {
+                              pinCode =
+                                  pinCode.substring(0, pinCode.length - 1);
+                              list = pinCode.split('');
+                              if (list.length < 4) {
+                                error = false;
+                              }
+                            });
+                          }
+                        },
+                        child: SvgPicture.asset('assets/icons/back_space.svg'),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 37),
-                if (!visibleRestart)
-                  Center(
-                    child: Text(
-                      "Resend code in $_start seconds",
-                      style: const TextStyle(color: Colors.black, fontSize: 16),
-                    ),
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (BuildContext context, AuthState state) {
+                      if (state.statusMessage == "query_ok") {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return VerifiedScreen();
+                            },
+                          ),
+                        );
+                      }
+                    },
+                    child: const SizedBox(),
                   ),
-                if (visibleRestart)
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        _start = 60;
-                        visibleRestart = false;
-                        startTimer();
-                        setState(() {});
-                      },
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 5.h, horizontal: 5.w),
-                      ),
-                      child: Text(
-                        "Resend code",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                    ),
-                  ),
-                SizedBox(height: visibleRestart ? 35.h : 58.h),
-                SizedBox(height: 33.w),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    buttonItems(title: "1"),
-                    buttonItems(title: "2"),
-                    buttonItems(title: "3"),
-                  ],
-                ),
-                SizedBox(height: 15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    buttonItems(title: "4"),
-                    buttonItems(title: "5"),
-                    buttonItems(title: "6"),
-                  ],
-                ),
-                SizedBox(height: 15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    buttonItems(title: "7"),
-                    buttonItems(title: "8"),
-                    buttonItems(title: "9"),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30.w,
-                          vertical: 16.h,
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        ".",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    buttonItems(title: "0"),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 22.h,
-                          vertical: 16.w,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (pinCode.isNotEmpty) {
-                          setState(() {
-                            pinCode = pinCode.substring(0, pinCode.length - 1);
-                            list = pinCode.split('');
-                            if (list.length < 4) {
-                              error = false;
-                            }
-                          });
-                        }
-                      },
-                      child: SvgPicture.asset('assets/icons/back_space.svg'),
-                    ),
-                  ],
-                ),
-                BlocListener<AuthBloc, AuthState>(
-                  listener: (BuildContext context, AuthState state) {
-                    debugPrint("KELDI ");
-                    if (state.statusMessage == "query_ok") {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return VerifiedScreen();
-                          },
-                        ),
-                      );
-                    }
-                  },
-                  child: const SizedBox(),
-                ),
-              ],
-            ),
-          );
-        },
-        listener: (BuildContext context, AuthState state) {
+                ],
+              ),
+            );
+          },
+          listener: (BuildContext context, AuthState state) {
 
-        },
+          },
+        ),
       ),
     );
   }

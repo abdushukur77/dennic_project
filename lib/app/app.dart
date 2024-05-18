@@ -1,5 +1,6 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
+import 'package:dennic_project/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const HomeScreen(),
+          child: const SplashScreen(),
         ),
       ),
     );

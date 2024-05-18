@@ -105,6 +105,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     NetworkResponse networkResponse = NetworkResponse();
 
     networkResponse = await _appRepository.logoutUser(token: "");
+
+
+    if (networkResponse.errorText.isEmpty) {
+
+
+      emit(
+        state.copyWith(
+          statusMessage: "logout",
+          formStatus: FormStatus.unauthenticated,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          errorText: networkResponse.errorText,
+          formStatus: FormStatus.error,
+        ),
+      );
+    }
+
+
+
   }
 
   Future<void> _verifyOtpCode(AuthVerifyOtpCoderEvent event, emit) async {

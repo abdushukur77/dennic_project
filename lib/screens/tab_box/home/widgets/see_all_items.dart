@@ -1,4 +1,5 @@
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,7 +14,7 @@ class SeeAllItems extends StatelessWidget {
       onPressed: onTap,
       child: Text(
         "See all",
-        style: TextStyle(
+        style: AppTextStyle.urbanistMedium.copyWith(
           color: AppColors.c_2972FE,
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,

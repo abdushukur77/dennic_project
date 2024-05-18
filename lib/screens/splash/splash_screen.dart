@@ -1,6 +1,9 @@
 import 'package:dennic_project/screens/register_and_login/onboarding/onboarding.dart';
+import 'package:dennic_project/screens/tab_box/home/home_screen.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/local/storage_repository.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,16 +14,27 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
+  initState() {
+    bool isNewUser = StorageRepository.getBool(key: "is_new_user");
+    debugPrint("WWWWWWWWWWWWWWWWWWWW ${isNewUser.toString()}");
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 1),
       () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const OnboardingScreen(),
-          ),
-        );
+        if (isNewUser) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const OnboardingScreen(),
+            ),
+          );
+        }
       },
     );
     super.initState();
@@ -30,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
+        child:Image.asset(
           AppImages.splash,
           width: double.infinity,
           height: double.infinity,

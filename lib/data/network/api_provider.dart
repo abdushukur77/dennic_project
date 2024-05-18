@@ -259,7 +259,11 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     String userToken = StorageRepository.getString(key: 'access_token');
+   String a= await StorageRepository.getString(
+      key: "refresh_token",
 
+    );
+debugPrint(a);
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/get");
       http.Response response = await http.get(
@@ -273,6 +277,8 @@ class ApiProvider {
 
       if (myInfo["status"] == "Unauthorized") {
         String myError = await _updateToken();
+
+
 
         if (myError.isEmpty) {
           // debugPrint("myError.isEmpty -----------------------------------");
@@ -288,7 +294,7 @@ class ApiProvider {
         //     "response.statusCode == 200    -----------------------------------");
 
         networkResponse.data = MyUserModel.fromJson(myInfo);
-        // debugPrint((networkResponse.data as MyUserModel).toJson().toString());
+        debugPrint((networkResponse.data as MyUserModel).toJson().toString());
       } else {
         networkResponse.errorText = myInfo["message"] as String? ?? "";
       }

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../data/local/storage_repository.dart';
 import '../../tab_box/home/home_screen.dart';
 import '../forgot_password/new_pasword.dart';
 import '../widget/my_text_from_tel.dart';
@@ -237,17 +238,28 @@ class _SignInScreenState extends State<SignInScreen> {
 
           if (state.statusMessage=="logged") {
 
-            debugPrint("${state.statusMessage=='logged'}  ");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const HomeScreen();
 
-                },
-              ),
+            debugPrint("${state.statusMessage=='logged'}  ");
+            StorageRepository.setBool(
+              key: "is_new_user",
+              value: true,
+            ).then(
+                  (value) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) {return HomeScreen();}),
+
+
+                );
+              },
             );
           }
+
+          bool a =StorageRepository.getBool(
+            key: "is_new_user",
+
+          );
+          debugPrint("${a} WWWWWWWWWWWWWWWWWWWWWWWWWW");
         },
       ),
     );
