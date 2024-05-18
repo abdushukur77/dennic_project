@@ -35,8 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _appRepository.loginUser(loginModel: event.loginModel);
 
     if (networkResponse.errorText.isEmpty) {
-
-
       emit(
         state.copyWith(
           statusMessage: "logged",

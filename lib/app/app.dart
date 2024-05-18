@@ -30,12 +30,12 @@ class App extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                useMaterial3: true,
+                useMaterial3: false,
               ),
               home: child,
             );
           },
-          child: const SplashScreen(),
+          child: const TopDoctorScreen(),
         ),
       ),
     );
