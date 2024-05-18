@@ -13,18 +13,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  double _opacity = 0.0;
+
   @override
-  initState() {
+  void initState() {
+    super.initState();
+
+    // Start the fade-in animation after a small delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+
+    // Check if the user is new and navigate accordingly after the splash screen
     bool isNewUser = StorageRepository.getBool(key: "is_new_user");
     debugPrint("WWWWWWWWWWWWWWWWWWWW ${isNewUser.toString()}");
     Future.delayed(
-      const Duration(seconds: 1),
-      () {
+      const Duration(seconds: 9),
+          () {
         if (isNewUser) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => const HomeScreen(),
             ),
           );
         } else {
@@ -37,18 +49,21 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       },
     );
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child:Image.asset(
-          AppImages.splash,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
+        child: AnimatedOpacity(
+          opacity: _opacity,
+          duration: const Duration(seconds: 2),
+          child: Image.asset(
+            AppImages.splash,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
