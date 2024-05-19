@@ -1,11 +1,16 @@
+import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
+import 'package:dennic_project/blocs/specialization/specialization_state.dart';
 import 'package:dennic_project/screens/specialist_doctor/widgets/specialist_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../blocs/auth/auth_state.dart';
+import '../tab_box/home/home_screen.dart';
 import '../tab_box/home/widgets/ring_and_favorite_items.dart';
 
 class SpecialistDoctorScreen extends StatefulWidget {
@@ -29,7 +34,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
             padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: Column(
               children: [
-                72.getH(),
+                50.getH(),
                 Row(
                   children: [
                     IconButton(
@@ -43,14 +48,12 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                       ),
                     ),
                     10.getW(),
-                    Text(
-                      "Specialist Doctor",
-                      style: AppTextStyle.urbanistMedium.copyWith(
-                        color: AppColors.c_2C3A4B,
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.w600,
-                      )
-                    ),
+                    Text("Specialist Doctor",
+                        style: AppTextStyle.urbanistMedium.copyWith(
+                          color: AppColors.c_2C3A4B,
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w600,
+                        )),
                     const Spacer(),
                     RingAndFavoriteItems(
                       icon: Icon(Icons.menu, color: AppColors.c_2972FE),
@@ -62,29 +65,45 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
             ),
           ),
           24.getH(),
-          Expanded(
-            child: GridView.count(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              crossAxisCount: 2,
-              childAspectRatio: 0.90,
-              crossAxisSpacing: 20.w,
-              mainAxisSpacing: 24.h,
-              children: [
-                ...List.generate(
-                  20,
-                  (index) {
-                    return SpecialistScreenItems(
-                      icon: AppImages.favorite,
-                      title: "Cardio Specialist",
-                      subtitle: "252 Doctors",
-                      color1: AppColors.c_FF1843,
-                      color2: AppColors.c_FF5E7C,
-                      onTap: () {},
-                    );
-                  },
-                ),
-              ],
-            ),
+          BlocBuilder<SpecializationBloc, SpecializationState>(
+            builder: (context, state) {
+              if (state.formStatus == FormStatus.loading) {
+                return CircularProgressIndicator();
+              }
+              if (state.formStatus == FormStatus.error) {
+                return Text(state.errorMessage);
+              }
+              if (state.formStatus == FormStatus.success) {
+                return Expanded(
+                  child: GridView.count(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w,vertical: 10.h),
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.90,
+                    crossAxisSpacing: 20.w,
+                    mainAxisSpacing: 24.h,
+                    children: [
+                      ...List.generate(
+                        state.specializations.length,
+                            (index) {
+                          return SpecialistScreenItems(
+                            icon: AppImages.favorite,
+                            title: state.specializations[index].name,
+                            subtitle: "252 Doctors",
+                            color1: generateRandomColors()[0],
+                            color2: generateRandomColors()[1],
+                            onTap: () {
+
+
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return SizedBox();
+            },
           ),
         ],
       ),
