@@ -1,10 +1,15 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
+import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
+import 'package:dennic_project/blocs/specialization/event.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
+import 'package:dennic_project/data/repositories/doctor_repository.dart';
+import 'package:dennic_project/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../screens/specialist_doctor/specialist_doctor_screen.dart';
+import '../blocs/specialization/bloc.dart';
+import '../data/repositories/specialization_repository.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -14,12 +19,21 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => AuthRepository()),
+        RepositoryProvider(create: (_) => DoctorRepository()),
+        RepositoryProvider(create: (_)=>SpecializationRepository())
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) =>
                 AuthBloc(appRepository: context.read<AuthRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                DoctorBloc(doctorRepository: context.read<DoctorRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => SpecializationBloc(specializationRepository: context.read<SpecializationRepository>())..add(FetchSpecializations()),
           ),
         ],
         child: ScreenUtilInit(
@@ -34,7 +48,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const SpecialistDoctorScreen(),
+          child: const SplashScreen(),
         ),
       ),
     );

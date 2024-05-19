@@ -313,7 +313,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SnackBar(
                               backgroundColor: Colors.red,
                               content: Text(
-                                "Info error!",
+                                state.errorText,
                                 style: TextStyle(
                                   color: AppColors.white,
                                   fontSize: 20.sp,

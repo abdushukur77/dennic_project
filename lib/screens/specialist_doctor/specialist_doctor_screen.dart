@@ -1,10 +1,12 @@
-import 'package:dennic_project/screens/home/widgets/ring_and_favorite_items.dart';
 import 'package:dennic_project/screens/specialist_doctor/widgets/specialist_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
+import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../tab_box/home/widgets/ring_and_favorite_items.dart';
 
 class SpecialistDoctorScreen extends StatefulWidget {
   const SpecialistDoctorScreen({super.key});
@@ -31,7 +33,9 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: Icon(
                         Icons.arrow_back,
                         size: 24.sp,
@@ -41,15 +45,15 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                     10.getW(),
                     Text(
                       "Specialist Doctor",
-                      style: TextStyle(
-                        color: AppColors.c_09101D,
+                      style: AppTextStyle.urbanistMedium.copyWith(
+                        color: AppColors.c_2C3A4B,
                         fontSize: 26.sp,
                         fontWeight: FontWeight.w600,
-                      ),
+                      )
                     ),
                     const Spacer(),
                     RingAndFavoriteItems(
-                      icon: AppImages.lock,
+                      icon: Icon(Icons.menu, color: AppColors.c_2972FE),
                       onTap: () {},
                     ),
                   ],

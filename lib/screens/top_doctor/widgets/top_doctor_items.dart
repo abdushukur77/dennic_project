@@ -1,9 +1,10 @@
-import 'package:dennic_project/screens/home/widgets/ring_and_favorite_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../tab_box/home/widgets/ring_and_favorite_items.dart';
 
 class TopDoctorItems extends StatelessWidget {
   const TopDoctorItems({
@@ -96,7 +97,7 @@ class TopDoctorItems extends StatelessWidget {
             ),
             10.getW(),
             RingAndFavoriteItems(
-              icon: AppImages.lock,
+              icon: Icon(Icons.favorite, color: AppColors.c_2972FE),
               onTap: favoriteTap,
             ),
           ],

@@ -8,6 +8,9 @@ import 'package:dennic_project/data/model/networ_respons_model/network_response.
 import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
 
+import '../model/doctor_model/doctor_model.dart';
+import '../model/specialization_model/specialization_model.dart';
+
 class ApiProvider {
   static Future<NetworkResponse> registerUser(UserModel userModel) async {
     NetworkResponse networkResponse = NetworkResponse();
@@ -259,11 +262,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     String userToken = StorageRepository.getString(key: 'access_token');
-   String a= await StorageRepository.getString(
-      key: "refresh_token",
 
-    );
-debugPrint(a);
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/get");
       http.Response response = await http.get(
@@ -305,4 +304,51 @@ debugPrint(a);
     }
     return networkResponse;
   }
+
+
+   static Future<NetworkResponse> fetchDoctors() async {
+    final response = await http.get(Uri.parse('https://swag.dennic.uz/v1/doctor'));
+
+    try {if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      List<Doctor> doctors = (data['doctors'] as List)
+          .map((doctorJson) => Doctor.fromJson(doctorJson))
+          .toList();
+
+
+      return NetworkResponse(data: doctors);
+    } else {
+      return NetworkResponse(errorText: 'Failed to load doctors');
+    }}catch(error){
+      return NetworkResponse(errorText: error.toString());
+    }
+  }
+
+  static Future<NetworkResponse> fetchSpecializations() async {
+    final response = await http.get(Uri.parse('https://swag.dennic.uz/v1/specialization'));
+
+
+    try{
+    if (response.statusCode == 200) {
+      debugPrint( "Stautus  ${response.statusCode.toString()}");
+      final List<dynamic> data = jsonDecode(response.body)['specializations'];
+
+      debugPrint( "Stautus  ${response.statusCode.toString()}");
+      List<Specialization> specializations= data.map((json) => Specialization.fromJson(json)).toList();
+
+      debugPrint( "Stautus  ${specializations.toString()}");
+
+      return NetworkResponse(data: specializations);
+
+
+    }
+    else {
+      return NetworkResponse(errorText: "Failed to load Specializations");
+    }}catch(error){
+      return NetworkResponse(errorText: error.toString());
+    }
+  }
+
+
+
 }

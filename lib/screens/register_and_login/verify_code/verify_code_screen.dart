@@ -26,7 +26,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
   late AnimationController animationController;
   String pinCode = "";
   List<String> list = [];
-  int _start = 10;
+  int _start = 60;
   late Timer _timer;
   bool visibleRestart = false;
   bool error = false;
@@ -226,7 +226,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                     _start = 60;
                     visibleRestart = false;
                     startTimer();
+                    context.read<AuthBloc>().add(
+                      RegisterUserEvent(userModel: widget.userModel),
+                    );
                     setState(() {});
+
                   },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(

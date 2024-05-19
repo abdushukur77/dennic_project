@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isNewUser = StorageRepository.getBool(key: "is_new_user");
     debugPrint("WWWWWWWWWWWWWWWWWWWW ${isNewUser.toString()}");
     Future.delayed(
-      const Duration(seconds: 9),
+      const Duration(seconds: 4),
           () {
         if (isNewUser) {
           Navigator.pushReplacement(

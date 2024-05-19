@@ -3,6 +3,7 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
+import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
@@ -10,6 +11,7 @@ import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_it
 import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/specialist_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/textfield_items.dart';
+import 'package:dennic_project/screens/top_doctor/top_doctor_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
@@ -63,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         20.getW(),
                         Text(
                           "Dennic",
-                          style: TextStyle(
+                          style: AppTextStyle.urbanistMedium.copyWith(
                             color: AppColors.c_2C3A4B,
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w600,
@@ -71,13 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Spacer(),
                         RingAndFavoriteItems(
-                          icon: Icon(Icons.add_alert_sharp,
+                          icon: const Icon(Icons.add_alert_sharp,
                               color: AppColors.c_2972FE),
                           onTap: () {},
                         ),
                         16.getW(),
                         RingAndFavoriteItems(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.favorite,
                             color: AppColors.c_2972FE,
                           ),
@@ -107,7 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                         const Spacer(),
                         SeeAllItems(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+
+                              return SpecialistDoctorScreen();
+                            }));
+                          },
                         ),
                       ],
                     ),
@@ -163,7 +170,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Spacer(),
                     SeeAllItems(
-                      onTap: () {},
+                      onTap: () {
+
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+
+                          return TopDoctorScreen();
+                        }));
+                      },
                     ),
                   ],
                 ),
@@ -222,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            ApiProvider.getUser();
+            ApiProvider.fetchDoctors();
           },
         ),
       ),
