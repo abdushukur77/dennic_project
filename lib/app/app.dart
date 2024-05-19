@@ -1,14 +1,15 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
-import 'package:dennic_project/blocs/specialization/event.dart';
+import 'package:dennic_project/blocs/specialization/specialization_event.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/repositories/doctor_repository.dart';
 import 'package:dennic_project/screens/splash/splash_screen.dart';
+import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../blocs/specialization/bloc.dart';
+import '../blocs/specialization/specialization_bloc.dart';
 import '../data/repositories/specialization_repository.dart';
 
 class App extends StatelessWidget {
@@ -48,7 +49,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const SplashScreen(),
+          child: const TabBoxScreen(),
         ),
       ),
     );

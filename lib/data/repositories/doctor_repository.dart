@@ -3,4 +3,9 @@ import '../network/api_provider.dart';
 class DoctorRepository {
   Future<NetworkResponse> fetchDoctor() async =>
       await ApiProvider.fetchDoctors();
+
+  Future<NetworkResponse> fetchDoctorsBySpecialization(String specializationId) async =>
+     await ApiProvider.fetchBySpecializations(specializationId);
+
+
 }

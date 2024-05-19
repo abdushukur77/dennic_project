@@ -17,35 +17,33 @@ class CategoryItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 6.h,
-            ),
-            backgroundColor: isSelected ? AppColors.c_2972FE : AppColors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.r),
-              side: BorderSide(
-                width: 2.w,
-                color: AppColors.c_2972FE,
-              ),
-            ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.we()),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+            vertical: 6.h,
           ),
-          onPressed: onTap,
-          child: Text(
-            title,
-            style: TextStyle(
-              color: isSelected ? AppColors.white : AppColors.c_2972FE,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
+          backgroundColor: isSelected ? AppColors.c_2972FE : AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.r),
+            side: BorderSide(
+              width: 2.w,
+              color: AppColors.c_2972FE,
             ),
           ),
         ),
-        8.getW(),
-      ],
+        onPressed: onTap,
+        child: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? AppColors.white : AppColors.c_2972FE,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
     );
   }
 }

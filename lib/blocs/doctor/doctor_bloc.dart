@@ -10,22 +10,43 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
   DoctorBloc({required this.doctorRepository}) : super(DoctorState()) {
     on<FetchDoctors>(_onFetchDoctors);
+    on<FetchDoctorsBySpecialization>(_onFetchDoctorsBySpecialization);
   }
 
-
   Future<void> _onFetchDoctors(
-      FetchDoctors event,
-      Emitter<DoctorState> emit,
-      ) async {
+    FetchDoctors event,
+    Emitter<DoctorState> emit,
+  ) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
-    NetworkResponse networkResponse= await doctorRepository.fetchDoctor();
+    NetworkResponse networkResponse = await doctorRepository.fetchDoctor();
 
-   if (networkResponse.errorText.isEmpty){
-     emit(state.copyWith(formStatus: FormStatus.success,doctors: networkResponse.data));
+    if (networkResponse.errorText.isEmpty) {
+      emit(state.copyWith(
+          formStatus: FormStatus.success, doctors: networkResponse.data));
+    } else {
+      emit(state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText));
+    }
+  }
 
-   }else {
-     emit(state.copyWith(formStatus: FormStatus.error,errorMessage: networkResponse.errorText));
-   }
+  Future<void> _onFetchDoctorsBySpecialization(
+    FetchDoctorsBySpecialization event,
+    Emitter<DoctorState> emit,
+  ) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse = await doctorRepository
+        .fetchDoctorsBySpecialization(event.specializationId);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(state.copyWith(
+          formStatus: FormStatus.success, doctors: networkResponse.data));
+    }else{
+      emit(state.copyWith(
+        formStatus: FormStatus.error,errorMessage: networkResponse.errorText
+      ));
+    }
   }
 }

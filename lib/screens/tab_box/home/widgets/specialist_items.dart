@@ -57,7 +57,7 @@ class SpecialistItems extends StatelessWidget {
                 Text(
                   textAlign: TextAlign.center,
                   title,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: AppColors.white,

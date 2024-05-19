@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
@@ -16,12 +18,14 @@ import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../blocs/auth/auth_event.dart';
+import '../../../blocs/doctor/doctor_bloc.dart';
+import '../../../blocs/doctor/doctor_state.dart';
+import '../../../blocs/specialization/specialization_bloc.dart';
+import '../../../blocs/specialization/specialization_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -50,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: AppColors.white,
         body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
@@ -122,38 +127,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               24.getH(),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    24.getW(),
-                    SpecialistItems(
-                      icon: AppImages.favorite,
-                      title: "Cardio Specialist",
-                      subTitle: "252 Doctors",
-                      color1: AppColors.c_FF1843,
-                      color2: AppColors.c_FF5E7C,
-                      onTap: () {},
-                    ),
-                    SpecialistItems(
-                      icon: AppImages.favorite,
-                      title: "Dental Specialist",
-                      subTitle: "186 Doctors",
-                      color1: AppColors.c_2972FE,
-                      color2: AppColors.c_6499FF,
-                      onTap: () {},
-                    ),
-                    SpecialistItems(
-                      icon: AppImages.favorite,
-                      title: "Eye Specialist",
-                      subTitle: "201 Doctors",
-                      color1: AppColors.c_FFB800,
-                      color2: AppColors.c_FFDA7B,
-                      onTap: () {},
-                    ),
-                    8.getW(),
-                  ],
-                ),
+              BlocBuilder<SpecializationBloc, SpecializationState>(
+                builder: (context, state) {
+                  if (
+                  state.formStatus==FormStatus.loading
+                  ){
+                    return CircularProgressIndicator();
+                  }
+                  if(state.formStatus==FormStatus.error){
+                    return Text(state.errorMessage);
+                  }
+                  if(state.formStatus==FormStatus.success){
+                    return SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          24.getW(),
+                          ...List.generate(
+                            state.specializations.length,
+                                (index) {
+                              return  SpecialistItems(
+                                icon: AppImages.favorite,
+                                title: state.specializations[index].name,
+                                subTitle: "252 Doctors",
+                                color1: generateRandomColors()[0],
+                                color2: generateRandomColors()[1],
+                                onTap: () {},
+                              );
+                            },
+                          ),
+                          16.getW(),
+                        ],
+                      ),
+                    );
+                  }
+                  return SizedBox();
+                },
               ),
               24.getH(),
               Padding(
@@ -182,32 +192,48 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               24.getH(),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    24.getW(),
-                    DoctorItems(
-                      image: AppImages.doctor,
-                      title: "Dr. Jerome Bell",
-                      subtitle: "Cardio Specialist",
-                      onTap: () {},
-                    ),
-                    DoctorItems(
-                      image: AppImages.doctor,
-                      title: "Dr. Jenny Wilson",
-                      subtitle: "Dental Specialist",
-                      onTap: () {},
-                    ),
-                    DoctorItems(
-                      image: AppImages.doctor,
-                      title: "Dr. Dianne Russell",
-                      subtitle: "Eye Specialist",
-                      onTap: () {},
-                    ),
-                    8.getW(),
-                  ],
-                ),
+              BlocBuilder<DoctorBloc, DoctorState>(
+                builder: (context, state) {
+                  if (state.formStatus==FormStatus.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if(state.formStatus==FormStatus.error){
+                    return Text(state.errorMessage);
+                  }
+                  if (state.formStatus==FormStatus.success) {
+                    return Column(
+                      children: [
+                        24.getH(),
+                        SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.w),
+                            child: Row(
+                              children: [
+                                ...List.generate(
+                                  state.doctors.length,
+                                      (index) {
+                                    return  DoctorItems(
+                                      image: AppImages.doctor,
+                                      title: state.doctors[index].lastName,
+                                      subtitle:state.doctors[index].bio,
+                                      onTap: () {},
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox();
+
+                },
               ),
               24.getH(),
               Padding(
@@ -229,16 +255,69 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              24.getH(),
+              120.getH(),
+
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ApiProvider.fetchDoctors();
-          },
-        ),
+
       ),
     );
   }
+
 }
+
+
+
+List<Color> generateRandomColors() {
+  // Create a list of the given colors
+  List<Color> colors = [
+    Color(0xFFFF1843),
+    Color(0xFFFF5E7C),
+    Color(0xFFFFB800),
+    Color(0xFFFFDA7B),
+    Color(0xFF2972FE),
+    Color(0xFF6499FF),
+
+  ];
+
+  // Create a random number generator
+  Random random = Random();
+
+  // Generate two random indices from the list
+  int index1 = random.nextInt(colors.length);
+  int index2 = random.nextInt(colors.length);
+
+  // Ensure that the two indices are different
+  while (index1 == index2) {
+    index2 = random.nextInt(colors.length);
+  }
+
+  // Return a list of the two randomly chosen colors
+  return [colors[index1], colors[index2]];
+}
+
+// SpecialistItems(
+// icon: AppImages.favorite,
+// title: "Cardio Specialist",
+// subTitle: "252 Doctors",
+// color1: AppColors.c_FF1843,
+// color2: AppColors.c_FF5E7C,
+// onTap: () {},
+// ),
+// SpecialistItems(
+// icon: AppImages.favorite,
+// title: "Dental Specialist",
+// subTitle: "186 Doctors",
+// color1: AppColors.c_2972FE,
+// color2: AppColors.c_6499FF,
+// onTap: () {},
+// ),
+// SpecialistItems(
+// icon: AppImages.favorite,
+// title: "Eye Specialist",
+// subTitle: "201 Doctors",
+// color1: AppColors.c_FFB800,
+// color2: AppColors.c_FFDA7B,
+// onTap: () {},
+// ),

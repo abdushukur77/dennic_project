@@ -30,6 +30,7 @@ class TopDoctorItems extends StatelessWidget {
       borderRadius: BorderRadius.circular(12.r),
       onTap: onTap,
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5.h),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(12.r),

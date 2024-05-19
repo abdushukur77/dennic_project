@@ -2,7 +2,7 @@ import 'package:dennic_project/data/model/networ_respons_model/network_response.
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repositories/specialization_repository.dart';
 import '../auth/auth_state.dart';
-import 'event.dart';
+import 'specialization_event.dart';
 import 'specialization_state.dart';
 
 class SpecializationBloc extends Bloc<SpecializationEvent, SpecializationState> {

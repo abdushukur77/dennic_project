@@ -277,8 +277,6 @@ class ApiProvider {
       if (myInfo["status"] == "Unauthorized") {
         String myError = await _updateToken();
 
-
-
         if (myError.isEmpty) {
           // debugPrint("myError.isEmpty -----------------------------------");
           getUser();
@@ -305,50 +303,66 @@ class ApiProvider {
     return networkResponse;
   }
 
+  static Future<NetworkResponse> fetchDoctors() async {
+    final response =
+        await http.get(Uri.parse('https://swag.dennic.uz/v1/doctor'));
 
-   static Future<NetworkResponse> fetchDoctors() async {
-    final response = await http.get(Uri.parse('https://swag.dennic.uz/v1/doctor'));
+    try {
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        List<Doctor> doctors = (data['doctors'] as List)
+            .map((doctorJson) => Doctor.fromJson(doctorJson))
+            .toList();
 
-    try {if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      List<Doctor> doctors = (data['doctors'] as List)
-          .map((doctorJson) => Doctor.fromJson(doctorJson))
-          .toList();
-
-
-      return NetworkResponse(data: doctors);
-    } else {
-      return NetworkResponse(errorText: 'Failed to load doctors');
-    }}catch(error){
+        return NetworkResponse(data: doctors);
+      } else {
+        return NetworkResponse(errorText: 'Failed to load doctors');
+      }
+    } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
   }
 
   static Future<NetworkResponse> fetchSpecializations() async {
-    final response = await http.get(Uri.parse('https://swag.dennic.uz/v1/specialization'));
+    final response =
+        await http.get(Uri.parse('https://swag.dennic.uz/v1/specialization'));
 
+    try {
+      if (response.statusCode == 200) {
+        debugPrint("Stautus  ${response.statusCode.toString()}");
+        final List<dynamic> data = jsonDecode(response.body)['specializations'];
 
-    try{
-    if (response.statusCode == 200) {
-      debugPrint( "Stautus  ${response.statusCode.toString()}");
-      final List<dynamic> data = jsonDecode(response.body)['specializations'];
+        debugPrint("Stautus  ${response.statusCode.toString()}");
+        List<Specialization> specializations =
+            data.map((json) => Specialization.fromJson(json)).toList();
 
-      debugPrint( "Stautus  ${response.statusCode.toString()}");
-      List<Specialization> specializations= data.map((json) => Specialization.fromJson(json)).toList();
+        debugPrint("Stautus  ${specializations.toString()}");
 
-      debugPrint( "Stautus  ${specializations.toString()}");
-
-      return NetworkResponse(data: specializations);
-
-
-    }
-    else {
-      return NetworkResponse(errorText: "Failed to load Specializations");
-    }}catch(error){
+        return NetworkResponse(data: specializations);
+      } else {
+        return NetworkResponse(errorText: "Failed to load Specializations");
+      }
+    } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
   }
 
+  static Future<NetworkResponse> fetchBySpecializations(String specializationId) async {
+    final response = await http.get(Uri.parse(
+        "https://swag.dennic.uz/v1/doctor/spec?specialization_id=$specializationId"));
 
+    try {
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body)['doctors'];
 
+        List<Doctor> doctors =
+            data.map((json) => Doctor.fromJson(json)).toList();
+        return NetworkResponse(data: doctors);
+      } else {
+        return NetworkResponse(errorText: "Failed to load Doctors");
+      }
+    } catch (error) {
+      return NetworkResponse(errorText: error.toString());
+    }
+  }
 }
