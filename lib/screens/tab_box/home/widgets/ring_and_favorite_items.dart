@@ -12,7 +12,6 @@ class RingAndFavoriteItems extends StatelessWidget {
   });
 
   final VoidCallback onTap;
-
   final Icon icon;
 
   @override

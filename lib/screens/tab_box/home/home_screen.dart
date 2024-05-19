@@ -86,14 +86,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: AppColors.c_2972FE,
                           ),
                           onTap: () {
-                            String token =
-                                StorageRepository.getString(key: "access_token");
+                            String token = StorageRepository.getString(
+                                key: "access_token");
                             debugPrint(token);
                             context
                                 .read<AuthBloc>()
                                 .add(LogOutUserEvent(token: token));
 
-                            StorageRepository.setBool(key: "is_new_user", value: false);
+                            StorageRepository.setBool(
+                                key: "is_new_user", value: false);
                           },
                         ),
                       ],
@@ -111,11 +112,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                         const Spacer(),
                         SeeAllItems(
+                          title: "See All",
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
-
-                              return SpecialistDoctorScreen();
-                            }));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const SpecialistDoctorScreen();
+                                },
+                              ),
+                            );
                           },
                         ),
                       ],
@@ -126,15 +132,13 @@ class _HomeScreenState extends State<HomeScreen> {
               24.getH(),
               BlocBuilder<SpecializationBloc, SpecializationState>(
                 builder: (context, state) {
-                  if (
-                  state.formStatus==FormStatus.loading
-                  ){
+                  if (state.formStatus == FormStatus.loading) {
                     return CircularProgressIndicator();
                   }
-                  if(state.formStatus==FormStatus.error){
+                  if (state.formStatus == FormStatus.error) {
                     return Text(state.errorMessage);
                   }
-                  if(state.formStatus==FormStatus.success){
+                  if (state.formStatus == FormStatus.success) {
                     return SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
@@ -143,8 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           24.getW(),
                           ...List.generate(
                             state.specializations.length,
-                                (index) {
-                              return  SpecialistItems(
+                            (index) {
+                              return SpecialistItems(
                                 icon: AppImages.favorite,
                                 title: state.specializations[index].name,
                                 subTitle: "252 Doctors",
@@ -177,12 +181,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Spacer(),
                     SeeAllItems(
+                      title: "See All",
                       onTap: () {
-
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-
-                          return TopDoctorScreen();
-                        }));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const TopDoctorScreen();
+                            },
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -191,15 +199,15 @@ class _HomeScreenState extends State<HomeScreen> {
               24.getH(),
               BlocBuilder<DoctorBloc, DoctorState>(
                 builder: (context, state) {
-                  if (state.formStatus==FormStatus.loading) {
+                  if (state.formStatus == FormStatus.loading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if(state.formStatus==FormStatus.error){
+                  if (state.formStatus == FormStatus.error) {
                     return Text(state.errorMessage);
                   }
-                  if (state.formStatus==FormStatus.success) {
+                  if (state.formStatus == FormStatus.success) {
                     return Column(
                       children: [
                         24.getH(),
@@ -212,11 +220,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 ...List.generate(
                                   state.doctors.length,
-                                      (index) {
-                                    return  DoctorItems(
+                                  (index) {
+                                    return DoctorItems(
                                       image: AppImages.doctor,
                                       title: state.doctors[index].lastName,
-                                      subtitle:state.doctors[index].bio,
+                                      subtitle: state.doctors[index].bio,
                                       onTap: () {},
                                     );
                                   },
@@ -229,7 +237,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   return const SizedBox();
-
                 },
               ),
               24.getH(),
@@ -247,24 +254,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Spacer(),
                     SeeAllItems(
+                      title: "See All",
                       onTap: () {},
                     ),
                   ],
                 ),
               ),
               120.getH(),
-
             ],
           ),
         ),
-
       ),
     );
   }
-
 }
-
-
 
 List<Color> generateRandomColors() {
   // Create a list of the given colors
@@ -275,7 +278,6 @@ List<Color> generateRandomColors() {
     Color(0xFFFFDA7B),
     Color(0xFF2972FE),
     Color(0xFF6499FF),
-
   ];
 
   // Create a random number generator
