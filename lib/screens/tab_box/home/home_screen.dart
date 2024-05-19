@@ -1,12 +1,9 @@
 import 'dart:math';
-
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
-import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
-
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
