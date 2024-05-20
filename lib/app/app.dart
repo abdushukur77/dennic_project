@@ -4,8 +4,7 @@ import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/specialization/specialization_event.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/repositories/doctor_repository.dart';
-import 'package:dennic_project/screens/splash/splash_screen.dart';
-import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
+import 'package:dennic_project/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +21,7 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (_) => AuthRepository()),
         RepositoryProvider(create: (_) => DoctorRepository()),
-        RepositoryProvider(create: (_)=>SpecializationRepository())
+        RepositoryProvider(create: (_) => SpecializationRepository())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -32,10 +31,14 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) =>
-                DoctorBloc(doctorRepository: context.read<DoctorRepository>())..add(FetchDoctors()),
+                DoctorBloc(doctorRepository: context.read<DoctorRepository>())
+                  ..add(FetchDoctors()),
           ),
           BlocProvider(
-            create: (context) => SpecializationBloc(specializationRepository: context.read<SpecializationRepository>())..add(FetchSpecializations()),
+            create: (context) => SpecializationBloc(
+                specializationRepository:
+                    context.read<SpecializationRepository>())
+              ..add(FetchSpecializations()),
           ),
         ],
         child: ScreenUtilInit(
@@ -50,7 +53,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const SplashScreen(),
+          child: const ProfileScreen(),
         ),
       ),
     );
