@@ -3,7 +3,7 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/screens/tab_box/appointment/appointment_screen.dart';
 import 'package:dennic_project/screens/tab_box/history/history_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/home_screen.dart';
-import 'package:dennic_project/screens/tab_box/proifile_screen/profile_screen.dart';
+import 'package:dennic_project/screens/tab_box/profile/profile_screen.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

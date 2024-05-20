@@ -155,7 +155,7 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
 
       }, listener: (BuildContext context, AuthState state) {
         if (state.formStatus == FormStatus.success) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) {

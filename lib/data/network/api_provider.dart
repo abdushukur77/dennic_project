@@ -263,6 +263,9 @@ class ApiProvider {
 
     String userToken = StorageRepository.getString(key: 'access_token');
 
+    debugPrint("myError.isEmpty ----------------------${userToken}-");
+
+
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/get");
       http.Response response = await http.get(
@@ -274,11 +277,12 @@ class ApiProvider {
       );
       Map<String, dynamic> myInfo = jsonDecode(response.body);
 
+
       if (myInfo["status"] == "Unauthorized") {
         String myError = await _updateToken();
 
         if (myError.isEmpty) {
-          // debugPrint("myError.isEmpty -----------------------------------");
+          debugPrint("myError.isEmpty -----------------------------------");
           getUser();
         } else {
           // debugPrint(
@@ -329,14 +333,14 @@ class ApiProvider {
 
     try {
       if (response.statusCode == 200) {
-        debugPrint("Stautus  ${response.statusCode.toString()}");
+        // debugPrint("Stautus  ${response.statusCode.toString()}");
         final List<dynamic> data = jsonDecode(response.body)['specializations'];
 
-        debugPrint("Stautus  ${response.statusCode.toString()}");
+        // debugPrint("Stautus  ${response.statusCode.toString()}");
         List<SpecializationModel> specializations =
             data.map((json) => SpecializationModel.fromJson(json)).toList();
 
-        debugPrint("Stautus  ${specializations.toString()}");
+        // debugPrint("Stautus  ${specializations.toString()}");
 
         return NetworkResponse(data: specializations);
       } else {

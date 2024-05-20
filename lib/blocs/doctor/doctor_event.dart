@@ -6,3 +6,5 @@ class FetchDoctorsBySpecialization extends DoctorEvent {
 
   FetchDoctorsBySpecialization(this.specializationId);
 }
+
+class GetUser extends DoctorEvent{}

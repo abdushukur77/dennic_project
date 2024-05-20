@@ -59,7 +59,7 @@ class PasswordVerifiedScreen extends StatelessWidget {
                     width: double.infinity,
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) {
@@ -79,9 +79,7 @@ class PasswordVerifiedScreen extends StatelessWidget {
                               color: AppColors.c257CFF, fontSize: 14.sp),
                         )),
                   ),
-                  SizedBox(
-                    height: 30.h
-                  )
+                  SizedBox(height: 30.h)
                 ],
               )
             ],
