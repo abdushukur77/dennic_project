@@ -1,4 +1,4 @@
-class Specialization {
+class SpecializationModel {
   final String id;
   final int order;
   final String name;
@@ -7,7 +7,7 @@ class Specialization {
   final String imageUrl;
 
 
-  Specialization({
+  SpecializationModel({
     required this.id,
     required this.order,
     required this.name,
@@ -17,8 +17,8 @@ class Specialization {
 
   });
 
-  factory Specialization.fromJson(Map<String, dynamic> json) {
-    return Specialization(
+  factory SpecializationModel.fromJson(Map<String, dynamic> json) {
+    return SpecializationModel(
       id: json['id'] as String? ?? "",
       order: json['order'] as int? ?? 0,
       name: json['name']as String? ?? "",

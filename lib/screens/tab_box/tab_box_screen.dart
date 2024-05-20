@@ -39,9 +39,13 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
     height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          screens[currentIndex],
+          IndexedStack(
+            index: currentIndex,
+            children: screens,
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(

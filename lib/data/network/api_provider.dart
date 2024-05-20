@@ -310,8 +310,8 @@ class ApiProvider {
     try {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        List<Doctor> doctors = (data['doctors'] as List)
-            .map((doctorJson) => Doctor.fromJson(doctorJson))
+        List<DoctorModel> doctors = (data['doctors'] as List)
+            .map((doctorJson) => DoctorModel.fromJson(doctorJson))
             .toList();
 
         return NetworkResponse(data: doctors);
@@ -333,8 +333,8 @@ class ApiProvider {
         final List<dynamic> data = jsonDecode(response.body)['specializations'];
 
         debugPrint("Stautus  ${response.statusCode.toString()}");
-        List<Specialization> specializations =
-            data.map((json) => Specialization.fromJson(json)).toList();
+        List<SpecializationModel> specializations =
+            data.map((json) => SpecializationModel.fromJson(json)).toList();
 
         debugPrint("Stautus  ${specializations.toString()}");
 
@@ -355,8 +355,8 @@ class ApiProvider {
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body)['doctors'];
 
-        List<Doctor> doctors =
-            data.map((json) => Doctor.fromJson(json)).toList();
+        List<DoctorModel> doctors =
+            data.map((json) => DoctorModel.fromJson(json)).toList();
         return NetworkResponse(data: doctors);
       } else {
         return NetworkResponse(errorText: "Failed to load Doctors");

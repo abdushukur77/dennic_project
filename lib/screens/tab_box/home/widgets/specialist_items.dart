@@ -31,7 +31,7 @@ class SpecialistItems extends StatelessWidget {
           onTap: onTap,
           child: Container(
             width: 121.w,
-            height: 181.h,
+            height: 167.h,
             padding: EdgeInsets.symmetric(
               horizontal: 24.w,
               vertical: 24.h,
@@ -47,7 +47,7 @@ class SpecialistItems extends StatelessWidget {
             ),
             child: Column(
               children: [
-                SvgPicture.asset(
+                SvgPicture.network(
                   icon,
                   width: 43.w,
                   height: 40.h,

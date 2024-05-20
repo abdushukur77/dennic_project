@@ -1,5 +1,6 @@
 import 'package:dennic_project/screens/register_and_login/onboarding/onboarding.dart';
 import 'package:dennic_project/screens/tab_box/home/home_screen.dart';
+import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const TabBoxScreen(),
             ),
           );
         } else {

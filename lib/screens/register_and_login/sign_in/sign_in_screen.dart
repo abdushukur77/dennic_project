@@ -5,6 +5,7 @@ import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/screens/register_and_login/forgot_password/forget_password.dart';
 import 'package:dennic_project/screens/register_and_login/sign_up/sign_up_screen.dart';
 import 'package:dennic_project/screens/register_and_login/widget/my_text_from.dart';
+import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
@@ -245,9 +246,16 @@ class _SignInScreenState extends State<SignInScreen> {
               value: true,
             ).then(
                   (value) {
+
+                    bool b= StorageRepository.getBool(key: "is_new_user");
+
+                    debugPrint(" AAAAAAAAAAAAAAAAAAAAAAAA  ${b}  ");
+
+
+
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) {return HomeScreen();}),
+                  MaterialPageRoute(builder: (context) {return const TabBoxScreen();}),
 
 
                 );

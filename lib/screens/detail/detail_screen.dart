@@ -1,3 +1,4 @@
+import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/screens/detail/widgets/day_items.dart';
 import 'package:dennic_project/screens/detail/widgets/details_doctor_items.dart';
 import 'package:dennic_project/screens/detail/widgets/patients_items.dart';
@@ -9,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  const DetailScreen({super.key, required this.doctorModel});
+
+  final DoctorModel doctorModel;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -35,29 +38,38 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(
                       Icons.arrow_back,
                       size: 24.sp,
                       color: AppColors.c_2972FE,
                     ),
                   ),
-                  Text(
-                    "Dr. Jenny Wilson",
-                    style: TextStyle(
-                      color: AppColors.c_09101D,
-                      fontSize: 26.sp,
-                      fontWeight: FontWeight.w600,
+                  Expanded(
+                    flex: 20,
+                    child: Text(
+                      widget.doctorModel.firstName +
+                          " "  +
+                          widget.doctorModel.lastName,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.c_09101D,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   const Spacer(),
                   RingAndFavoriteItems(
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(Icons.favorite_border),
                     onTap: () {},
                   ),
-                  16.getW(),
+                  10.getW(),
                   RingAndFavoriteItems(
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(Icons.share),
                     onTap: () {},
                   ),
                 ],
@@ -69,7 +81,12 @@ class _DetailScreenState extends State<DetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   24.getH(),
-                  const DetailsDoctorItems(),
+                  DetailsDoctorItems(
+                    fullName: widget.doctorModel.firstName +
+                        " " +
+                        widget.doctorModel.lastName,
+                    bio: widget.doctorModel.bio,
+                  ),
                   24.getH(),
                   Container(
                     padding: EdgeInsets.symmetric(
@@ -115,7 +132,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   8.getH(),
                   Text(
-                    "Dr. Jenny Wilson is the top most Cardiologist specialist in Nanyang Hospital at London. She achived several awards for her wonderful contribution in medical field. She is available for private consultation.",
+                   widget.doctorModel.bio,
                     style: TextStyle(
                       color: AppColors.c_09101D,
                       fontSize: 14.sp,

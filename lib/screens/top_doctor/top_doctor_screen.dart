@@ -4,6 +4,7 @@ import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
 import 'package:dennic_project/blocs/specialization/specialization_state.dart';
+import 'package:dennic_project/screens/detail/detail_screen.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/top_doctor_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
@@ -32,8 +33,8 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -73,7 +74,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                 }
                 if (state.formStatus == FormStatus.success) {
                   return SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 16.we()),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -89,16 +90,16 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                         ),
                         ...List.generate(
                           state.specializations.length,
-                          (index) {
+                              (index) {
                             return CategoryItems(
                               title: state.specializations[index].name,
                               isSelected: activeIndex == index,
                               onTap: () {
                                 context.read<DoctorBloc>().add(
-                                      FetchDoctorsBySpecialization(
-                                        state.specializations[index].id,
-                                      ),
-                                    );
+                                  FetchDoctorsBySpecialization(
+                                    state.specializations[index].id,
+                                  ),
+                                );
                                 activeIndex = index;
                                 setState(() {});
                               },
@@ -134,16 +135,23 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                           child: Column(
                             children: [
                               ...List.generate(
-                                state.doctors.length,
-                                (index) {
+                                state.searchDoctors.length,
+                                    (index) {
                                   return TopDoctorItems(
-                                    name: state.doctors[index].firstName +
+                                    name: state.searchDoctors[index].firstName +
                                         " " +
-                                        state.doctors[index].lastName,
-                                    description: state.doctors[index].bio,
+                                        state.searchDoctors[index].lastName,
+                                    description: state.searchDoctors[index].bio,
                                     rate: (4.7).toString(),
                                     review: 4692.toString(),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return DetailScreen(
+                                              doctorModel: state.searchDoctors[index],
+                                            );
+                                          }));
+                                    },
                                     favoriteTap: () {},
                                   );
                                 },

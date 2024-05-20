@@ -1,4 +1,4 @@
-class Doctor {
+class DoctorModel {
   final String id;
   final String firstName;
   final String lastName;
@@ -26,7 +26,7 @@ class Doctor {
   final String deletedAt;
   final List<SpecializationM> specializations;
 
-  Doctor({
+  DoctorModel({
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -55,8 +55,8 @@ class Doctor {
     required this.specializations,
   });
 
-  factory Doctor.fromJson(Map<String, dynamic> json) {
-    return Doctor(
+  factory DoctorModel.fromJson(Map<String, dynamic> json) {
+    return DoctorModel(
       id: json['id'],
       firstName: json['first_name'],
       lastName: json['last_name'],

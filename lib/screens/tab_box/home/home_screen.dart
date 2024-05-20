@@ -20,9 +20,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../blocs/auth/auth_event.dart';
 import '../../../blocs/doctor/doctor_bloc.dart';
+import '../../../blocs/doctor/doctor_event.dart';
 import '../../../blocs/doctor/doctor_state.dart';
 import '../../../blocs/specialization/specialization_bloc.dart';
 import '../../../blocs/specialization/specialization_state.dart';
+import '../../detail/detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -112,17 +114,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                         const Spacer(),
                         SeeAllItems(
-                          title: "See All",
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const SpecialistDoctorScreen();
-                                },
-                              ),
-                            );
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return SpecialistDoctorScreen();
+                            }));
                           },
+                          title: '',
                         ),
                       ],
                     ),
@@ -149,12 +147,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             state.specializations.length,
                             (index) {
                               return SpecialistItems(
-                                icon: AppImages.favorite,
+                                icon: state.specializations[index].imageUrl,
                                 title: state.specializations[index].name,
                                 subTitle: "252 Doctors",
                                 color1: generateRandomColors()[0],
                                 color2: generateRandomColors()[1],
-                                onTap: () {},
+                                onTap: () {
+                                  // context.read<DoctorBloc>().add(
+                                  //   FetchDoctorsBySpecialization(
+                                  //     state.specializations[index].id,
+                                  //   ),
+                                  // );
+
+                                },
                               );
                             },
                           ),
@@ -181,17 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Spacer(),
                     SeeAllItems(
-                      title: "See All",
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const TopDoctorScreen();
-                            },
-                          ),
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return TopDoctorScreen();
+                        }));
                       },
+                      title: '',
                     ),
                   ],
                 ),
@@ -225,7 +226,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       image: AppImages.doctor,
                                       title: state.doctors[index].lastName,
                                       subtitle: state.doctors[index].bio,
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return DetailScreen(
+                                            doctorModel:
+                                                state.doctors[index],
+                                          );
+                                        }));
+                                      },
                                     );
                                   },
                                 ),
@@ -254,8 +264,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Spacer(),
                     SeeAllItems(
-                      title: "See All",
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+
+                          return TopDoctorScreen();
+                        }));
+                      },
+                      title: '',
                     ),
                   ],
                 ),

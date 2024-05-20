@@ -1,5 +1,6 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
+import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/specialization/specialization_event.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/repositories/doctor_repository.dart';
@@ -31,7 +32,7 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) =>
-                DoctorBloc(doctorRepository: context.read<DoctorRepository>()),
+                DoctorBloc(doctorRepository: context.read<DoctorRepository>())..add(FetchDoctors()),
           ),
           BlocProvider(
             create: (context) => SpecializationBloc(specializationRepository: context.read<SpecializationRepository>())..add(FetchSpecializations()),
@@ -49,7 +50,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const TabBoxScreen(),
+          child: const SplashScreen(),
         ),
       ),
     );

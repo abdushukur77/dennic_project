@@ -4,13 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SeeAllItems extends StatelessWidget {
-  const SeeAllItems({
-    super.key,
-    required this.onTap,
-    required this.title,
-  });
+  const SeeAllItems({super.key, required this.onTap, required String title});
 
-  final String title;
   final VoidCallback onTap;
 
   @override
@@ -18,7 +13,7 @@ class SeeAllItems extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       child: Text(
-        title,
+        "See all",
         style: AppTextStyle.urbanistMedium.copyWith(
           color: AppColors.c_2972FE,
           fontSize: 16.sp,

@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsDoctorItems extends StatelessWidget {
-  const DetailsDoctorItems({super.key});
+  const DetailsDoctorItems({super.key, required this.fullName, required this.bio});
+
+  final String fullName;
+  final String bio;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class DetailsDoctorItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Dr. Jenny Wilson",
+                  fullName ,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -67,7 +70,7 @@ class DetailsDoctorItems extends StatelessWidget {
                 ),
                 3.getH(),
                 Text(
-                  "Cardio Specialist - Nanyang Hospital",
+                  bio,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

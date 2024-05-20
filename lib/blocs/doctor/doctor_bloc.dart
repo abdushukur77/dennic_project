@@ -23,7 +23,9 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(
-          formStatus: FormStatus.success, doctors: networkResponse.data));
+          formStatus: FormStatus.success,
+          doctors: networkResponse.data,
+          searchDoctors: networkResponse.data));
     } else {
       emit(state.copyWith(
           formStatus: FormStatus.error,
@@ -42,11 +44,14 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(
-          formStatus: FormStatus.success, doctors: networkResponse.data));
-    }else{
-      emit(state.copyWith(
-        formStatus: FormStatus.error,errorMessage: networkResponse.errorText
-      ));
+          formStatus: FormStatus.success, searchDoctors: networkResponse.data));
+    } else {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
     }
   }
 }

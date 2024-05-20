@@ -4,7 +4,7 @@ import '../../data/model/specialization_model/specialization_model.dart';
 
 class SpecializationState {
   final FormStatus formStatus;
-  final List<Specialization> specializations;
+  final List<SpecializationModel> specializations;
   final String errorMessage;
 
   SpecializationState({
@@ -15,7 +15,7 @@ class SpecializationState {
 
   SpecializationState copyWith({
     FormStatus? formStatus,
-    List<Specialization>? specializations,
+    List<SpecializationModel>? specializations,
     String? errorMessage,
   }) {
     return SpecializationState(
