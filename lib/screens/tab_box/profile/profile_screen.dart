@@ -220,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             title: Text(
-                              "Logout",
+                              "Logout ",
                               style: TextStyle(
                                 color: AppColors.c_09101D,
                                 fontSize: 16.sp,
