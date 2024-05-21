@@ -14,7 +14,6 @@ class SpecializationModel {
     required this.description,
     required this.departmentId,
     required this.imageUrl,
-
   });
 
   factory SpecializationModel.fromJson(Map<String, dynamic> json) {

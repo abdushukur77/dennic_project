@@ -141,12 +141,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                8.getH(),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(bottom: 100.he()),
                     physics: const BouncingScrollPhysics(),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTileItems(
                           icon: const Icon(Icons.directions_boat_filled),
@@ -203,10 +203,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 1.h,
                           color: AppColors.c_EBEEF2,
                         ),
-                        16.getH(),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          padding: EdgeInsets.symmetric(horizontal: 24.w),
                           child: ListTile(
+                            contentPadding: EdgeInsets.symmetric(vertical: 12.h),
                             onTap: () {
                              showDialog(context: context, builder:(context){
                                return AlertDialog(

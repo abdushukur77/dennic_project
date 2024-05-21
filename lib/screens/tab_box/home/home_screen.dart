@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
-import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
@@ -18,9 +17,7 @@ import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../blocs/auth/auth_event.dart';
 import '../../../blocs/doctor/doctor_bloc.dart';
-import '../../../blocs/doctor/doctor_event.dart';
 import '../../../blocs/doctor/doctor_state.dart';
 import '../../../blocs/specialization/specialization_bloc.dart';
 import '../../../blocs/specialization/specialization_state.dart';
@@ -142,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 icon: state.specializations[index].imageUrl,
                                 title: state.specializations[index].name,
                                 subTitle: state.specializations[index].order.toString()+" doctors",
-                                color1: generateRandomColors()[0],
+                                color1:generateRandomColors()[0],
                                 onTap: () {
                                   // context.read<DoctorBloc>().add(
                                   //   FetchDoctorsBySpecialization(

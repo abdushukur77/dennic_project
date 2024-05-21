@@ -44,7 +44,7 @@ class SpecialistItems extends StatelessWidget {
                   icon,
                   width: 43.w,
                   height: 40.h,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.cover,colorFilter:const ColorFilter.mode(AppColors.white,BlendMode.srcIn),
                 ),
                 16.getH(),
                 Text(

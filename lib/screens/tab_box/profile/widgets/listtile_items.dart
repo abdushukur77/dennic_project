@@ -20,10 +20,10 @@ class ListTileItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        16.getH(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 12.h),
             onTap: onTap,
             leading: RingAndFavoriteItems(
               icon: icon,
@@ -47,7 +47,6 @@ class ListTileItems extends StatelessWidget {
             ),
           ),
         ),
-        16.getH(),
       ],
     );
   }
