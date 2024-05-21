@@ -94,7 +94,7 @@ class ApiProvider {
 
       if (response.statusCode == 200) {
         networkResponse.data = "login";
-        // debugPrint(myInfo.toString());
+        debugPrint("Keldi2");
 
         await StorageRepository.setString(
           key: "access_token",

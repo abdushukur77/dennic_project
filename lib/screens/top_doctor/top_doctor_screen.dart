@@ -1,17 +1,24 @@
+import 'package:dennic_project/blocs/auth/auth_bloc.dart';
+import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
 import 'package:dennic_project/blocs/specialization/specialization_state.dart';
+import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/screens/detail/detail_screen.dart';
+import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/top_doctor_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
+import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../tab_box/home/widgets/doctor_logo.dart';
 import '../tab_box/home/widgets/ring_and_favorite_items.dart';
 import '../tab_box/home/widgets/textfield_items.dart';
 
@@ -45,24 +52,66 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
             72.getH(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 24.sp,
-                      color: AppColors.c_2972FE,
-                    ),
+                  Row(
+                    children: [
+                      const DoctorLogo(),
+                      20.getW(),
+                      Text(
+                        "Dennic",
+                        style: AppTextStyle.urbanistMedium.copyWith(
+                          color: AppColors.c_2C3A4B,
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      RingAndFavoriteItems(
+                        icon: const Icon(Icons.add_alert_sharp,
+                            color: AppColors.c_2972FE),
+                        onTap: () {},
+                      ),
+                      16.getW(),
+                      RingAndFavoriteItems(
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: AppColors.c_2972FE,
+                        ),
+                        onTap: () {
+
+                        },
+                      ),
+                    ],
                   ),
-                  const Expanded(
-                    child: TextFieldItems(),
+                  26.getH(),
+                  const TextFieldItems(),
+                  24.getH(),
+                  Row(
+                    children: [
+                      Text("Specialist Doctor",
+                          style: AppTextStyle.urbanistMedium.copyWith(
+                            color: AppColors.c_2C3A4B,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                          )),
+                      const Spacer(),
+                      SeeAllItems(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return SpecialistDoctorScreen();
+                              }));
+                        },
+                        title: '',
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
+
             SizedBox(height: 20.h),
             BlocBuilder<SpecializationBloc, SpecializationState>(
               builder: (context, state) {

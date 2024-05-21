@@ -1,7 +1,9 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
+import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
+import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
 import 'package:dennic_project/screens/tab_box/profile/widgets/avatar_item.dart';
@@ -205,7 +207,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: ListTile(
-                            onTap: () {},
+                            onTap: () {
+                             showDialog(context: context, builder:(context){
+                               return AlertDialog(
+                                 title: const Text("Are you sure"),
+                                actions: [
+                                  TextButton(onPressed: (){
+                                    Navigator.pop(context);
+                                  }, child:const Text("Cancel")),
+                                  TextButton(onPressed: (){
+                                    String token = StorageRepository.getString(
+                                        key: "access_token");
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(LogOutUserEvent(token: token));
+
+                                    StorageRepository.setBool(
+                                        key: "is_new_user", value: false);
+                                  }, child:const Text("OK")),
+                                ],
+                               );
+                             });
+                            },
                             leading: Container(
                               height: 56.h,
                               width: 47.w,

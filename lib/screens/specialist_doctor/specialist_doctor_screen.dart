@@ -86,11 +86,10 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                         state.specializations.length,
                             (index) {
                           return SpecialistScreenItems(
-                            icon: AppImages.favorite,
+                            icon: state.specializations[index].imageUrl,
                             title: state.specializations[index].name,
-                            subtitle: "252 Doctors",
+                            subtitle: state.specializations[index].order.toString(),
                             color1: generateRandomColors()[0],
-                            color2: generateRandomColors()[1],
                             onTap: () {
 
 

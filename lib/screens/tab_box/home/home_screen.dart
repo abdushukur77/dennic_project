@@ -88,15 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: AppColors.c_2972FE,
                           ),
                           onTap: () {
-                            String token = StorageRepository.getString(
-                                key: "access_token");
-                            debugPrint(token);
-                            context
-                                .read<AuthBloc>()
-                                .add(LogOutUserEvent(token: token));
 
-                            StorageRepository.setBool(
-                                key: "is_new_user", value: false);
                           },
                         ),
                       ],
@@ -149,9 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               return SpecialistItems(
                                 icon: state.specializations[index].imageUrl,
                                 title: state.specializations[index].name,
-                                subTitle: "252 Doctors",
+                                subTitle: state.specializations[index].order.toString()+" doctors",
                                 color1: generateRandomColors()[0],
-                                color2: generateRandomColors()[1],
                                 onTap: () {
                                   // context.read<DoctorBloc>().add(
                                   //   FetchDoctorsBySpecialization(
@@ -290,9 +281,7 @@ List<Color> generateRandomColors() {
     Color(0xFFFF1843),
     Color(0xFFFF5E7C),
     Color(0xFFFFB800),
-    Color(0xFFFFDA7B),
     Color(0xFF2972FE),
-    Color(0xFF6499FF),
   ];
 
   // Create a random number generator

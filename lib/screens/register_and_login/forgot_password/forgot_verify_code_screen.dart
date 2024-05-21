@@ -28,11 +28,11 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
   late Animation<Alignment> animationAlign;
   String pinCode = "";
   List<String> list = [];
-  int _start = 10;
+  int _start = 100;
   late Timer _timer;
   bool visibleRestart = false;
   bool error = false;
-  bool isBlue = false;
+  bool isCorrect=false;
 
   @override
   void initState() {
@@ -91,6 +91,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
         ),
         backgroundColor: Colors.white10,
       ),
+
       onPressed: () {
         if (pinCode.length < 4) {
           list = [];
@@ -122,10 +123,11 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state)async{
         if (state.statusMessage == "token") {
-          isBlue=true;
-
+          error=true;
+          isCorrect=true;
+          await Future.delayed(const Duration(seconds: 1));
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -181,7 +183,6 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                         ...List.generate(
                           4,
                               (index) {
-
                             return Container(
                               margin: EdgeInsets.symmetric(horizontal: 8.w),
                               width: 56.w,
@@ -191,11 +192,9 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                                     ? Colors.white
                                     : Colors.grey.shade200,
                                 border: Border.all(
-                                  color: index < pinCode.length
-                                      ? error
-                                      ? Colors.red
-                                      : Colors.blue
-                                      : Colors.grey.shade200,
+                                  color: (isCorrect)?Colors.green:(!error && pinCode.length==4)
+                                      ? Colors.red:(index<pinCode.length)?
+                                       Colors.blue:Colors.grey.shade200
                                 ),
                                 shape: BoxShape.circle,
                               ),
@@ -230,6 +229,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                           _start = 60;
                           visibleRestart = false;
                           startTimer();
+                          pinCode='';
                           setState(() {});
                         },
                         style: TextButton.styleFrom(
@@ -311,7 +311,6 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                                   pinCode.substring(0, pinCode.length - 1);
                               list = pinCode.split('');
                               if (list.length < 4) {
-                                error = false;
                               }
                             });
                           }
@@ -340,7 +339,11 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
             );
           },
           listener: (BuildContext context, AuthState state) {
+            if (state.formStatus == FormStatus.error) {
+              pinCode='';
+              setState(() {});
 
+            }
           },
         ),
       ),

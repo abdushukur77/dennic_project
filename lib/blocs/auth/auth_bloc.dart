@@ -31,10 +31,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _appRepository;
 
   Future<void> _loginUser(LoginUserEvent event, emit) async {
+    debugPrint("Keldi!");
     NetworkResponse networkResponse =
         await _appRepository.loginUser(loginModel: event.loginModel);
-
     if (networkResponse.errorText.isEmpty) {
+      debugPrint("Keldi!");
       emit(
         state.copyWith(
           statusMessage: "logged",

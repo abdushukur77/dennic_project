@@ -214,7 +214,7 @@ class _SignInScreenState extends State<SignInScreen> {
             );
           }
 
-          if (state.formStatus == FormStatus.error) {
+          if (state.formStatus == FormStatus.error ){
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -225,47 +225,35 @@ class _SignInScreenState extends State<SignInScreen> {
               },
             );
           }
-          if (state.statusMessage == "token") {
-            print("Tokennnnnnn ${state.userToken}");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const NewPassworScreen();
-                },
-              ),
-            );
-          }
-
+          // if (state.statusMessage == "token") {
+          //   print("Tokennnnnnn ${state.userToken}");
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) {
+          //         return const NewPassworScreen();
+          //       },
+          //     ),
+          //   );
+          // }
           if (state.statusMessage=="logged") {
-
-
             debugPrint("${state.statusMessage=='logged'}  ");
             StorageRepository.setBool(
               key: "is_new_user",
               value: true,
             ).then(
                   (value) {
-
                     bool b= StorageRepository.getBool(key: "is_new_user");
-
                     debugPrint(" AAAAAAAAAAAAAAAAAAAAAAAA  ${b}  ");
-
-
-
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) {return const TabBoxScreen();}),
-
-
                 );
               },
             );
           }
-
           bool a =StorageRepository.getBool(
             key: "is_new_user",
-
           );
           debugPrint("${a} WWWWWWWWWWWWWWWWWWWWWWWWWW");
         },

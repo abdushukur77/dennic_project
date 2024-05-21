@@ -11,7 +11,6 @@ class SpecialistItems extends StatelessWidget {
     required this.title,
     required this.subTitle,
     required this.color1,
-    required this.color2,
     required this.onTap,
   });
 
@@ -19,7 +18,6 @@ class SpecialistItems extends StatelessWidget {
   final String title;
   final String subTitle;
   final Color color1;
-  final Color color2;
   final VoidCallback onTap;
 
   @override
@@ -38,12 +36,7 @@ class SpecialistItems extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.r),
-              gradient: LinearGradient(
-                colors: [
-                  color1,
-                  color2,
-                ],
-              ),
+              color: color1
             ),
             child: Column(
               children: [
