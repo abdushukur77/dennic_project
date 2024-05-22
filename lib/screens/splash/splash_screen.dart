@@ -5,6 +5,7 @@ import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/local/storage_repository.dart';
+import '../../utils/size/size_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -54,6 +55,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Center(
         child: AnimatedOpacity(

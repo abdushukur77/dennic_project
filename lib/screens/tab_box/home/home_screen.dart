@@ -275,7 +275,6 @@ class _HomeScreenState extends State<HomeScreen> {
 List<Color> generateRandomColors() {
   // Create a list of the given colors
   List<Color> colors = [
-    Color(0xFFFF1843),
     Color(0xFFFF5E7C),
     Color(0xFFFFB800),
     Color(0xFF2972FE),

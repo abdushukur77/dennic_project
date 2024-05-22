@@ -1,4 +1,5 @@
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class MyTextFromFieldTel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       controller: controller,
       inputFormatters: perefixIcon.contains("call")
           ? [

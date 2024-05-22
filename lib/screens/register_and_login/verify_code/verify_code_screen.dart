@@ -31,6 +31,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
   bool visibleRestart = false;
   bool error = false;
   bool reversAnimation = false;
+  bool isCorrect=false;
 
   @override
   void initState() {
@@ -95,7 +96,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           pinCode += title;
           list = pinCode.split('');
           if (pinCode.length == 4) {
-            if (pinCode == "7777") {
+            if (pinCode == "7777"){
               context.read<AuthBloc>().add(
                     AuthRequestPassword(
                       verifyModel: VerifyModel(
@@ -138,6 +139,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -184,14 +186,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                         width: 56.w,
                         height: 56.h,
                         decoration: BoxDecoration(
-                          color: (index < pinCode.length)
+                          color:(index < pinCode.length)
                               ? Colors.white
                               : Colors.grey.shade200,
                           border: Border.all(
-                            color: index < pinCode.length
-                                ? error
-                                    ? Colors.red
-                                    : Colors.blue
+                            color:(isCorrect)?Colors.green:(error)?Colors.red:
+                            index < pinCode.length?Colors.blue
                                 : Colors.grey.shade200,
                           ),
                           shape: BoxShape.circle,
@@ -320,8 +320,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
               ],
             ),
             BlocListener<AuthBloc, AuthState>(
-              listener: (BuildContext context, AuthState state) {
+              listener: (BuildContext context, AuthState state)async{
                 if (state.statusMessage == "query_ok") {
+                  isCorrect=true;
+                  setState(() {});
+                  await Future.delayed(Duration(milliseconds: 500));
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
                     return VerifiedScreen();

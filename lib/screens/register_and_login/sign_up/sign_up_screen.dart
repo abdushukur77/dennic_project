@@ -57,6 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ];
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppColors.cFFFFFF,
         leading: IconButton(
           onPressed: () {

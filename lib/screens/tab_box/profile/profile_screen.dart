@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 4.getH(),
                                 Text(
-                                  state.myUserModel.birthDate.substring(0,10),
+                                  state.myUserModel.birthDate,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(

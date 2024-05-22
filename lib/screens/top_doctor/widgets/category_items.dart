@@ -21,6 +21,7 @@ class CategoryItems extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4.we()),
       child: TextButton(
         style: TextButton.styleFrom(
+          animationDuration: const Duration(seconds: 2),
           padding: EdgeInsets.symmetric(
             horizontal: 16.w,
             vertical: 6.h,

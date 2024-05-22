@@ -23,8 +23,7 @@ class SpecialistDoctorScreen extends StatefulWidget {
 class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -68,7 +67,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
           BlocBuilder<SpecializationBloc, SpecializationState>(
             builder: (context, state) {
               if (state.formStatus == FormStatus.loading) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
               if (state.formStatus == FormStatus.error) {
                 return Text(state.errorMessage);

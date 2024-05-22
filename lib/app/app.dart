@@ -6,6 +6,7 @@ import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/repositories/doctor_repository.dart';
 import 'package:dennic_project/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -48,7 +49,10 @@ class App extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                useMaterial3: false,
+                appBarTheme: const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent
+                )),
+                useMaterial3: true,
               ),
               home: child,
             );

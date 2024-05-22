@@ -23,6 +23,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   animated_custom_dropdown: 3.0.0
   shared_preferences: ^2.2.3
+  mask_text_input_formatter: ^2.9.0
 
 
 dev_dependencies:
