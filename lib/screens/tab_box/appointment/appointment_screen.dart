@@ -39,7 +39,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     bool isMorning = true;
 
     return Scaffold(
@@ -114,27 +113,37 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               const SizedBox(height: 10),
               Column(
                 children: appointmentTypes.map((appointment) {
-                  return Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
-                      leading: Container(
-                        padding: EdgeInsets.all(16.w),
-                        child: Icon(Icons.message),
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedAppointmentType = appointment['type']!;
+                      });
+                    },
+
+                    child: Container(
+
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.h, horizontal: 24.w),
                         decoration: BoxDecoration(
-                            color: AppColors.white, shape: BoxShape.circle),
-                      ),
-                      title: Text(appointment['type']!),
-                      trailing: Text(appointment['price']!),
-                      tileColor: selectedAppointmentType == appointment['type']
-                          ? Colors.blue[100]
-                          : Colors.transparent,
-                      onTap: () {
-                        setState(() {
-                          selectedAppointmentType = appointment['type']!;
-                        });
-                      },
-                    ),
+
+                          color: selectedAppointmentType == appointment['type']
+                              ? Colors.blue[100]
+                              : Colors.transparent,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(16.w),
+                              child: Icon(Icons.message),
+                              decoration: BoxDecoration(
+                                  color: AppColors.white, shape: BoxShape.circle),
+                            ),
+                            SizedBox(width: 10.w),
+                            Text(appointment['type']!),
+                            Spacer(),
+                            Text(appointment['price']!),
+                          ],
+                        )),
                   );
                 }).toList(),
               ),
