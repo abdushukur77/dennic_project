@@ -97,12 +97,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           list = pinCode.split('');
           if (pinCode.length == 4) {
             if (pinCode == "7777"){
+              debugPrint(widget.userModel.phoneNumber.toString().replaceAll(" ", "").substring(4));
               context.read<AuthBloc>().add(
                     AuthRequestPassword(
                       verifyModel: VerifyModel(
                         code: 7777,
                         fcmToken: 'aaaaaadvdaa',
-                        phoneNumber: widget.userModel.phoneNumber,
+                        phoneNumber:widget.userModel.phoneNumber.toString().replaceAll(" ", "").substring(4),
                         platformName: 'Samsung',
                         platformType: 'mobile',
                       ),

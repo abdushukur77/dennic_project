@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 icon: state.specializations[index].imageUrl,
                                 title: state.specializations[index].name,
                                 subTitle: state.specializations[index].order.toString()+" doctors",
-                                color1:generateRandomColors()[0],
+                                color1:generateRandomColors(index+1)[0],
                                 onTap: () {
                                   // context.read<DoctorBloc>().add(
                                   //   FetchDoctorsBySpecialization(
@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   state.doctors.length,
                                   (index) {
                                     return DoctorItems(
-                                      image: AppImages.doctor,
+                                      image: state.doctors[index].imageUrl,
                                       title: state.doctors[index].lastName,
                                       subtitle: state.doctors[index].bio,
                                       onTap: () {
@@ -272,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-List<Color> generateRandomColors() {
+List<Color> generateRandomColors(int index) {
   // Create a list of the given colors
   List<Color> colors = [
     Color(0xFFFF5E7C),
@@ -280,20 +280,11 @@ List<Color> generateRandomColors() {
     Color(0xFF2972FE),
   ];
 
-  // Create a random number generator
-  Random random = Random();
 
-  // Generate two random indices from the list
-  int index1 = random.nextInt(colors.length);
-  int index2 = random.nextInt(colors.length);
 
-  // Ensure that the two indices are different
-  while (index1 == index2) {
-    index2 = random.nextInt(colors.length);
-  }
 
   // Return a list of the two randomly chosen colors
-  return [colors[index1], colors[index2]];
+  return [colors[index%3]];
 }
 
 // SpecialistItems(

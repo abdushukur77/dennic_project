@@ -160,7 +160,7 @@ class ApiProvider {
         networkResponse.errorText = "you haven't registered before";
       }
     } catch (error) {
-      networkResponse.errorText = "network error :)";
+      networkResponse.errorText = networkResponse.data["message"] as String? ?? "";
     }
 
     return networkResponse;
@@ -184,10 +184,12 @@ class ApiProvider {
         networkResponse.data = jsonDecode(response.body);
         // debugPrint("${response.body} ----------------");
       } else if (response.statusCode == 400) {
-        networkResponse.errorText = "Time End :)";
+        networkResponse.errorText = networkResponse.data["message"] as String? ?? "";
+
       }
     } catch (error) {
-      networkResponse.errorText = "network error :)";
+      networkResponse.errorText = networkResponse.data["message"] as String? ?? "";
+
     }
 
     return networkResponse;
@@ -314,9 +316,12 @@ class ApiProvider {
     try {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+
+
         List<DoctorModel> doctors = (data['doctors'] as List)
             .map((doctorJson) => DoctorModel.fromJson(doctorJson))
             .toList();
+
 
         return NetworkResponse(data: doctors);
       } else {

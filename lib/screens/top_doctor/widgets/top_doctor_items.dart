@@ -14,10 +14,11 @@ class TopDoctorItems extends StatelessWidget {
     required this.rate,
     required this.review,
     required this.onTap,
-    required this.favoriteTap,
+    required this.favoriteTap, required this.image,
   });
 
   final String name;
+  final String image;
   final String description;
   final String rate;
   final String review;
@@ -42,8 +43,9 @@ class TopDoctorItems extends StatelessWidget {
                 topLeft: Radius.circular(12.r),
                 bottomLeft: Radius.circular(12.r),
               ),
-              child: Image.asset(
-                AppImages.doctor,
+              child: Image.network(
+                image,
+                fit: BoxFit.cover,
                 width: 100.w,
                 height: 100.h,
               ),

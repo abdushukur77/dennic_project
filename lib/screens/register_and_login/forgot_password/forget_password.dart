@@ -2,6 +2,7 @@ import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
+import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,7 @@ import '../../../utils/constants/app_constants.dart';
 import '../../../utils/images/app_images.dart';
 import '../../../utils/styles/app_text_style.dart';
 import '../widget/my_text_from_tel.dart';
-import 'forgot_verify_code_screen.dart';
+import 'forgot_verify_code_screen/forgot_verify_code_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -51,7 +52,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
                 70.getH(),
                 MyTextFromFieldTel(
-                  regExp: AppConstants.phoneRegExp,
+                  inputFormatter: AppInputFormatters.phoneFormatter,
+                  // regExp: AppConstants.phoneRegExp,
                   errorText: 'Phone number error',
                   controller: controllerPhoneNumber,
                   labelText: 'Type your phone',
@@ -72,11 +74,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     onPressed: state.formStatus == FormStatus.loading
                         ? null
                         : () {
+                      debugPrint(" WWWWWWWWWWW ${controllerPhoneNumber.text.replaceAll(" ", "")}");
+
                             context.read<AuthBloc>().add(
                                   AuthForgetPasswordEvent(
                                       phoneNumber:
-                                          "+998${controllerPhoneNumber.text}"),
-                                );
+                                      controllerPhoneNumber.text.replaceAll(" ", ""),
+                                  ));
                           },
                     child: state.formStatus == FormStatus.loading
                         ? const Center(

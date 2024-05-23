@@ -42,7 +42,7 @@ class DoctorItems extends StatelessWidget {
                     topLeft: Radius.circular(12.r),
                     topRight: Radius.circular(12.r),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     image,
                     width: 160.w,
                     height: 160.h,
