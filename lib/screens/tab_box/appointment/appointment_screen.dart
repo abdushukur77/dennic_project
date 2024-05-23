@@ -40,7 +40,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isMorning = true;
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +55,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -67,7 +66,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
               style: AppTextStyle.urbanistMedium.copyWith(fontSize: 16.sp),
               ),
-              const SizedBox(height: 10),
+               SizedBox(height: 10.h),
               Row(
                 children: [
                   CategoryItems(
@@ -92,9 +91,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                Text(
                 'Choose the Hour',
 
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 10),
+               SizedBox(height: 10.h),
               Wrap(
                 runSpacing: 10.w,
                 spacing: 3.h,
@@ -118,7 +117,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 style: AppTextStyle.urbanistMedium
                     .copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 10),
+               SizedBox(height: 10.h),
               Column(
                 children: appointmentTypes.map((appointment) {
                   return GestureDetector(
@@ -136,21 +135,21 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         decoration: BoxDecoration(
                             color:
                                 selectedAppointmentType == appointment['type']
-                                    ? Colors.blue[100]
-                                    : Colors.transparent,
+                                    ? AppColors.c_2972FE
+                                    :Colors.grey[200],
                             borderRadius: BorderRadius.circular(10)),
                         child: Row(
                           children: [
                             Container(
                               padding: EdgeInsets.all(16.w),
-                              child: Icon(Icons.message),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: AppColors.white,
                                   shape: BoxShape.circle),
+                              child: const Icon(Icons.message),
                             ),
                             SizedBox(width: 10.w),
                             Text(appointment['type']!),
-                            Spacer(),
+                            const Spacer(),
                             Text(appointment['price']!),
                           ],
                         )),
@@ -158,6 +157,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 }).toList(),
               ),
               GlobalButton(title: "Next ", onTap: () {}),
+              SizedBox(height: 100.h)
             ],
           ),
         ),
