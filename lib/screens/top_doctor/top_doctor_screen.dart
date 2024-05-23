@@ -187,6 +187,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                                 state.searchDoctors.length,
                                     (index) {
                                   return TopDoctorItems(
+                                    image: state.searchDoctors[index].imageUrl ,
                                     name: state.searchDoctors[index].firstName +
                                         " " +
                                         state.searchDoctors[index].lastName,

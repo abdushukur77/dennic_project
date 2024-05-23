@@ -1,6 +1,7 @@
 import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/screens/detail/widgets/day_items.dart';
 import 'package:dennic_project/screens/detail/widgets/details_doctor_items.dart';
+import 'package:dennic_project/screens/detail/widgets/global_button.dart';
 import 'package:dennic_project/screens/detail/widgets/patients_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
@@ -85,7 +86,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     fullName: widget.doctorModel.firstName +
                         " " +
                         widget.doctorModel.lastName,
-                    bio: widget.doctorModel.bio,
+                    bio: widget.doctorModel.bio, image: widget.doctorModel.imageUrl,
                   ),
                   24.getH(),
                   Container(
@@ -208,30 +209,7 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             ),
             25.getH(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 14.h),
-                    backgroundColor: AppColors.c_2972FE,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    "Book Appointment",
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            GlobalButton(title: "Boo Appointment", onTap: (){}),
             24.getH(),
           ],
         ),

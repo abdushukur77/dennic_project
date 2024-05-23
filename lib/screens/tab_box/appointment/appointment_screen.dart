@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/styles/app_text_style.dart';
+import '../../detail/widgets/global_button.dart';
 
 class AppointmentScreen extends StatefulWidget {
   const AppointmentScreen({super.key});
@@ -43,7 +44,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Book Appointment'),
+        title: Text(
+          'Book Appointment',
+          style: AppTextStyle.urbanistMedium.copyWith(fontSize: 26.sp),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -51,16 +55,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 'Monday, March 25 2022',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+
+              style: AppTextStyle.urbanistMedium.copyWith(fontSize: 16.sp),
               ),
               const SizedBox(height: 10),
               Row(
@@ -84,13 +89,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              const Text(
+               Text(
                 'Choose the Hour',
+
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 10),
               Wrap(
-                spacing: 0.h,
+                runSpacing: 10.w,
+                spacing: 3.h,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   ...List.generate(times.length, (index) {
                     return CategoryItems(
@@ -119,16 +127,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         selectedAppointmentType = appointment['type']!;
                       });
                     },
-
                     child: Container(
 
+                        margin: EdgeInsets.symmetric(
+                            vertical: 12.h, ),
                         padding: EdgeInsets.symmetric(
                             vertical: 12.h, horizontal: 24.w),
                         decoration: BoxDecoration(
-
-                          color: selectedAppointmentType == appointment['type']
-                              ? Colors.blue[100]
-                              : Colors.transparent,
+                            color:
+                                selectedAppointmentType == appointment['type']
+                                    ? Colors.blue[100]
+                                    : Colors.transparent,
                             borderRadius: BorderRadius.circular(10)),
                         child: Row(
                           children: [
@@ -136,7 +145,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               padding: EdgeInsets.all(16.w),
                               child: Icon(Icons.message),
                               decoration: BoxDecoration(
-                                  color: AppColors.white, shape: BoxShape.circle),
+                                  color: AppColors.white,
+                                  shape: BoxShape.circle),
                             ),
                             SizedBox(width: 10.w),
                             Text(appointment['type']!),
@@ -147,18 +157,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   );
                 }).toList(),
               ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle next button press
-                  },
-                  child: const Text('Next'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40.0, vertical: 16.0),
-                  ),
-                ),
-              ),
+              GlobalButton(title: "Next ", onTap: () {}),
             ],
           ),
         ),

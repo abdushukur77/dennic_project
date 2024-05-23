@@ -282,7 +282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           gender: gender,
                           lastName: controllerLastName.text,
                           password: controllerPassword.text,
-                          phoneNumber: "+998${controllerPhoneNumber.text}",
+                          phoneNumber: controllerPhoneNumber.text.replaceAll(" ", ""),
                         );
 
                         if (controllerPhoneNumber.text.isNotEmpty &&

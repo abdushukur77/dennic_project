@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsDoctorItems extends StatelessWidget {
-  const DetailsDoctorItems({super.key, required this.fullName, required this.bio});
+  const DetailsDoctorItems({super.key, required this.fullName, required this.bio, required this.image});
 
   final String fullName;
   final String bio;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +29,11 @@ class DetailsDoctorItems extends StatelessWidget {
               topLeft: Radius.circular(12.r),
               bottomLeft: Radius.circular(12.r),
             ),
-            child: Image.asset(
-              AppImages.doctor,
+            child: Image.network(
+              image,
               width: 100.w,
               height: 100.h,
+              fit: BoxFit.cover,
             ),
           ),
           20.getW(),

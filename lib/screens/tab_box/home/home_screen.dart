@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   state.doctors.length,
                                   (index) {
                                     return DoctorItems(
-                                      image: AppImages.doctor,
+                                      image: state.doctors[index].imageUrl,
                                       title: state.doctors[index].lastName,
                                       subtitle: state.doctors[index].bio,
                                       onTap: () {

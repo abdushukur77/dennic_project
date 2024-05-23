@@ -129,12 +129,13 @@ class _SignInScreenState extends State<SignInScreen> {
                         backgroundColor: AppColors.c257CFF,
                         padding: EdgeInsets.symmetric(vertical: 15.he())),
                     onPressed: () {
+                      debugPrint("BBBBBBBBB ${phoneNumberController.text.toString().replaceAll(" ", "")}");
                       _loading = true;
                       setState(() {});
                       LoginModel loginModel = LoginModel(
                         fcmToken: "asdfasdfsaf",
                         password: passwordController.text,
-                        phoneNumber: "+998${phoneNumberController.text.replaceAll(" ", "")}",
+                        phoneNumber: phoneNumberController.text.toString().replaceAll(" ", ""),
                         platformName: "mobile",
                         platformType: "mobile",
                       );

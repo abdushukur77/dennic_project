@@ -12,7 +12,7 @@ import '../../../utils/constants/app_constants.dart';
 import '../../../utils/images/app_images.dart';
 import '../../../utils/styles/app_text_style.dart';
 import '../widget/my_text_from_tel.dart';
-import 'forgot_verify_code_screen.dart';
+import 'forgot_verify_code_screen/forgot_verify_code_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -74,11 +74,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     onPressed: state.formStatus == FormStatus.loading
                         ? null
                         : () {
+                      debugPrint(" WWWWWWWWWWW ${controllerPhoneNumber.text.replaceAll(" ", "")}");
+
                             context.read<AuthBloc>().add(
                                   AuthForgetPasswordEvent(
                                       phoneNumber:
-                                          "+998${controllerPhoneNumber.text}"),
-                                );
+                                      controllerPhoneNumber.text.replaceAll(" ", ""),
+                                  ));
                           },
                     child: state.formStatus == FormStatus.loading
                         ? const Center(
