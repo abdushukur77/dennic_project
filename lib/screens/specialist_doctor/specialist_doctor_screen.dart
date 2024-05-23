@@ -77,7 +77,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                   child: GridView.count(
                     padding: EdgeInsets.symmetric(horizontal: 24.w,vertical: 10.h),
                     crossAxisCount: 2,
-                    childAspectRatio: 0.90,
+                    childAspectRatio: 0.85,
                     crossAxisSpacing: 20.w,
                     mainAxisSpacing: 24.h,
                     children: [
@@ -88,7 +88,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                             icon: state.specializations[index].imageUrl,
                             title: state.specializations[index].name,
                             subtitle: state.specializations[index].order.toString(),
-                            color1: generateRandomColors()[0],
+                            color1: generateRandomColors(index+1)[0],
                             onTap: () {
 
 

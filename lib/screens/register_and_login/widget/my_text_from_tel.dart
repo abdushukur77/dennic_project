@@ -1,3 +1,4 @@
+import 'package:dennic_project/app/app.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
@@ -18,12 +19,13 @@ class MyTextFromFieldTel extends StatelessWidget {
     this.textInputAction = TextInputAction.next,
     required this.valueChanged,
     required this.controller,
-    required this.regExp,
+    // required this.regExp,
     required this.errorText,
+    required this.inputFormatter,
   });
-
+final TextInputFormatter inputFormatter;
   final String labelText;
-  final RegExp regExp;
+  // final RegExp regExp;
   final String errorText;
   final bool obzorText;
   final String perefixIcon;
@@ -36,14 +38,10 @@ class MyTextFromFieldTel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
+inputFormatters: [AppInputFormatters.phoneFormatter],
       controller: controller,
-      inputFormatters: perefixIcon.contains("call")
-          ? [
-              FilteringTextInputFormatter.digitsOnly,
-            ]
-          : null,
-      maxLength: 9,
+
+      maxLength: 17,
       onChanged: valueChanged,
       textInputAction: textInputAction,
       style: AppTextStyle.urbanistBold.copyWith(
@@ -52,7 +50,7 @@ class MyTextFromFieldTel extends StatelessWidget {
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? value) {
-        if (value == null || value.isEmpty || !regExp.hasMatch(value)) {
+        if (value == null || value.isEmpty) {
           return errorText;
         } else {
           return null;
@@ -79,7 +77,7 @@ class MyTextFromFieldTel extends StatelessWidget {
             color: AppColors.c7E8CA0,
           ),
         ),
-        prefixText: "+998",
+        // prefixText: "+998 ",
         prefixIcon: perefixIcon.contains("png")
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,

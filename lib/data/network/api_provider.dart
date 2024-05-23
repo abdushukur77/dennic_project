@@ -314,9 +314,12 @@ class ApiProvider {
     try {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+
+
         List<DoctorModel> doctors = (data['doctors'] as List)
             .map((doctorJson) => DoctorModel.fromJson(doctorJson))
             .toList();
+
 
         return NetworkResponse(data: doctors);
       } else {

@@ -2,6 +2,7 @@ import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
+import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +52,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
                 70.getH(),
                 MyTextFromFieldTel(
-                  regExp: AppConstants.phoneRegExp,
+                  inputFormatter: AppInputFormatters.phoneFormatter,
+                  // regExp: AppConstants.phoneRegExp,
                   errorText: 'Phone number error',
                   controller: controllerPhoneNumber,
                   labelText: 'Type your phone',

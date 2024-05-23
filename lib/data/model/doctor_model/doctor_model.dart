@@ -57,34 +57,34 @@ class DoctorModel {
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      id: json['id'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      imageUrl: json['image_url'],
-      gender: json['gender'],
-      birthDate: json['birth_date'],
-      phoneNumber: json['phone_number'],
-      email: json['email'],
-      address: json['address'],
-      city: json['city'],
-      country: json['country'],
-      salary: json['salary'].toDouble(),
-      startTime: json['start_time'],
-      finishTime: json['finish_time'],
-      dayOfWeek: json['day_of_week'],
-      bio: json['bio'],
-      startWorkDate: json['start_work_date'],
-      endWorkDate: json['end_work_date'],
-      workYears: json['work_years'],
-      departmentId: json['department_id'],
-      roomNumber: json['room_number'],
-      password: json['password'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      deletedAt: json['deleted_at'],
-      specializations: (json['specializations'] as List)
-          .map((specJson) => SpecializationM.fromJson(specJson))
-          .toList(),
+      id: json['id'] as String? ?? "",
+      firstName: json['first_name'] as String? ?? "",
+      lastName: json['last_name'] as String? ?? "",
+      imageUrl: json['image_url'] as String? ?? "",
+      gender: json['gender'] as String? ?? "",
+      birthDate: json['birth_date'] as String? ?? "",
+      phoneNumber: json['phone_number'] as String? ?? "",
+      email: json['email'] as String? ?? "",
+      address: json['address'] as String? ?? "",
+      city: json['city'] as String? ?? "",
+      country: json['country'] as String? ?? "",
+      salary: (json['salary'] as num?)?.toDouble() ?? 0.0,
+      startTime: json['start_time'] as String? ?? "",
+      finishTime: json['finish_time'] as String? ?? "",
+      dayOfWeek: json['day_of_week'] as String? ?? "",
+      bio: json['bio'] as String? ?? "",
+      startWorkDate: json['start_work_date'] as String? ?? "",
+      endWorkDate: json['end_work_date'] as String? ?? "",
+      workYears: json['work_years'] as int? ?? 0,
+      departmentId: json['department_id'] as String? ?? "",
+      roomNumber: json['room_number'] as int? ?? 0,
+      password: json['password'] as String? ?? "",
+      createdAt: json['created_at'] as String? ?? "",
+      updatedAt: json['updated_at'] as String? ?? "",
+      deletedAt: json['deleted_at'] as String? ?? "",
+      specializations: (json['specializations'] as List?)
+          ?.map((specJson) => SpecializationM.fromJson(specJson))
+          .toList() ?? [],
     );
   }
 }
@@ -101,7 +101,7 @@ class SpecializationM {
   factory SpecializationM.fromJson(Map<String, dynamic> json) {
     return SpecializationM(
       id: json['Id'] as String? ?? "",
-      name: json['Name']as String? ?? "" ,
+      name: json['Name'] as String? ?? "",
     );
   }
 }

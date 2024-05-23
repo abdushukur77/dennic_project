@@ -8,16 +8,14 @@ import 'package:dennic_project/screens/register_and_login/widget/my_text_from.da
 import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
+import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../data/local/storage_repository.dart';
-import '../../tab_box/home/home_screen.dart';
-import '../forgot_password/new_pasword.dart';
 import '../widget/my_text_from_tel.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -66,14 +64,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 70.getH(),
                 MyTextFromFieldTel(
-                  regExp: AppConstants.phoneRegExp,
+
+                  // regExp: AppConstants.phoneRegExp,
                   errorText: 'Phone number error',
                   controller: phoneNumberController,
                   labelText: 'Type your phone',
                   perefixIcon: AppImages.call,
                   valueChanged: (String value) {
                     setState(() {});
-                  },
+                  }, inputFormatter: AppInputFormatters.phoneFormatter,
                 ),
                 30.getH(),
                 MyTextFromField(
@@ -132,11 +131,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: () {
                       _loading = true;
                       setState(() {});
-
                       LoginModel loginModel = LoginModel(
                         fcmToken: "asdfasdfsaf",
                         password: passwordController.text,
-                        phoneNumber: "+998${phoneNumberController.text}",
+                        phoneNumber: "+998${phoneNumberController.text.replaceAll(" ", "")}",
                         platformName: "mobile",
                         platformType: "mobile",
                       );
@@ -225,17 +223,7 @@ class _SignInScreenState extends State<SignInScreen> {
               },
             );
           }
-          // if (state.statusMessage == "token") {
-          //   print("Tokennnnnnn ${state.userToken}");
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) {
-          //         return const NewPassworScreen();
-          //       },
-          //     ),
-          //   );
-          // }
+
           if (state.statusMessage=="logged") {
             debugPrint("${state.statusMessage=='logged'}  ");
             StorageRepository.setBool(
@@ -243,8 +231,6 @@ class _SignInScreenState extends State<SignInScreen> {
               value: true,
             ).then(
                   (value) {
-                    bool b= StorageRepository.getBool(key: "is_new_user");
-                    debugPrint(" AAAAAAAAAAAAAAAAAAAAAAAA  ${b}  ");
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) {return const TabBoxScreen();}),
