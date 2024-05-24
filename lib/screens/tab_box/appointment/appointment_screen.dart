@@ -48,12 +48,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           'Book Appointment',
           style: AppTextStyle.urbanistMedium.copyWith(fontSize: 26.sp),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back button press
-          },
-        ),
+
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
