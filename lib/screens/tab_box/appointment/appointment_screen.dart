@@ -1,4 +1,4 @@
-import 'package:dennic_project/screens/splash/splash_screen.dart';
+import 'package:dennic_project/screens/tab_box/appointment/appoinment_third.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -153,11 +153,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   );
                 }).toList(),
               ),
-              GlobalButton(title: "Next ", onTap: () {
+              GlobalButton(title: "Next ", onTap: (
 
+
+                  ) {
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return AppointmentScreen();
+                  return AppointmentThirdScreen();
                 }));
+
               }),
               SizedBox(height: 100.h)
             ],
