@@ -1,3 +1,4 @@
+import 'package:dennic_project/screens/global_widget/image_item.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +43,12 @@ class DoctorItems extends StatelessWidget {
                     topLeft: Radius.circular(12.r),
                     topRight: Radius.circular(12.r),
                   ),
-                  child: Image.network(
-                    image,
+                  child: ImageItem(
+                    imageUrl: image,
                     width: 160.w,
                     height: 160.h,
-                    fit: BoxFit.cover,
                   ),
+
                 ),
                 8.getH(),
                 Padding(

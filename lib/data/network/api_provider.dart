@@ -265,7 +265,7 @@ class ApiProvider {
 
     String userToken = StorageRepository.getString(key: 'access_token');
 
-    debugPrint("myError.isEmpty ----------------------${userToken}-");
+    debugPrint("myError.isEmpty ----------------------$userToken-");
 
 
     try {
@@ -278,6 +278,8 @@ class ApiProvider {
         },
       );
       Map<String, dynamic> myInfo = jsonDecode(response.body);
+      debugPrint("AWWWWWWWWWWW ${response.body}");
+
 
 
       if (myInfo["status"] == "Unauthorized") {
