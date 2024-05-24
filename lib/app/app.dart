@@ -5,6 +5,8 @@ import 'package:dennic_project/blocs/specialization/specialization_event.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/repositories/doctor_repository.dart';
 import 'package:dennic_project/screens/splash/splash_screen.dart';
+import 'package:dennic_project/screens/tab_box/appointment/appointmets_thrid_step.dart';
+import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +59,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const SplashScreen(),
+          child: const AppointmentThirdScreen(),
         ),
       ),
     );
