@@ -5,6 +5,9 @@ class DoctorRepository {
   Future<NetworkResponse> fetchDoctor() async =>
       await ApiProvider.fetchDoctors();
 
+  Future<NetworkResponse> fetchDoctorById(String doctorId) async =>
+      await ApiProvider.fetchByDoctorId(doctorId);
+
   Future<NetworkResponse> fetchDoctorsBySpecialization(
           String specializationId) async =>
       await ApiProvider.fetchBySpecializations(specializationId);

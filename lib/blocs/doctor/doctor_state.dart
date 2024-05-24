@@ -9,6 +9,7 @@ class DoctorState {
   final List<DoctorModel> searchDoctors;
   final String errorMessage;
   final MyUserModel myUserModel;
+  final DoctorModel doctorModel;
 
   DoctorState({
     this.formStatus = FormStatus.pure,
@@ -16,9 +17,11 @@ class DoctorState {
     this.searchDoctors = const [],
     this.errorMessage = '',
     required this.myUserModel,
+    required this.doctorModel
   });
 
   DoctorState copyWith({
+    DoctorModel? doctorModel,
     FormStatus? formStatus,
     List<DoctorModel>? doctors,
     MyUserModel? myUserModel,
@@ -26,6 +29,7 @@ class DoctorState {
     String? errorMessage,
   }) {
     return DoctorState(
+      doctorModel: doctorModel ?? this.doctorModel,
       searchDoctors: searchDoctors ?? this.searchDoctors,
       formStatus: formStatus ?? this.formStatus,
       doctors: doctors ?? this.doctors,

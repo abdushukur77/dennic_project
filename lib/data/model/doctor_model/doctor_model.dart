@@ -20,13 +20,14 @@ class DoctorModel {
   final int workYears;
   final String departmentId;
   final int roomNumber;
-  final String password;
   final String createdAt;
   final String updatedAt;
   final String deletedAt;
+  final int patientCount;
   final List<SpecializationM> specializations;
 
   DoctorModel({
+    required this.patientCount,
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -48,15 +49,43 @@ class DoctorModel {
     required this.workYears,
     required this.departmentId,
     required this.roomNumber,
-    required this.password,
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
     required this.specializations,
   });
 
+  DoctorModel.initial()
+      : patientCount = 0,
+        id = "",
+        firstName = "",
+        lastName = "",
+        imageUrl = "",
+        gender = "",
+        birthDate = "",
+        phoneNumber = "",
+        email = "",
+        address = "",
+        city = "",
+        country = "",
+        salary = 0.0,
+        startTime = "",
+        finishTime = "",
+        dayOfWeek = "",
+        bio = "",
+        startWorkDate = "",
+        endWorkDate = "",
+        workYears = 0,
+        departmentId = "",
+        roomNumber = 0,
+        createdAt = "",
+        updatedAt = "",
+        deletedAt = "",
+        specializations = [];
+
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
+      patientCount: json["patient_count"] as int? ?? 0,
       id: json['id'] as String? ?? "",
       firstName: json['first_name'] as String? ?? "",
       lastName: json['last_name'] as String? ?? "",
@@ -78,7 +107,6 @@ class DoctorModel {
       workYears: json['work_years'] as int? ?? 0,
       departmentId: json['department_id'] as String? ?? "",
       roomNumber: json['room_number'] as int? ?? 0,
-      password: json['password'] as String? ?? "",
       createdAt: json['created_at'] as String? ?? "",
       updatedAt: json['updated_at'] as String? ?? "",
       deletedAt: json['deleted_at'] as String? ?? "",
@@ -87,6 +115,38 @@ class DoctorModel {
           .toList() ?? [],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'image_url': imageUrl,
+      'gender': gender,
+      'birth_date': birthDate,
+      'phone_number': phoneNumber,
+      'email': email,
+      'address': address,
+      'city': city,
+      'country': country,
+      'salary': salary,
+      'start_time': startTime,
+      'finish_time': finishTime,
+      'day_of_week': dayOfWeek,
+      'bio': bio,
+      'start_work_date': startWorkDate,
+      'end_work_date': endWorkDate,
+      'work_years': workYears,
+      'department_id': departmentId,
+      'room_number': roomNumber,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'deleted_at': deletedAt,
+      'patient_count': patientCount,
+      'specializations': specializations.map((spec) => spec.toJson()).toList(),
+    };
+  }
+
 }
 
 class SpecializationM {
@@ -100,8 +160,15 @@ class SpecializationM {
 
   factory SpecializationM.fromJson(Map<String, dynamic> json) {
     return SpecializationM(
-      id: json['Id'] as String? ?? "",
-      name: json['Name'] as String? ?? "",
+      id: json['id'] as String? ?? "",
+      name: json['name'] as String? ?? "",
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
   }
 }

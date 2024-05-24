@@ -198,7 +198,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
                                             return DetailScreen(
-                                              doctorModel: state.searchDoctors[index],
+                                              doctorId: state.searchDoctors[index].id,
                                             );
                                           }));
                                     },

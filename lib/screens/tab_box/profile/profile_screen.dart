@@ -1,20 +1,12 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
-import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
-import 'package:dennic_project/blocs/doctor/doctor_event.dart';
-import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
-import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
-import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
-import 'package:dennic_project/screens/tab_box/profile/widgets/avatar_item.dart';
 import 'package:dennic_project/screens/tab_box/profile/widgets/listtile_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../blocs/auth/auth_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -23,12 +15,50 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-
 class _ProfileScreenState extends State<ProfileScreen> {
+  File? _imageFile;
+
   @override
   void initState() {
     Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
     super.initState();
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _uploadImage() async {
+    if (_imageFile == null) return;
+
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://swag.dennic.uz/v1/file-upload?bucketName=user'),
+    );
+    request.files.add(
+      http.MultipartFile(
+        'file',
+        _imageFile!.readAsBytes().asStream(),
+        _imageFile!.lengthSync(),
+        filename: path.basename(_imageFile!.path),
+        contentType: MediaType('image', 'png'),
+      ),
+    );
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      print('Image uploaded successfully!');
+    } else {
+      print('Image upload failed with status: ${response.statusCode}');
+    }
   }
 
   @override
@@ -48,7 +78,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
 
           if (state.formStatus == FormStatus.success) {
-            debugPrint("My User Model name${state.myUserModel.firstName}");
             return Column(
               children: [
                 72.getH(),
@@ -71,21 +100,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const Spacer(),
                           RingAndFavoriteItems(
                             icon: const Icon(Icons.edit),
-                            onTap: () {},
+                            onTap: _pickImage,
                           ),
                         ],
                       ),
                       24.getH(),
                       Row(
                         children: [
-                          const AvatarItem(),
+                          _imageFile == null
+                              ? AvatarItem(image: state.myUserModel.imageUrl)
+                              : Image.file(_imageFile!),
                           24.getW(),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.myUserModel.firstName+" "+ state.myUserModel.lastName,
+                                  '${state.myUserModel.firstName} ${state.myUserModel.lastName}',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -206,28 +237,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24.w),
                           child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 12.h),
                             onTap: () {
-                             showDialog(context: context, builder:(context){
-                               return AlertDialog(
-                                 title: const Text("Are you sure"),
-                                actions: [
-                                  TextButton(onPressed: (){
-                                    Navigator.pop(context);
-                                  }, child:const Text("Cancel")),
-                                  TextButton(onPressed: (){
-                                    String token = StorageRepository.getString(
-                                        key: "access_token");
-                                    context
-                                        .read<AuthBloc>()
-                                        .add(LogOutUserEvent(token: token));
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("Are you sure"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Cancel")),
+                                        TextButton(
+                                            onPressed: () {
+                                              String token =
+                                              StorageRepository.getString(
+                                                  key: "access_token");
+                                              context.read<AuthBloc>().add(
+                                                  LogOutUserEvent(
+                                                      token: token));
 
-                                    StorageRepository.setBool(
-                                        key: "is_new_user", value: false);
-                                  }, child:const Text("OK")),
-                                ],
-                               );
-                             });
+                                              StorageRepository.setBool(
+                                                  key: "is_new_user",
+                                                  value: false);
+                                            },
+                                            child: const Text("OK")),
+                                      ],
+                                    );
+                                  });
                             },
                             leading: Container(
                               height: 56.h,
@@ -251,6 +291,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
+                        ),
+                        ElevatedButton(
+                          onPressed: _uploadImage,
+                          child: Text('Upload Image'),
                         ),
                       ],
                     ),

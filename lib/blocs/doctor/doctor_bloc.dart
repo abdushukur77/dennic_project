@@ -1,3 +1,4 @@
+import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,16 +12,16 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   final DoctorRepository doctorRepository;
 
   DoctorBloc({required this.doctorRepository})
-      : super(DoctorState(myUserModel: MyUserModel.initial())) {
+      : super(DoctorState(
+      myUserModel: MyUserModel.initial(), doctorModel: DoctorModel.initial())) {
     on<FetchDoctors>(_onFetchDoctors);
     on<FetchDoctorsBySpecialization>(_onFetchDoctorsBySpecialization);
+    on<FetchDoctorById>(_onFetchDoctorById);
     on<GetUser>(_onGetUser);
   }
 
-  Future<void> _onFetchDoctors(
-    FetchDoctors event,
-    Emitter<DoctorState> emit,
-  ) async {
+  Future<void> _onFetchDoctors(FetchDoctors event,
+      Emitter<DoctorState> emit,) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
     NetworkResponse networkResponse = await doctorRepository.fetchDoctor();
@@ -43,7 +44,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     NetworkResponse networkResponse = await doctorRepository.getUser();
 
     if (networkResponse.errorText.isEmpty) {
-
       debugPrint(" My User Model   ${networkResponse.data}");
       emit(state.copyWith(
           formStatus: FormStatus.success, myUserModel: networkResponse.data));
@@ -51,9 +51,8 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   }
 
   Future<void> _onFetchDoctorsBySpecialization(
-    FetchDoctorsBySpecialization event,
-    Emitter<DoctorState> emit,
-  ) async {
+      FetchDoctorsBySpecialization event,
+      Emitter<DoctorState> emit,) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
     NetworkResponse networkResponse = await doctorRepository
@@ -62,6 +61,26 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(
           formStatus: FormStatus.success, searchDoctors: networkResponse.data));
+    } else {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onFetchDoctorById(FetchDoctorById event,
+      Emitter<DoctorState> emit,) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse = await doctorRepository
+        .fetchDoctorById(event.doctorId);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(state.copyWith(
+          formStatus: FormStatus.success, doctorModel: networkResponse.data));
     } else {
       emit(
         state.copyWith(

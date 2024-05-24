@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
@@ -85,7 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icons.favorite,
                             color: AppColors.c_2972FE,
                           ),
-                          onTap: () {},
+                          onTap: () {
+
+                            ApiProvider.fetchByDoctorId("123e4567-e89b-12d3-a456-426614274008");
+                          },
                         ),
                       ],
                     ),
@@ -232,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           MaterialPageRoute(
                                             builder: (context) {
                                               return DetailScreen(
-                                                doctorModel:
-                                                    state.doctors[index],
+                                                doctorId:
+                                                    state.doctors[index].id,
                                               );
                                             },
                                           ),

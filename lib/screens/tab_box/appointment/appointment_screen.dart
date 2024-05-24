@@ -93,7 +93,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                SizedBox(height: 10.h),
               Wrap(
                 runSpacing: 10.w,
-                spacing: 3.h,
+                spacing: 2.h,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   ...List.generate(times.length, (index) {

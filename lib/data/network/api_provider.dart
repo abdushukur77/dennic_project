@@ -376,4 +376,26 @@ class ApiProvider {
       return NetworkResponse(errorText: error.toString());
     }
   }
+
+  static Future<NetworkResponse> fetchByDoctorId(String doctorId) async {
+    NetworkResponse networkResponse =NetworkResponse();
+    final response = await http.get(Uri.parse(
+        "https://swag.dennic.uz/v1/doctor/get?id=$doctorId"));
+
+    try {
+      if (response.statusCode == 200) {
+        final  data = jsonDecode(response.body);
+
+        networkResponse.data=DoctorModel.fromJson(data);
+        debugPrint((networkResponse.data as DoctorModel).toJson().toString());
+
+        return networkResponse;
+      } else {
+        return NetworkResponse(errorText: "Failed to load Doctor");
+      }
+    } catch (error) {
+      return NetworkResponse(errorText: error.toString());
+    }
+  }
+
 }

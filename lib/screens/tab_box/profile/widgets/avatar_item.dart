@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AvatarItem extends StatelessWidget {
-  const AvatarItem({super.key});
+  const AvatarItem({super.key, required this.image});
+
+
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +18,8 @@ class AvatarItem extends StatelessWidget {
           maxRadius: 50.r,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100.r),
-            child: Image.asset(
-              AppImages.doctor,
+            child: Image.network(
+              image,
               width: 100.w,
               height: 100.h,
               fit: BoxFit.cover,
