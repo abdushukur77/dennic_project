@@ -44,7 +44,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
     if (networkResponse.errorText.isEmpty) {
 
-      debugPrint(" My User Model    ${networkResponse.data}");
+      debugPrint(" My User Model   ${networkResponse.data}");
       emit(state.copyWith(
           formStatus: FormStatus.success, myUserModel: networkResponse.data));
     }

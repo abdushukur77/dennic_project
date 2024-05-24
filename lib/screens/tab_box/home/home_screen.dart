@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
@@ -84,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icons.favorite,
                             color: AppColors.c_2972FE,
                           ),
-                          onTap: () {
-
-                          },
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -138,15 +137,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               return SpecialistItems(
                                 icon: state.specializations[index].imageUrl,
                                 title: state.specializations[index].name,
-                                subTitle: state.specializations[index].order.toString()+" doctors",
-                                color1:generateRandomColors(index+1)[0],
+                                subTitle: state.specializations[index].order
+                                        .toString() +
+                                    " doctors",
+                                color1: generateRandomColors(index + 1)[0],
                                 onTap: () {
                                   // context.read<DoctorBloc>().add(
                                   //   FetchDoctorsBySpecialization(
                                   //     state.specializations[index].id,
                                   //   ),
                                   // );
-
                                 },
                               );
                             },
@@ -189,8 +189,20 @@ class _HomeScreenState extends State<HomeScreen> {
               BlocBuilder<DoctorBloc, DoctorState>(
                 builder: (context, state) {
                   if (state.formStatus == FormStatus.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                            20,
+                            (index) => Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  child: ShimmerWidget(
+                                      border: BorderRadius.circular(12.r),
+                                      width: 169.w,
+                                      height: 229.h),
+                                )),
+                      ),
                     );
                   }
                   if (state.formStatus == FormStatus.error) {
@@ -215,14 +227,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       title: state.doctors[index].lastName,
                                       subtitle: state.doctors[index].bio,
                                       onTap: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return DetailScreen(
-                                            doctorModel:
-                                                state.doctors[index],
-                                          );
-                                        }));
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return DetailScreen(
+                                                doctorModel:
+                                                    state.doctors[index],
+                                              );
+                                            },
+                                          ),
+                                        );
                                       },
                                     );
                                   },
@@ -253,8 +268,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Spacer(),
                     SeeAllItems(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
                           return TopDoctorScreen();
                         }));
                       },
@@ -280,11 +295,8 @@ List<Color> generateRandomColors(int index) {
     Color(0xFF2972FE),
   ];
 
-
-
-
   // Return a list of the two randomly chosen colors
-  return [colors[index%3]];
+  return [colors[index % 3]];
 }
 
 // SpecialistItems(
