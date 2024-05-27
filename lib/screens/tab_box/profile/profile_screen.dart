@@ -34,11 +34,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? _imageFile;
 
-  @override
-  void initState() {
-    Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
-    super.initState();
-  }
+    @override
+    void initState() {
+      Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
+      super.initState();
+    }
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -123,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           RingAndFavoriteItems(
                             icon: const Icon(Icons.edit),
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return EditProfileScreen();
+                              return EditProfileScreen(myUserModel: state.myUserModel,);
                             })),
                           ),
                           RingAndFavoriteItems(

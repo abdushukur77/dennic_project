@@ -401,9 +401,11 @@ class ApiProvider {
   }) async {
     NetworkResponse networkResponse = NetworkResponse();
 
+    debugPrint("Api Provider update ${updateUserModel.birthDate}");
+
+
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/update");
-debugPrint("Update ga keldi ${uri}");
        http.Response response = await http.put(
         uri,
         headers: {
@@ -412,10 +414,12 @@ debugPrint("Update ga keldi ${uri}");
         body: jsonEncode(updateUserModel.toJson()),
       );
 
-      print('Response status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+
 
       if (response.statusCode == 200) {
+        print('Response status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
         networkResponse.data = "User updated successfully";
       } else {
         final responseData = jsonDecode(response.body);
