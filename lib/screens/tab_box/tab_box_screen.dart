@@ -29,10 +29,10 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
   @override
   void initState() {
     screens = [
-      HomeScreen(),
-      AppointmentScreen(),
-      HistoryScreen(),
-      ProfileScreen()
+      const HomeScreen(),
+      const AppointmentScreen(),
+      const HistoryScreen(),
+      const ProfileScreen()
     ];
     _userListener();
     super.initState();
@@ -62,7 +62,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
                   BoxShadow(
                     color: Colors.black.withOpacity(.1),
                     blurRadius: 30,
-                    offset: Offset(0, 10),
+                    offset: const Offset(0, 10),
                   ),
                 ],
                 borderRadius: BorderRadius.circular(50),
@@ -83,7 +83,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
                   child: Stack(
                     children: [
                       AnimatedContainer(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         curve: Curves.fastLinearToSlowEaseIn,
                         width:
                             index == currentIndex ? width * .32 : width * .18,

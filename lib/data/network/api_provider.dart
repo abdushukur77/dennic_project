@@ -26,7 +26,6 @@ class ApiProvider {
         },
         body: jsonEncode(userModel.toJson()),
       );
-      // debugPrint("Status Coed: ${response.statusCode} ---------");
       if (response.statusCode == 200) {
         networkResponse.data = "Registered";
       } else if (response.statusCode == 400) {
@@ -184,7 +183,6 @@ class ApiProvider {
       );
       if (response.statusCode == 200) {
         networkResponse.data = jsonDecode(response.body);
-        // debugPrint("${response.body} ----------------");
       } else if (response.statusCode == 400) {
         networkResponse.errorText =
             networkResponse.data["message"] as String? ?? "";
@@ -213,7 +211,6 @@ class ApiProvider {
       );
       if (response.statusCode == 200) {
         networkResponse.data = jsonDecode(response.body);
-        // debugPrint("${response.body} ----------------");
       } else {
         networkResponse.errorText = response.statusCode.toString();
       }
@@ -228,7 +225,7 @@ class ApiProvider {
     String error = "";
 
     String myRefreshToken = StorageRepository.getString(key: "refresh_token");
-    debugPrint("${myRefreshToken} ------------------");
+    debugPrint("$myRefreshToken ------------------");
 
     try {
       Uri uri =
@@ -288,23 +285,15 @@ class ApiProvider {
           debugPrint("myError.isEmpty -----------------------------------");
           getUser();
         } else {
-          // debugPrint(
-          //     "the_end_token the_end_token the_end_token the_end_token the_end_token -------------------------$myError--------");
-
           networkResponse.errorText = "the_end_token";
         }
       } else if (response.statusCode == 200) {
-        // debugPrint(
-        //     "response.statusCode == 200    -----------------------------------");
-
         networkResponse.data = MyUserModel.fromJson(myInfo);
         debugPrint((networkResponse.data as MyUserModel).toJson().toString());
       } else {
         networkResponse.errorText = myInfo["message"] as String? ?? "";
       }
     } catch (error) {
-      // debugPrint(
-      //     "response.statusCode == ???    -----------------------$error");
       networkResponse.errorText = error.toString();
     }
     return networkResponse;
@@ -337,14 +326,10 @@ class ApiProvider {
 
     try {
       if (response.statusCode == 200) {
-        // debugPrint("Stautus  ${response.statusCode.toString()}");
         final List<dynamic> data = jsonDecode(response.body)['specializations'];
 
-        // debugPrint("Stautus  ${response.statusCode.toString()}");
         List<SpecializationModel> specializations =
             data.map((json) => SpecializationModel.fromJson(json)).toList();
-
-        // debugPrint("Stautus  ${specializations.toString()}");
 
         return NetworkResponse(data: specializations);
       } else {
@@ -406,6 +391,7 @@ class ApiProvider {
 
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/update");
+
        http.Response response = await http.put(
         uri,
         headers: {
@@ -414,6 +400,8 @@ class ApiProvider {
         body: jsonEncode(updateUserModel.toJson()),
       );
 
+      debugPrint('Response status code: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
 
 
       if (response.statusCode == 200) {
@@ -426,11 +414,10 @@ class ApiProvider {
         networkResponse.errorText = responseData["message"] ?? "Unknown error";
       }
     } catch (error) {
-      print('Error in updateUser: $error');
+      debugPrint('Error in updateUser: $error');
       return NetworkResponse(errorText: error.toString());
     }
 
     return networkResponse;
   }
-
 }
