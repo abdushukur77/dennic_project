@@ -69,7 +69,7 @@ class GenderDropdown extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: Text(
-                      "Male",
+                      "male",
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
@@ -84,7 +84,7 @@ class GenderDropdown extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: Text(
-                      "Female",
+                      "female",
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,

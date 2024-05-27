@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NextButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final String title;
 
-  NextButton({required this.onPressed});
+  NextButton({required this.onPressed, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,8 @@ class NextButton extends StatelessWidget {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          child: const Text(
-            "Next",
+          child:  Text(
+            title,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
