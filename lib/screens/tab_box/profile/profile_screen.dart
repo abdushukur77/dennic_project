@@ -1,12 +1,28 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
+import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/edit_profile_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import 'package:http_parser/http_parser.dart';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
+import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
+import 'package:dennic_project/blocs/doctor/doctor_event.dart';
+import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
+import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
+import 'package:dennic_project/screens/tab_box/profile/widgets/avatar_item.dart';
 import 'package:dennic_project/screens/tab_box/profile/widgets/listtile_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,9 +40,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await picker.pickImage(source: source, maxHeight: 60.h, maxWidth: 60.w);
 
     if (pickedFile != null) {
       setState(() {
@@ -54,18 +71,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final response = await request.send();
 
-    if (response.statusCode == 200) {
-      print('Image uploaded successfully!');
+    // listen for response
+    response.stream.transform(utf8.decoder).listen((value) {
+      debugPrint(value);
+    });
+
+    if (response.statusCode == 201) {
+      // debugPrint(request.url.toString());
+      // print('Image uploaded successfully!');
+      // context.read<DoctorBloc>()..add(GetUser());
     } else {
+      context.read<DoctorBloc>()..add(GetUser());
       print('Image upload failed with status: ${response.statusCode}');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: AppColors.white,
       body: BlocBuilder<DoctorBloc, DoctorState>(
@@ -80,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state.formStatus == FormStatus.success) {
             return Column(
               children: [
-                72.getH(),
+                50.getH(),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
@@ -100,7 +122,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const Spacer(),
                           RingAndFavoriteItems(
                             icon: const Icon(Icons.edit),
-                            onTap: _pickImage,
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return EditProfileScreen();
+                            })),
+                          ),
+                          RingAndFavoriteItems(
+                            icon: const Icon(Icons.edit),
+                            onTap: () => _pickImage(ImageSource.gallery),
+                          ),
+                          RingAndFavoriteItems(
+                            icon: const Icon(Icons.camera_alt),
+                            onTap: () => _pickImage(ImageSource.camera),
                           ),
                         ],
                       ),
@@ -109,7 +141,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           _imageFile == null
                               ? AvatarItem(image: state.myUserModel.imageUrl)
-                              : Image.file(_imageFile!),
+                              : CircleAvatar(
+                                  radius: 50.r,
+                                  child: Image.file(
+                                    _imageFile!,
+                                    width: 100.w,
+                                    height: 100.h,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                           24.getW(),
                           Expanded(
                             child: Column(
@@ -182,7 +222,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ListTileItems(
                           icon: const Icon(Icons.directions_boat_filled),
                           title: "Notification",
-                          onTap: () {},
+                          onTap: () async {
+                            await ApiProvider.updateUser(
+                                updateUserModel: UpdateUserModel(
+                              birthDate: state.myUserModel.birthDate,
+                              firstName: "Zokir",
+                              gender: state.myUserModel.gender,
+                              id: state.myUserModel.id,
+                              imageUrl: state.myUserModel.imageUrl,
+                              lastName: state.myUserModel.lastName,
+                            ));
+                            _uploadImage();
+                            context.read<DoctorBloc>().add(GetUser());
+                          },
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
@@ -238,7 +290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 24.w),
                           child: ListTile(
                             contentPadding:
-                            EdgeInsets.symmetric(vertical: 12.h),
+                                EdgeInsets.symmetric(vertical: 12.h),
                             onTap: () {
                               showDialog(
                                   context: context,
@@ -254,8 +306,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         TextButton(
                                             onPressed: () {
                                               String token =
-                                              StorageRepository.getString(
-                                                  key: "access_token");
+                                                  StorageRepository.getString(
+                                                      key: "access_token");
                                               context.read<AuthBloc>().add(
                                                   LogOutUserEvent(
                                                       token: token));

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
+import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
@@ -160,7 +161,8 @@ class ApiProvider {
         networkResponse.errorText = "you haven't registered before";
       }
     } catch (error) {
-      networkResponse.errorText = networkResponse.data["message"] as String? ?? "";
+      networkResponse.errorText =
+          networkResponse.data["message"] as String? ?? "";
     }
 
     return networkResponse;
@@ -184,12 +186,12 @@ class ApiProvider {
         networkResponse.data = jsonDecode(response.body);
         // debugPrint("${response.body} ----------------");
       } else if (response.statusCode == 400) {
-        networkResponse.errorText = networkResponse.data["message"] as String? ?? "";
-
+        networkResponse.errorText =
+            networkResponse.data["message"] as String? ?? "";
       }
     } catch (error) {
-      networkResponse.errorText = networkResponse.data["message"] as String? ?? "";
-
+      networkResponse.errorText =
+          networkResponse.data["message"] as String? ?? "";
     }
 
     return networkResponse;
@@ -267,7 +269,6 @@ class ApiProvider {
 
     debugPrint("myError.isEmpty ----------------------$userToken-");
 
-
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/get");
       http.Response response = await http.get(
@@ -279,8 +280,6 @@ class ApiProvider {
       );
       Map<String, dynamic> myInfo = jsonDecode(response.body);
       debugPrint("AWWWWWWWWWWW ${response.body}");
-
-
 
       if (myInfo["status"] == "Unauthorized") {
         String myError = await _updateToken();
@@ -319,11 +318,9 @@ class ApiProvider {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-
         List<DoctorModel> doctors = (data['doctors'] as List)
             .map((doctorJson) => DoctorModel.fromJson(doctorJson))
             .toList();
-
 
         return NetworkResponse(data: doctors);
       } else {
@@ -358,7 +355,8 @@ class ApiProvider {
     }
   }
 
-  static Future<NetworkResponse> fetchBySpecializations(String specializationId) async {
+  static Future<NetworkResponse> fetchBySpecializations(
+      String specializationId) async {
     final response = await http.get(Uri.parse(
         "https://swag.dennic.uz/v1/doctor/spec?specialization_id=$specializationId"));
 
@@ -378,15 +376,15 @@ class ApiProvider {
   }
 
   static Future<NetworkResponse> fetchByDoctorId(String doctorId) async {
-    NetworkResponse networkResponse =NetworkResponse();
-    final response = await http.get(Uri.parse(
-        "https://swag.dennic.uz/v1/doctor/get?id=$doctorId"));
+    NetworkResponse networkResponse = NetworkResponse();
+    final response = await http
+        .get(Uri.parse("https://swag.dennic.uz/v1/doctor/get?id=$doctorId"));
 
     try {
       if (response.statusCode == 200) {
-        final  data = jsonDecode(response.body);
+        final data = jsonDecode(response.body);
 
-        networkResponse.data=DoctorModel.fromJson(data);
+        networkResponse.data = DoctorModel.fromJson(data);
         debugPrint((networkResponse.data as DoctorModel).toJson().toString());
 
         return networkResponse;
@@ -396,6 +394,39 @@ class ApiProvider {
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
+  }
+
+  static Future<NetworkResponse> updateUser({
+    required UpdateUserModel updateUserModel,
+  }) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/update");
+debugPrint("Update ga keldi ${uri}");
+       http.Response response = await http.put(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(updateUserModel.toJson()),
+      );
+
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        networkResponse.data = "User updated successfully";
+      } else {
+        final responseData = jsonDecode(response.body);
+        networkResponse.errorText = responseData["message"] ?? "Unknown error";
+      }
+    } catch (error) {
+      print('Error in updateUser: $error');
+      return NetworkResponse(errorText: error.toString());
+    }
+
+    return networkResponse;
   }
 
 }
