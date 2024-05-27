@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dennic_project/blocs/auth/auth_bloc.dart';
+import 'package:dennic_project/blocs/auth/auth_event.dart';
+import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/edit_profile_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
-import 'package:dennic_project/blocs/auth/auth_bloc.dart';
-import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
-import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
 import 'package:dennic_project/screens/tab_box/profile/widgets/avatar_item.dart';
@@ -42,8 +42,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
-    final pickedFile =
-        await picker.pickImage(source: source, maxHeight: 60.h, maxWidth: 60.w);
+    final pickedFile = await picker.pickImage(
+        source: source, maxHeight: 1024.h, maxWidth: 1024.w);
 
     if (pickedFile != null) {
       setState(() {
@@ -71,18 +71,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final response = await request.send();
 
-    // listen for response
     response.stream.transform(utf8.decoder).listen((value) {
       debugPrint(value);
     });
 
     if (response.statusCode == 201) {
-      // debugPrint(request.url.toString());
-      // print('Image uploaded successfully!');
-      // context.read<DoctorBloc>()..add(GetUser());
     } else {
-      context.read<DoctorBloc>()..add(GetUser());
-      print('Image upload failed with status: ${response.statusCode}');
+      context.read<DoctorBloc>().add(GetUser());
+      debugPrint('Image upload failed with status: ${response.statusCode}');
     }
   }
 
@@ -93,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: BlocBuilder<DoctorBloc, DoctorState>(
         builder: (context, state) {
           if (state.formStatus == FormStatus.loading) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
           if (state.formStatus == FormStatus.error) {
             return Text(state.errorMessage);
@@ -122,17 +118,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const Spacer(),
                           RingAndFavoriteItems(
                             icon: const Icon(Icons.edit),
-                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return EditProfileScreen();
-                            })),
-                          ),
-                          RingAndFavoriteItems(
-                            icon: const Icon(Icons.edit),
-                            onTap: () => _pickImage(ImageSource.gallery),
-                          ),
-                          RingAndFavoriteItems(
-                            icon: const Icon(Icons.camera_alt),
-                            onTap: () => _pickImage(ImageSource.camera),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const EditProfileScreen();
+                                },
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -140,15 +133,119 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Row(
                         children: [
                           _imageFile == null
-                              ? AvatarItem(image: state.myUserModel.imageUrl)
-                              : CircleAvatar(
-                                  radius: 50.r,
-                                  child: Image.file(
-                                    _imageFile!,
-                                    width: 100.w,
-                                    height: 100.h,
-                                    fit: BoxFit.cover,
-                                  ),
+                              ? AvatarItem(
+                                  image: state.myUserModel.imageUrl,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 24.w,
+                                            vertical: 14.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(40.r),
+                                              topRight: Radius.circular(40.r),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                onTap: () async {
+                                                  await _pickImage(
+                                                      ImageSource.camera);
+                                                  _uploadImage();
+                                                },
+                                                leading: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.camera_alt_outlined,
+                                                    size: 24.sp,
+                                                    color: AppColors.c_2972FE,
+                                                  ),
+                                                ),
+                                                title: Text(
+                                                  "Camera",
+                                                  style: TextStyle(
+                                                    color: AppColors.c_2972FE,
+                                                    fontSize: 24.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              ListTile(
+                                                onTap: () async {
+                                                  await _pickImage(
+                                                      ImageSource.gallery);
+                                                  _uploadImage();
+                                                },
+                                                leading: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.image_search,
+                                                    size: 24.sp,
+                                                    color: AppColors.c_2972FE,
+                                                  ),
+                                                ),
+                                                title: Text(
+                                                  "Images",
+                                                  style: TextStyle(
+                                                    color: AppColors.c_2972FE,
+                                                    fontSize: 24.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                )
+                              : Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      maxRadius: 50.r,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100.r),
+                                        child: Image.file(
+                                          _imageFile!,
+                                          width: 100.w,
+                                          height: 100.h,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: InkWell(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        onTap: () {},
+                                        child: Container(
+                                          width: 23.w,
+                                          height: 20.h,
+                                          decoration: BoxDecoration(
+                                              color: AppColors.c_2972FE,
+                                              borderRadius:
+                                                  BorderRadius.circular(100)
+                                              // shape: BoxShape.circle
+                                              ),
+                                          child: Icon(
+                                            Icons.edit,
+                                            size: 13.sp,
+                                            color: AppColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                           24.getW(),
                           Expanded(
@@ -224,14 +321,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: "Notification",
                           onTap: () async {
                             await ApiProvider.updateUser(
-                                updateUserModel: UpdateUserModel(
-                              birthDate: state.myUserModel.birthDate,
-                              firstName: "Zokir",
-                              gender: state.myUserModel.gender,
-                              id: state.myUserModel.id,
-                              imageUrl: state.myUserModel.imageUrl,
-                              lastName: state.myUserModel.lastName,
-                            ));
+                              updateUserModel: UpdateUserModel(
+                                birthDate: state.myUserModel.birthDate,
+                                firstName: "Zokir",
+                                gender: state.myUserModel.gender,
+                                id: state.myUserModel.id,
+                                imageUrl: state.myUserModel.imageUrl,
+                                lastName: state.myUserModel.lastName,
+                              ),
+                            );
                             _uploadImage();
                             context.read<DoctorBloc>().add(GetUser());
                           },
@@ -292,34 +390,119 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             contentPadding:
                                 EdgeInsets.symmetric(vertical: 12.h),
                             onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text("Are you sure"),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Cancel")),
-                                        TextButton(
-                                            onPressed: () {
-                                              String token =
-                                                  StorageRepository.getString(
-                                                      key: "access_token");
-                                              context.read<AuthBloc>().add(
-                                                  LogOutUserEvent(
-                                                      token: token));
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 24.w,
+                                      vertical: 48.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(40.r),
+                                        topRight: Radius.circular(40.r),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.login,
+                                          size: 48.sp,
+                                          color: AppColors.c_2972FE,
+                                        ),
+                                        24.getH(),
+                                        Text(
+                                          "Are you sure want to logout?",
+                                          style: TextStyle(
+                                            color: AppColors.c_2C3A4B,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        37.getH(),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 14.h,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      35.r,
+                                                    ),
+                                                    side: BorderSide(
+                                                      width: 2.w,
+                                                      color: AppColors.c_2972FE,
+                                                    ),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                    color: AppColors.c_2972FE,
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            12.getW(),
+                                            Expanded(
+                                              child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor:
+                                                      AppColors.c_2972FE,
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 14.h,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      35.r,
+                                                    ),
+                                                    side: BorderSide(
+                                                      width: 2.w,
+                                                      color: AppColors.c_2972FE,
+                                                    ),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  String token =
+                                                      StorageRepository.getString(
+                                                          key: "access_token");
+                                                  context.read<AuthBloc>().add(
+                                                      LogOutUserEvent(
+                                                          token: token));
 
-                                              StorageRepository.setBool(
-                                                  key: "is_new_user",
-                                                  value: false);
-                                            },
-                                            child: const Text("OK")),
+                                                  StorageRepository.setBool(
+                                                      key: "is_new_user",
+                                                      value: false);
+                                                },
+                                                child: Text(
+                                                  "Yes, Logout",
+                                                  style: TextStyle(
+                                                    color: AppColors.white,
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
-                                    );
-                                  });
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             leading: Container(
                               height: 56.h,
@@ -335,7 +518,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             title: Text(
-                              "Logout ",
+                              "Logout",
                               style: TextStyle(
                                 color: AppColors.c_09101D,
                                 fontSize: 16.sp,
@@ -344,10 +527,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: _uploadImage,
-                          child: Text('Upload Image'),
-                        ),
                       ],
                     ),
                   ),
@@ -355,7 +534,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             );
           }
-          return SizedBox();
+          return const SizedBox();
         },
       ),
     );
