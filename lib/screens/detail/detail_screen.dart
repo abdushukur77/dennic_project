@@ -2,22 +2,21 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
-import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/screens/detail/widgets/day_items.dart';
 import 'package:dennic_project/screens/detail/widgets/details_doctor_items.dart';
 import 'package:dennic_project/screens/detail/widgets/global_button.dart';
 import 'package:dennic_project/screens/detail/widgets/patients_items.dart';
+import 'package:dennic_project/screens/detail/widgets/share_items.dart';
 import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
 import 'package:dennic_project/screens/tab_box/appointment/appointment_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
-import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.doctorId});
@@ -50,14 +49,16 @@ class _DetailScreenState extends State<DetailScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(
-                    20,
-                    (index) => Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          child: ShimmerWidget(
-                              border: BorderRadius.circular(12.r),
-                              width: 169.w,
-                              height: 229.h),
-                        )),
+                  20,
+                  (index) => Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: ShimmerWidget(
+                      border: BorderRadius.circular(12.r),
+                      width: 169.w,
+                      height: 229.h,
+                    ),
+                  ),
+                ),
               ),
             );
           }
@@ -92,9 +93,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               Expanded(
                                 flex: 20,
                                 child: Text(
-                                  state.doctorModel.firstName +
-                                      " " +
-                                      state.doctorModel.lastName,
+                                  "${state.doctorModel.firstName} ${state.doctorModel.lastName}",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -112,7 +111,96 @@ class _DetailScreenState extends State<DetailScreen> {
                               10.getW(),
                               RingAndFavoriteItems(
                                 icon: const Icon(Icons.share),
-                                onTap: () {},
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        padding: EdgeInsets.only(
+                                          left: 24.w,
+                                          bottom: 48.h,
+                                          right: 24.w,
+                                        ),
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(40.r),
+                                            topRight: Radius.circular(40.r),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            8.getH(),
+                                            Container(
+                                              width: 38.w,
+                                              height: 3.h,
+                                              color: AppColors.c_EBEEF2,
+                                            ),
+                                            24.getH(),
+                                            Text(
+                                              "Share",
+                                              style: TextStyle(
+                                                color: AppColors.c_2C3A4B,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            24.getH(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ShareItems(
+                                                  icon: AppImages.whatsapp,
+                                                  onTap: () {},
+                                                ),
+                                                ShareItems(
+                                                  icon: AppImages.twitter,
+                                                  onTap: () {},
+                                                ),
+                                                ShareItems(
+                                                  icon: AppImages.facebook,
+                                                  onTap: () {},
+                                                ),
+                                                ShareItems(
+                                                  icon: AppImages.instagram,
+                                                  onTap: () {},
+                                                ),
+                                              ],
+                                            ),
+                                            24.getH(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ShareItems(
+                                                  icon: AppImages.yahoo,
+                                                  onTap: () {},
+                                                ),
+                                                ShareItems(
+                                                  icon: AppImages.tiktok,
+                                                  onTap: () {},
+                                                ),
+                                                ShareItems(
+                                                  icon: AppImages.chat,
+                                                  onTap: () {},
+                                                ),
+                                                ShareItems(
+                                                  icon: AppImages.wechat,
+                                                  onTap: () {},
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -139,16 +227,15 @@ class _DetailScreenState extends State<DetailScreen> {
                                           primaryRouteAnimation: animation,
                                           secondaryRouteAnimation:
                                               secondaryAnimation,
-                                          child: child,
                                           linearTransition: true,
+                                          child: child,
                                         );
                                       },
                                     ),
                                   );
                                 },
-                                fullName: state.doctorModel.firstName +
-                                    " " +
-                                    state.doctorModel.lastName,
+                                fullName:
+                                    "${state.doctorModel.firstName} ${state.doctorModel.lastName}",
                                 bio: state.doctorModel.bio,
                                 image: state.doctorModel.imageUrl,
                               ),
@@ -177,9 +264,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     ),
                                     PatientsItems(
                                       icon: Icons.person,
-                                      title: state.doctorModel.workYears
-                                              .toString() +
-                                          "+",
+                                      title: "${state.doctorModel.workYears}+",
                                       subtitle: "Years experiences",
                                     ),
                                     PatientsItems(
@@ -264,17 +349,22 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 GlobalButton(
-                    title: "Book Appointment",
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AppointmentScreen();
-                      }));
-                    }),
+                  title: "Book Appointment",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const AppointmentScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
               ],
             );
           }
-          return SizedBox();
+          return const SizedBox();
         },
       ),
     );
@@ -284,7 +374,7 @@ class _DetailScreenState extends State<DetailScreen> {
 class FullscreenImageScreen extends StatelessWidget {
   final String imageUrl;
 
-  const FullscreenImageScreen({required this.imageUrl});
+  const FullscreenImageScreen({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -294,15 +384,17 @@ class FullscreenImageScreen extends StatelessWidget {
         children: [
           SizedBox(height: 40.h),
           Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.white,
-                  ))),
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.white,
+              ),
+            ),
+          ),
           SizedBox(height: 10.h),
           Center(
             child: Image.network(

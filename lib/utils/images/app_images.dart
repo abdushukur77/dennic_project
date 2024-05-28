@@ -52,4 +52,12 @@ class AppImages {
   static const String calendar  = "assets/icons/calendar.svg";
   static const String belll  = "assets/icons/belll.svg";
   static const String pluss  = "assets/icons/pluss.svg";
+  static const String instagram  = "assets/icons/instagram.svg";
+  static const String tiktok  = "assets/icons/tiktok.svg";
+  static const String facebook  = "assets/icons/facebook.svg";
+  static const String twitter  = "assets/icons/twitter.svg";
+  static const String yahoo  = "assets/icons/yahoo.svg";
+  static const String chat  = "assets/icons/chat.svg";
+  static const String whatsapp  = "assets/icons/whatsapp.svg";
+  static const String wechat  = "assets/icons/wechat.svg";
 }
