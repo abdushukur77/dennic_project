@@ -1,19 +1,26 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
+import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
-import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/widgets/date_time_picker.dart';
 import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/widgets/full_name.dart';
+import 'package:dennic_project/screens/tab_box/profile/widgets/avatar_item.dart';
+import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../data/model/update_user_model/update_user_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 import 'widgets/next_button.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -26,35 +33,103 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  File? _imageFile;
+  DateTime? selectedDate;
+  String gender = 'male';
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+  String imageUrl = "";
+
   @override
   void initState() {
-    Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
     super.initState();
+    Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
 
     firstNameController.text = widget.myUserModel.firstName;
     lastNameController.text = widget.myUserModel.lastName;
     phoneController.text = widget.myUserModel.phoneNumber;
     genderController.text = widget.myUserModel.gender;
     dateController.text = widget.myUserModel.birthDate;
-    selectedDate=DateTime.parse(widget.myUserModel.birthDate);
+    selectedDate = DateTime.parse(widget.myUserModel.birthDate);
+    imageUrl = widget.myUserModel.imageUrl;
   }
 
-  DateTime? selectedDate;
-  String gender = 'male';
+  Future<void> _uploadImage() async {
+    if (_imageFile == null) return;
 
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://swag.dennic.uz/v1/file-upload?bucketName=user'),
+    );
+
+    request.files.add(
+      http.MultipartFile(
+        'file',
+        _imageFile!.readAsBytes().asStream(),
+        _imageFile!.lengthSync(),
+        filename: path.basename(_imageFile!.path),
+        contentType: MediaType('image', 'png'),
+      ),
+    );
+
+    final response = await request.send();
+
+    if (response.statusCode == 201) {
+      response.stream.transform(utf8.decoder).listen((value) async {
+        final Map<String, dynamic> responseData = json.decode(value);
+         imageUrl = responseData['url'];
+
+        debugPrint("Image Url______________________________ ${imageUrl}");
+
+        await ApiProvider.updateUser(
+          updateUserModel: UpdateUserModel(
+            birthDate: selectedDate.toString().substring(0, 10),
+            firstName: firstNameController.text,
+            gender: gender,
+            id: widget.myUserModel.id,
+            imageUrl: imageUrl,
+            lastName: lastNameController.text,
+          ),
+        );
+        context.read<DoctorBloc>().add(GetUser());
+      });
+    } else {
+      debugPrint('Image upload failed with status: ${response.statusCode}');
+    }
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+        source: source, maxHeight: 1024.h, maxWidth: 1024.w);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    const List<String> list = [
-      "male",
-      "female",
-    ];
+    const List<String> list = ["male", "female"];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -85,36 +160,150 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     Stack(
                       alignment: Alignment.bottomRight,
-                      // Align the Positioned widget correctly
                       children: [
                         Center(
                           child: CircleAvatar(
                             radius: 50.r,
-                            backgroundImage: NetworkImage(
-                              widget.myUserModel.imageUrl,
-                            ),
+                            backgroundImage: NetworkImage(widget.myUserModel.imageUrl),
                           ),
                         ),
                         Positioned(
                           right: 100.w,
-                          // Adjust the right position to align the edit icon
                           bottom: 0,
-                          // Adjust the bottom position to align the edit icon
-                          child: Container(
-                            padding: EdgeInsets.only(right: 5.w, bottom: 5.h),
-                            height: 35.h,
-                            width: 35.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.c_2972FE,
-                            ),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.edit,
-                                color: AppColors.white,
+                          child: _imageFile == null
+                              ? GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                      secondaryAnimation) =>
+                                      FullscreenImageScreen(
+                                        imageUrl: widget.myUserModel.imageUrl,
+                                      ),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return CupertinoFullscreenDialogTransition(
+                                      primaryRouteAnimation: animation,
+                                      secondaryRouteAnimation:
+                                      secondaryAnimation,
+                                      child: child,
+                                      linearTransition: true,
+                                    );
+                                  },
+                                ),
+                              );
+
+
+                            },
+                                child: AvatarItem(
+                                                            image: widget.myUserModel.imageUrl,
+                                                            onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 24.w,
+                                        vertical: 14.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(40.r),
+                                          topRight: Radius.circular(40.r),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            onTap: () async {
+                                              await _pickImage(ImageSource.camera);
+                                              _uploadImage();
+                                            },
+                                            leading: IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.camera_alt_outlined,
+                                                size: 24.sp,
+                                                color: AppColors.c_2972FE,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              "Camera",
+                                              style: TextStyle(
+                                                color: AppColors.c_2972FE,
+                                                fontSize: 24.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          ListTile(
+                                            onTap: () async {
+                                              await _pickImage(ImageSource.gallery);
+                                              _uploadImage();
+                                            },
+                                            leading: IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.image_search,
+                                                size: 24.sp,
+                                                color: AppColors.c_2972FE,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              "Images",
+                                              style: TextStyle(
+                                                color: AppColors.c_2972FE,
+                                                fontSize: 24.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                                                            },
+                                                          ),
+                              )
+                              : Stack(
+                            children: [
+                              CircleAvatar(
+                                maxRadius: 50.r,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: Image.file(
+                                    _imageFile!,
+                                    width: 100.w,
+                                    height: 100.h,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(100),
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 23.w,
+                                    height: 20.h,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.c_2972FE,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 13.sp,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -144,10 +333,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       items: list,
                       initialItem: genderController.text,
                       onChanged: (value) {
-                        setState(() {});
-                        gender = value;
-                        debugPrint("GENDER ${value}");
-                        genderController.text=value;
+                        setState(() {
+                          gender = value!;
+                          genderController.text = value;
+                        });
                       },
                     ),
                     SizedBox(height: 24.h),
@@ -164,13 +353,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             width: 7.w,
                             height: 7.h,
                           ),
-                          // border: OutlineInputBorder(),
                         ),
                         child: selectedDate != null
                             ? Text(
                           selectedDate.toString().substring(0, 10),
-                          style: AppTextStyle.urbanistBold
-                              .copyWith(color: AppColors.c7E8CA0),
+                          style: AppTextStyle.urbanistBold.copyWith(
+                            color: AppColors.c7E8CA0,
+                          ),
                         )
                             : Text(widget.myUserModel.birthDate),
                       ),
@@ -183,15 +372,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             NextButton(
               onPressed: () async {
-                debugPrint("Dateee ----------------${selectedDate.toString().substring(0, 10)}");
-
                 await ApiProvider.updateUser(
                   updateUserModel: UpdateUserModel(
                     birthDate: selectedDate.toString().substring(0, 10),
                     firstName: firstNameController.text,
                     gender: gender,
                     id: widget.myUserModel.id,
-                    imageUrl: widget.myUserModel.imageUrl,
+                    imageUrl: imageUrl,
                     lastName: lastNameController.text,
                   ),
                 );
@@ -205,18 +392,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
+}
+class FullscreenImageScreen extends StatelessWidget {
+  final String imageUrl;
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
+  const FullscreenImageScreen({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      backgroundColor: Colors.transparent,
+      child: Column(
+        children: [
+          SizedBox(height: 40.h),
+          Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.white,
+                  ))),
+          SizedBox(height: 10.h),
+          Center(
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 500.h,
+            ),
+          )
+        ],
+      ),
     );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
   }
 }
+

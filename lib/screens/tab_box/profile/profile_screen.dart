@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
-import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
-import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/edit_profile_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
@@ -123,93 +122,111 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               return EditProfileScreen(myUserModel: state.myUserModel,);
                             })),
                           ),
-                          RingAndFavoriteItems(
-                            icon: const Icon(Icons.edit),
-                            onTap: () => _pickImage(ImageSource.gallery),
-                          ),
-                          RingAndFavoriteItems(
-                            icon: const Icon(Icons.camera_alt),
-                            onTap: () => _pickImage(ImageSource.camera),
-                          ),
+
                         ],
                       ),
                       24.getH(),
                       Row(
                         children: [
                           _imageFile == null
-                              ? AvatarItem(
-                                  image: state.myUserModel.imageUrl,
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 24.w,
-                                            vertical: 14.h,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(40.r),
-                                              topRight: Radius.circular(40.r),
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ListTile(
-                                                onTap: () async {
-                                                  await _pickImage(
-                                                      ImageSource.camera);
-                                                  _uploadImage();
-                                                },
-                                                leading: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.camera_alt_outlined,
-                                                    size: 24.sp,
-                                                    color: AppColors.c_2972FE,
-                                                  ),
-                                                ),
-                                                title: Text(
-                                                  "Camera",
-                                                  style: TextStyle(
-                                                    color: AppColors.c_2972FE,
-                                                    fontSize: 24.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                              ListTile(
-                                                onTap: () async {
-                                                  await _pickImage(
-                                                      ImageSource.gallery);
-                                                  _uploadImage();
-                                                },
-                                                leading: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.image_search,
-                                                    size: 24.sp,
-                                                    color: AppColors.c_2972FE,
-                                                  ),
-                                                ),
-                                                title: Text(
-                                                  "Images",
-                                                  style: TextStyle(
-                                                    color: AppColors.c_2972FE,
-                                                    fontSize: 24.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
+                              ? GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                      secondaryAnimation) =>
+                                      FullscreenImageScreen(
+                                        imageUrl: state.myUserModel.imageUrl,
+                                      ),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return CupertinoFullscreenDialogTransition(
+                                      primaryRouteAnimation: animation,
+                                      secondaryRouteAnimation:
+                                      secondaryAnimation,
+                                      child: child,
+                                      linearTransition: true,
                                     );
                                   },
-                                )
+                                ),
+                              );
+
+                            },
+                                child: AvatarItem(
+                                    image: state.myUserModel.imageUrl,
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 24.w,
+                                              vertical: 14.h,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(40.r),
+                                                topRight: Radius.circular(40.r),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ListTile(
+                                                  onTap: () async {
+                                                    await _pickImage(
+                                                        ImageSource.camera);
+                                                    _uploadImage();
+                                                  },
+                                                  leading: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 24.sp,
+                                                      color: AppColors.c_2972FE,
+                                                    ),
+                                                  ),
+                                                  title: Text(
+                                                    "Camera",
+                                                    style: TextStyle(
+                                                      color: AppColors.c_2972FE,
+                                                      fontSize: 24.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                ListTile(
+                                                  onTap: () async {
+                                                    await _pickImage(
+                                                        ImageSource.gallery);
+                                                    _uploadImage();
+                                                  },
+                                                  leading: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.image_search,
+                                                      size: 24.sp,
+                                                      color: AppColors.c_2972FE,
+                                                    ),
+                                                  ),
+                                                  title: Text(
+                                                    "Images",
+                                                    style: TextStyle(
+                                                      color: AppColors.c_2972FE,
+                                                      fontSize: 24.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                              )
                               : Stack(
                                   children: [
                                     CircleAvatar(
@@ -324,18 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: const Icon(Icons.directions_boat_filled),
                           title: "Notification",
                           onTap: () async {
-                            await ApiProvider.updateUser(
-                              updateUserModel: UpdateUserModel(
-                                birthDate: state.myUserModel.birthDate,
-                                firstName: "Zokir",
-                                gender: state.myUserModel.gender,
-                                id: state.myUserModel.id,
-                                imageUrl: state.myUserModel.imageUrl,
-                                lastName: state.myUserModel.lastName,
-                              ),
-                            );
-                            _uploadImage();
-                            context.read<DoctorBloc>().add(GetUser());
+
                           },
                         ),
                         Container(
@@ -543,4 +549,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
 }
