@@ -74,4 +74,3 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 }
-
