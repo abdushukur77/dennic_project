@@ -10,8 +10,10 @@ class DoctorLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 36.w,
+      height: 36.h,
       padding: EdgeInsets.symmetric(
-        vertical: 9.h,
+        vertical: 2.h,
         horizontal: 11.w,
       ),
       decoration: BoxDecoration(

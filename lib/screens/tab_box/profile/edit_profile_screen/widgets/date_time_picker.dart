@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+String dateForUpdate = "";
+
 class DateOfBirthPicker extends StatefulWidget {
+  const DateOfBirthPicker({super.key, required this.dateController});
+
+  final String dateController;
+
   @override
   _DateOfBirthPickerState createState() => _DateOfBirthPickerState();
 }
@@ -13,7 +19,7 @@ class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
   @override
   void initState() {
     super.initState();
-    _dateController.text = ""; // Initialize the date controller
+    _dateController.text = widget.dateController;
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -25,7 +31,10 @@ class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
     );
     if (picked != null) {
       setState(() {
-        _dateController.text = DateFormat.yMMMMd().format(picked);
+        _dateController.text = DateFormat('MM-dd-yyyy').format(picked);
+        dateForUpdate = _dateController.text;
+
+        debugPrint("Date $dateForUpdate");
       });
     }
   }
@@ -35,13 +44,18 @@ class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Date of birth",
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
+        Row(
+          children: [
+            SizedBox(width: 25.w),
+            Text(
+              "Date of birth",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 8.h),
         TextFormField(
@@ -53,7 +67,8 @@ class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
               color: Colors.black54,
               fontSize: 14.sp,
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+            contentPadding:
+            EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
               borderSide: BorderSide(
