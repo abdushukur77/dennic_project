@@ -15,4 +15,8 @@ class DoctorRepository {
   Future<NetworkResponse> getUser() async => await ApiProvider.getUser();
 
   Future<NetworkResponse> getDate() async => await ApiProvider.getDate();
+
+  Future<NetworkResponse> getTable(
+          {required String doctorId, required String date}) async =>
+      await ApiProvider.bookAppointment(date, doctorId);
 }

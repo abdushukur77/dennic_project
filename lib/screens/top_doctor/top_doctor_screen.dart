@@ -79,9 +79,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                           Icons.favorite,
                           color: AppColors.c_2972FE,
                         ),
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                       ),
                     ],
                   ),
@@ -101,8 +99,8 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return SpecialistDoctorScreen();
-                              }));
+                            return SpecialistDoctorScreen();
+                          }));
                         },
                         title: '',
                       ),
@@ -111,7 +109,6 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                 ],
               ),
             ),
-
             SizedBox(height: 20.h),
             BlocBuilder<SpecializationBloc, SpecializationState>(
               builder: (context, state) {
@@ -129,6 +126,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                     child: Row(
                       children: [
                         CategoryItems(
+                          day: '',
                           title: "All",
                           isSelected: activeIndex == -1,
                           onTap: () {
@@ -136,22 +134,25 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                             activeIndex = -1;
                             setState(() {});
                           },
+                          subtitle: '',
                         ),
                         ...List.generate(
                           state.specializations.length,
-                              (index) {
+                          (index) {
                             return CategoryItems(
+                              day: '',
                               title: state.specializations[index].name,
                               isSelected: activeIndex == index,
                               onTap: () {
                                 context.read<DoctorBloc>().add(
-                                  FetchDoctorsBySpecialization(
-                                    state.specializations[index].id,
-                                  ),
-                                );
+                                      FetchDoctorsBySpecialization(
+                                        state.specializations[index].id,
+                                      ),
+                                    );
                                 activeIndex = index;
                                 setState(() {});
                               },
+                              subtitle: '',
                             );
                           },
                         ),
@@ -185,9 +186,9 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                             children: [
                               ...List.generate(
                                 state.searchDoctors.length,
-                                    (index) {
+                                (index) {
                                   return TopDoctorItems(
-                                    image: state.searchDoctors[index].imageUrl ,
+                                    image: state.searchDoctors[index].imageUrl,
                                     name: state.searchDoctors[index].firstName +
                                         " " +
                                         state.searchDoctors[index].lastName,
@@ -197,10 +198,11 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                                     onTap: () {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
-                                            return DetailScreen(
-                                              doctorId: state.searchDoctors[index].id,
-                                            );
-                                          }));
+                                        return DetailScreen(
+                                          doctorId:
+                                              state.searchDoctors[index].id,
+                                        );
+                                      }));
                                     },
                                     favoriteTap: () {},
                                   );

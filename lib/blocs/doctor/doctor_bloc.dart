@@ -20,6 +20,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<FetchDoctorById>(_onFetchDoctorById);
     on<GetUser>(_onGetUser);
     on<GetDate>(_onFetchDateDoctor);
+    on<GetTable>(_onFetchTableDoctor);
   }
 
   Future<void> _onFetchDoctors(
@@ -90,6 +91,31 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     } else {
       print(
           "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(state.copyWith(
+        formStatus: FormStatus.error,
+        errorMessage: networkResponse.errorText,
+      ));
+    }
+  }
+
+  Future<void> _onFetchTableDoctor(GetTable event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse = await doctorRepository.getTable(
+        doctorId: event.doctorId, date: event.date);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint(
+          "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          tableModels: networkResponse.data,
+        ),
+      );
+    } else {
+      debugPrint(
+          "Errorga tushdi---------------------------_onFetchTableDoctor");
       emit(state.copyWith(
         formStatus: FormStatus.error,
         errorMessage: networkResponse.errorText,

@@ -17,3 +17,10 @@ class FetchDoctorById extends DoctorEvent {
 class GetUser extends DoctorEvent {}
 
 class GetDate extends DoctorEvent {}
+
+class GetTable extends DoctorEvent {
+  GetTable({required this.doctorId, required this.date});
+
+  final String doctorId;
+  final String date;
+}

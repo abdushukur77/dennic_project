@@ -50,9 +50,10 @@ class AgeRangeSelection extends StatelessWidget {
           children: [
             ...List.generate(ages.length, (index) {
               return CategoryItems(
+                day: "",
                 title: ages[index],
                 isSelected: actIndex == index,
-                onTap: () => onSelected(index),
+                onTap: () => onSelected(index), subtitle: '',
               );
             })
           ],

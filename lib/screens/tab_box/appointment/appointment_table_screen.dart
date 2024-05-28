@@ -1,3 +1,7 @@
+import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
+import 'package:dennic_project/blocs/doctor/doctor_event.dart';
+import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
@@ -6,6 +10,7 @@ import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/styles/app_text_style.dart';
@@ -26,26 +31,27 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   String selectedTime = '09.00 AM';
   String selectedAppointmentType = 'Messaging';
 
+  String day = "AM";
+
   int activeIndex = -1;
   int actIndex = -1;
-
-  final List<String> times = [
-    '09.00 AM',
-    '10.00 AM',
-    '11.00 AM',
-    '13.00 PM',
-    '14.00 PM',
-    '15.00 PM',
-    '17.00 PM',
-    '18.00 PM',
-    '19.00 PM'
-  ];
 
   final List<Map<String, String>> appointmentTypes = [
     {'type': 'Messaging', 'price': '\$5'},
     {'type': 'Voice Call', 'price': '\$10'},
     {'type': 'Video Call', 'price': '\$20'},
   ];
+
+  @override
+  void initState() {
+    context.read<DoctorBloc>().add(
+          GetTable(
+            doctorId: widget.doctorModel.id,
+            date: widget.appointmentModel.appointmentDate,
+          ),
+        );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,24 +85,34 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     Row(
                       children: [
                         CategoryItems(
-                            title: "Morning",
-                            isSelected: activeIndex == -1,
-                            onTap: () {
-                              setState(() {
-                                activeIndex = -1;
-                              });
-                            }),
+                          day: "",
+                          title: "Morning",
+                          isSelected: activeIndex == -1,
+                          onTap: () {
+                            setState(() {
+                              day = "AM";
+                              activeIndex = -1;
+                              actIndex = -1;
+                            });
+                          },
+                          subtitle: '',
+                        ),
                         CategoryItems(
-                            title: "Evening",
-                            isSelected: activeIndex == 1,
-                            onTap: () {
-                              ApiProvider.bookAppointment(
-                                  widget.appointmentModel.appointmentDate,
-                                  widget.doctorModel.id);
-                              setState(() {
-                                activeIndex = 1;
-                              });
-                            }),
+                          day: "",
+                          title: "Evening",
+                          isSelected: activeIndex == 1,
+                          onTap: () {
+                            day = "PM";
+                            ApiProvider.bookAppointment(
+                                widget.appointmentModel.appointmentDate,
+                                widget.doctorModel.id);
+                            setState(() {
+                              activeIndex = 1;
+                              actIndex = -1;
+                            });
+                          },
+                          subtitle: '',
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -106,22 +122,49 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           fontSize: 16.sp, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 10.h),
-                    Wrap(
-                      runSpacing: 10.w,
-                      spacing: 2.h,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        ...List.generate(times.length, (index) {
-                          return CategoryItems(
-                            title: times[index],
-                            isSelected: actIndex == index,
-                            onTap: () {
-                              actIndex = index;
-                              setState(() {});
-                            },
+                    BlocBuilder<DoctorBloc, DoctorState>(
+                      builder: (context, state) {
+                        if (state.formStatus == FormStatus.loading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
-                        })
-                      ],
+                        }
+                        if (state.formStatus == FormStatus.error) {
+                          return Center(
+                            child: Text(state.errorMessage),
+                          );
+                        }
+                        if (state.formStatus == FormStatus.success) {
+                          return Wrap(
+                            runSpacing: 10.w,
+                            spacing: 2.h,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              ...List.generate(state.tableModels.length,
+                                  (index) {
+                                return CategoryItems(
+                                  day: day,
+                                  title: state.tableModels[index].time,
+                                  subtitle: state.tableModels[index].timeOfDay
+                                      ? "AM"
+                                      : "PM",
+                                  isSelected: actIndex == index,
+                                  onTap: () {
+                                    actIndex = index;
+                                    widget.appointmentModel =
+                                        widget.appointmentModel.copyWith(
+                                      appointmentTime:
+                                          state.tableModels[index].time,
+                                    );
+                                    setState(() {});
+                                  },
+                                );
+                              })
+                            ],
+                          );
+                        }
+                        return const Text("Hech qaysiga tushmadi :(");
+                      },
                     ),
                     SizedBox(height: 20.h),
                     Text(
@@ -174,12 +217,18 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             ),
           ),
           GlobalButton(
-              title: "Next ",
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AppointmentThirdScreen();
-                }));
-              }),
+            title: "Next ",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const AppointmentThirdScreen();
+                  },
+                ),
+              );
+            },
+          ),
           SizedBox(height: 60.h)
         ],
       ),

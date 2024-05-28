@@ -169,12 +169,13 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                     children: [
                       ...List.generate(ages.length, (index) {
                         return CategoryItems(
+                          day: "",
                           title: ages[index],
                           isSelected: actIndex == index,
                           onTap: () {
                             actIndex = index;
                             setState(() {});
-                          },
+                          }, subtitle: '',
                         );
                       })
                     ],
