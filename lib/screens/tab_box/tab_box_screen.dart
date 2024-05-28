@@ -1,16 +1,13 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
-import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
-import 'package:dennic_project/blocs/doctor/doctor_event.dart';
-import 'package:dennic_project/screens/tab_box/appointment/appointment_screen.dart';
 import 'package:dennic_project/screens/tab_box/history/history_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/home_screen.dart';
 import 'package:dennic_project/screens/tab_box/profile/profile_screen.dart';
+import 'package:dennic_project/screens/top_doctor/top_doctor_screen.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
 
 import '../splash/splash_screen.dart';
 
@@ -30,7 +27,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
   void initState() {
     screens = [
       const HomeScreen(),
-      const AppointmentScreen(),
+      const TopDoctorScreen(),
       const HistoryScreen(),
       const ProfileScreen()
     ];

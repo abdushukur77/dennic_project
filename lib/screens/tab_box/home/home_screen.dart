@@ -3,6 +3,7 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
 import 'package:dennic_project/screens/notification/notification_screen.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
+import 'package:dennic_project/screens/spec_screen/spec_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
@@ -153,7 +154,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 subTitle:
                                     "${state.specializations[index].order} doctors",
                                 color1: generateRandomColors(index + 1)[0],
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return SpecScreen(
+                                        spec_id:
+                                            state.specializations[index].id);
+                                  }));
+                                },
                               );
                             },
                           ),

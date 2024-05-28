@@ -123,6 +123,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             })),
                           ),
 
+
+
+
+
+                          //   aka men choy ichgani ketdim, siz hozir ui ning
+                          //   kamchiliklarini togirlavb turing, keyin
+                          //   kelganimdan keyin backendini yozamiz
+
+
+
+
+
+
+
+
+
+
+
+
                         ],
                       ),
                       24.getH(),
