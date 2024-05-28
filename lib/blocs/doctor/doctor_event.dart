@@ -1,6 +1,7 @@
 abstract class DoctorEvent {}
 
 class FetchDoctors extends DoctorEvent {}
+
 class FetchDoctorsBySpecialization extends DoctorEvent {
   final String specializationId;
 
@@ -13,6 +14,6 @@ class FetchDoctorById extends DoctorEvent {
   FetchDoctorById(this.doctorId);
 }
 
+class GetUser extends DoctorEvent {}
 
-
-class GetUser extends DoctorEvent{}
+class GetDate extends DoctorEvent {}

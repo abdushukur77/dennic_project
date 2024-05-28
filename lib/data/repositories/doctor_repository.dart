@@ -13,4 +13,6 @@ class DoctorRepository {
       await ApiProvider.fetchBySpecializations(specializationId);
 
   Future<NetworkResponse> getUser() async => await ApiProvider.getUser();
+
+  Future<NetworkResponse> getDate() async => await ApiProvider.getDate();
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dennic_project/data/local/storage_repository.dart';
+import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
@@ -388,11 +389,10 @@ class ApiProvider {
 
     debugPrint("Api Provider update ${updateUserModel.birthDate}");
 
-
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/update");
 
-       http.Response response = await http.put(
+      http.Response response = await http.put(
         uri,
         headers: {
           "Content-Type": "application/json",
@@ -403,10 +403,9 @@ class ApiProvider {
       debugPrint('Response status code: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');
 
-
       if (response.statusCode == 200) {
-        print('Response status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        debugPrint('Response status code: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
 
         networkResponse.data = "User updated successfully";
       } else {
@@ -420,4 +419,27 @@ class ApiProvider {
 
     return networkResponse;
   }
+
+  static Future<NetworkResponse> getDate() async {
+    Uri uri = Uri.parse("https://swag.dennic.uz/v1/appointment/dates");
+
+    try {
+      http.Response response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        print("Response body: ${response.body}");
+
+        List<DateModel> dates = (jsonDecode(response.body) as List<dynamic>)
+            .map((e) => DateModel.fromJson(e))
+            .toList();
+
+        return NetworkResponse(data: dates);
+      } else {
+        return NetworkResponse(errorText: "Failed to load dates. Status code: ${response.statusCode}");
+      }
+    } catch (error) {
+      return NetworkResponse(errorText: "An error occurred: $error");
+    }
+  }
+
 }

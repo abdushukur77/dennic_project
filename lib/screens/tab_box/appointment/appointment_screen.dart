@@ -1,3 +1,4 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/screens/tab_box/appointment/appoinment_third.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
@@ -9,7 +10,9 @@ import '../../../utils/styles/app_text_style.dart';
 import '../../detail/widgets/global_button.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen({super.key});
+  const AppointmentScreen({super.key, required this.appointmentModel});
+
+  final AppointmentModel appointmentModel;
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -42,6 +45,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(
+        "${widget.appointmentModel.appointmentDate.toString()}--------------");
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

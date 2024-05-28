@@ -2,6 +2,7 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/screens/detail/widgets/day_items.dart';
 import 'package:dennic_project/screens/detail/widgets/details_doctor_items.dart';
 import 'package:dennic_project/screens/detail/widgets/global_button.dart';
@@ -28,10 +29,15 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  int activeIndex = 0;
+  AppointmentModel appointmentModel = AppointmentModel.initial();
+
   @override
   void initState() {
     context.read<DoctorBloc>().add(FetchDoctorById(widget.doctorId));
     debugPrint("Qosimjon  ${widget.doctorId}");
+
+    context.read<DoctorBloc>().add(GetDate());
     super.initState();
   }
 
@@ -330,12 +336,27 @@ class _DetailScreenState extends State<DetailScreen> {
                             children: [
                               24.getW(),
                               ...List.generate(
-                                10,
+                                state.dateModels.length,
                                 (index) {
                                   return DayItems(
-                                    title: titles[index],
-                                    subtitle: subtitles[index],
-                                    onTap: () {},
+                                    title: state.dateModels[index].week
+                                        .substring(0, 3),
+                                    subtitle:
+                                        state.dateModels[index].date.substring(
+                                      state.dateModels[index].date.length - 2,
+                                      state.dateModels[index].date.length,
+                                    ),
+                                    isSelected: activeIndex == index,
+                                    onTap: () {
+                                      setState(()  {
+                                        appointmentModel.copyWith(
+                                          appointmentDate:
+                                              state.dateModels[index].week +
+                                                  state.dateModels[index].date,
+                                        );
+                                        activeIndex = index;
+                                      });
+                                    },
                                   );
                                 },
                               ),
@@ -355,7 +376,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const AppointmentScreen();
+                          return AppointmentScreen(
+                            appointmentModel: appointmentModel,
+                          );
                         },
                       ),
                     );
@@ -409,29 +432,3 @@ class FullscreenImageScreen extends StatelessWidget {
     );
   }
 }
-
-List<String> titles = [
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-];
-
-List<String> subtitles = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-];

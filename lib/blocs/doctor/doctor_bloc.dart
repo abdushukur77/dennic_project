@@ -13,15 +13,19 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
   DoctorBloc({required this.doctorRepository})
       : super(DoctorState(
-      myUserModel: MyUserModel.initial(), doctorModel: DoctorModel.initial())) {
+            myUserModel: MyUserModel.initial(),
+            doctorModel: DoctorModel.initial())) {
     on<FetchDoctors>(_onFetchDoctors);
     on<FetchDoctorsBySpecialization>(_onFetchDoctorsBySpecialization);
     on<FetchDoctorById>(_onFetchDoctorById);
     on<GetUser>(_onGetUser);
+    on<GetDate>(_onFetchDateDoctor);
   }
 
-  Future<void> _onFetchDoctors(FetchDoctors event,
-      Emitter<DoctorState> emit,) async {
+  Future<void> _onFetchDoctors(
+    FetchDoctors event,
+    Emitter<DoctorState> emit,
+  ) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
     NetworkResponse networkResponse = await doctorRepository.fetchDoctor();
@@ -51,8 +55,9 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   }
 
   Future<void> _onFetchDoctorsBySpecialization(
-      FetchDoctorsBySpecialization event,
-      Emitter<DoctorState> emit,) async {
+    FetchDoctorsBySpecialization event,
+    Emitter<DoctorState> emit,
+  ) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
     NetworkResponse networkResponse = await doctorRepository
@@ -71,12 +76,35 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     }
   }
 
-  Future<void> _onFetchDoctorById(FetchDoctorById event,
-      Emitter<DoctorState> emit,) async {
+  Future<void> _onFetchDateDoctor(GetDate event, emit) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
-    NetworkResponse networkResponse = await doctorRepository
-        .fetchDoctorById(event.doctorId);
+    NetworkResponse networkResponse = await doctorRepository.getDate();
+
+    if (networkResponse.errorText.isEmpty) {
+      print("Errorga tushdi---------------------------");
+      emit(
+        state.copyWith(
+            formStatus: FormStatus.success, dateModels: networkResponse.data),
+      );
+    } else {
+      print(
+          "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(state.copyWith(
+        formStatus: FormStatus.error,
+        errorMessage: networkResponse.errorText,
+      ));
+    }
+  }
+
+  Future<void> _onFetchDoctorById(
+    FetchDoctorById event,
+    Emitter<DoctorState> emit,
+  ) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.fetchDoctorById(event.doctorId);
 
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(

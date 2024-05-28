@@ -1,3 +1,5 @@
+import 'package:dennic_project/data/model/date_model/date_model.dart';
+
 import '../../data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 
@@ -10,15 +12,16 @@ class DoctorState {
   final String errorMessage;
   final MyUserModel myUserModel;
   final DoctorModel doctorModel;
+  final List<DateModel> dateModels;
 
-  DoctorState({
-    this.formStatus = FormStatus.pure,
-    this.doctors = const [],
-    this.searchDoctors = const [],
-    this.errorMessage = '',
-    required this.myUserModel,
-    required this.doctorModel
-  });
+  DoctorState(
+      {this.formStatus = FormStatus.pure,
+      this.dateModels = const [],
+      this.doctors = const [],
+      this.searchDoctors = const [],
+      this.errorMessage = '',
+      required this.myUserModel,
+      required this.doctorModel});
 
   DoctorState copyWith({
     DoctorModel? doctorModel,
@@ -27,6 +30,7 @@ class DoctorState {
     MyUserModel? myUserModel,
     List<DoctorModel>? searchDoctors,
     String? errorMessage,
+    List<DateModel>? dateModels,
   }) {
     return DoctorState(
       doctorModel: doctorModel ?? this.doctorModel,
@@ -35,6 +39,7 @@ class DoctorState {
       doctors: doctors ?? this.doctors,
       errorMessage: errorMessage ?? this.errorMessage,
       myUserModel: myUserModel ?? this.myUserModel,
+      dateModels: dateModels ?? this.dateModels,
     );
   }
 }
