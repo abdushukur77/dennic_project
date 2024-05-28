@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
+import 'package:dennic_project/data/model/table/table_model.dart';
 import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
@@ -435,11 +436,54 @@ class ApiProvider {
 
         return NetworkResponse(data: dates);
       } else {
-        return NetworkResponse(errorText: "Failed to load dates. Status code: ${response.statusCode}");
+        return NetworkResponse(
+            errorText:
+                "Failed to load dates. Status code: ${response.statusCode}");
       }
     } catch (error) {
       return NetworkResponse(errorText: "An error occurred: $error");
     }
   }
 
+  static Future<NetworkResponse> bookAppointment(
+      String date, String doctorId) async {
+    String token = StorageRepository.getString(
+      key: "access_token",
+    );
+
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      final response = await http.post(
+        Uri.parse("https://swag.dennic.uz/v1/appointment/booking"),
+        headers: {
+          'accept': 'application/json',
+          'Authorization': ' $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'date': date,
+          'doctor_id': doctorId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Table keldi ------------------------------------------------");
+        List<TableModel> appointments = (jsonDecode(response.body) as List?)
+                ?.map((e) => TableModel.fromJson(e))
+                .toList() ??
+            [];
+
+        return NetworkResponse(data: appointments);
+      } else {
+        debugPrint("Table kelmadi ------------------------------------------------");
+        return NetworkResponse(
+          errorText: networkResponse.data['message'],
+        );
+      }
+    } catch (error) {
+      debugPrint("Catch keldi ------------------------------------------------");
+      return NetworkResponse(errorText: error.toString());
+    }
+  }
 }

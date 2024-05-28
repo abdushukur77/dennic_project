@@ -1,4 +1,6 @@
 import 'package:dennic_project/data/model/appointment/appointment_model.dart';
+import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/appointment/appoinment_third.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
@@ -10,9 +12,11 @@ import '../../../utils/styles/app_text_style.dart';
 import '../../detail/widgets/global_button.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen({super.key, required this.appointmentModel});
+  const AppointmentScreen(
+      {super.key, required this.appointmentModel, required this.doctorModel});
 
   final AppointmentModel appointmentModel;
+  final DoctorModel doctorModel;
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -86,6 +90,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             title: "Evening",
                             isSelected: activeIndex == 1,
                             onTap: () {
+                              ApiProvider.bookAppointment(
+                                  widget.appointmentModel.appointmentDate,
+                                  widget.doctorModel.id);
                               setState(() {
                                 activeIndex = 1;
                               });

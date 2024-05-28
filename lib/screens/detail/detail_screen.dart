@@ -9,7 +9,7 @@ import 'package:dennic_project/screens/detail/widgets/global_button.dart';
 import 'package:dennic_project/screens/detail/widgets/patients_items.dart';
 import 'package:dennic_project/screens/detail/widgets/share_items.dart';
 import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
-import 'package:dennic_project/screens/tab_box/appointment/appointment_screen.dart';
+import 'package:dennic_project/screens/tab_box/appointment/appointment_table_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
@@ -349,10 +349,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                     isSelected: activeIndex == index,
                                     onTap: () {
                                       setState(()  {
-                                        appointmentModel.copyWith(
-                                          appointmentDate:
-                                              state.dateModels[index].week +
-                                                  state.dateModels[index].date,
+                                       appointmentModel= appointmentModel.copyWith(
+                                          appointmentDate: state.dateModels[index].date,
                                         );
                                         activeIndex = index;
                                       });
@@ -377,6 +375,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       MaterialPageRoute(
                         builder: (context) {
                           return AppointmentScreen(
+                            doctorModel: state.doctorModel,
                             appointmentModel: appointmentModel,
                           );
                         },
