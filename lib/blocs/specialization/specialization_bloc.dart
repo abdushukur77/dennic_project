@@ -5,7 +5,8 @@ import '../auth/auth_state.dart';
 import 'specialization_event.dart';
 import 'specialization_state.dart';
 
-class SpecializationBloc extends Bloc<SpecializationEvent, SpecializationState> {
+class SpecializationBloc
+    extends Bloc<SpecializationEvent, SpecializationState> {
   final SpecializationRepository specializationRepository;
 
   SpecializationBloc({required this.specializationRepository})
@@ -14,25 +15,22 @@ class SpecializationBloc extends Bloc<SpecializationEvent, SpecializationState> 
   }
 
   Future<void> _onFetchSpecializations(
-      FetchSpecializations event,
-      Emitter<SpecializationState> emit,
-      ) async {
+    FetchSpecializations event,
+    Emitter<SpecializationState> emit,
+  ) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
-    NetworkResponse networkResponse= await specializationRepository.fetchSpecializations();
+    NetworkResponse networkResponse =
+        await specializationRepository.fetchSpecializations();
 
-    if (networkResponse.errorText.isEmpty){
+    if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(
-        formStatus: FormStatus.success,
-        specializations: networkResponse.data
-      ));
-    }else{
-
+          formStatus: FormStatus.success,
+          specializations: networkResponse.data));
+    } else {
       emit(state.copyWith(
-        formStatus: FormStatus.error,
-        errorMessage: networkResponse.errorText
-      ));
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText));
     }
-
   }
 }

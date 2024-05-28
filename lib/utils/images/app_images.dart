@@ -60,4 +60,5 @@ class AppImages {
   static const String chat  = "assets/icons/chat.svg";
   static const String whatsapp  = "assets/icons/whatsapp.svg";
   static const String wechat  = "assets/icons/wechat.svg";
+  static const String alarm  = "assets/icons/alarm.svg";
 }
