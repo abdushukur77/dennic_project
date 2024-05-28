@@ -56,7 +56,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                         )),
                     const Spacer(),
                     RingAndFavoriteItems(
-                      icon: Icon(Icons.menu, color: AppColors.c_2972FE),
+                      icon: const Icon(Icons.menu, color: AppColors.c_2972FE),
                       onTap: () {},
                     ),
                   ],
@@ -76,7 +76,8 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
               if (state.formStatus == FormStatus.success) {
                 return Expanded(
                   child: GridView.count(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w,vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
                     crossAxisCount: 2,
                     childAspectRatio: 0.90,
                     crossAxisSpacing: 20.w,
@@ -84,17 +85,14 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                     children: [
                       ...List.generate(
                         state.specializations.length,
-                            (index) {
+                        (index) {
                           return SpecialistScreenItems(
                             icon: AppImages.favorite,
                             title: state.specializations[index].name,
                             subtitle: "252 Doctors",
                             color1: generateRandomColors()[0],
                             color2: generateRandomColors()[1],
-                            onTap: () {
-
-
-                            },
+                            onTap: () {},
                           );
                         },
                       ),

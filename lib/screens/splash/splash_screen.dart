@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Check if the user is new and navigate accordingly after the splash screen
     bool isNewUser = StorageRepository.getBool(key: "is_new_user");
-    debugPrint("WWWWWWWWWWWWWWWWWWWW ${isNewUser.toString()}");
+    // debugPrint("WWWWWWWWWWWWWWWWWWWW ${isNewUser.toString()}");
     Future.delayed(
       const Duration(seconds: 4),
           () {
@@ -63,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
             AppImages.splash,
             width: double.infinity,
             height: double.infinity,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
           ),
         ),
       ),
