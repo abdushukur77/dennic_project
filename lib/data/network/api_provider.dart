@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/date_model/date_model.dart';
+import 'package:dennic_project/data/model/doctor_service/service_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/table/table_model.dart';
 import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
@@ -445,6 +446,39 @@ class ApiProvider {
     }
   }
 
+  static Future<NetworkResponse> getDoctorService(String id) async {
+    Uri uri =
+        Uri.parse("https://swag.dennic.uz/v1/doctor-services?doctor_id=$id");
+
+    try {
+      http.Response response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        debugPrint(
+            "Doctor service keldi ------------------------------------------------getDoctorService");
+
+        List<ServiceModel> serviceModels = (jsonDecode(response.body) as List?)
+                ?.map((e) => ServiceModel.fromJson(e))
+                .toList() ??
+            [];
+
+        debugPrint("$serviceModels-------------------------------getDoctorService");
+
+        return NetworkResponse(data: serviceModels);
+      } else {
+        debugPrint(
+            "if ning else qismiga tushdi keldi ------------------------------------------------getDoctorService");
+        return NetworkResponse(
+            errorText:
+                "Failed to load dates. Status code: ${response.statusCode}");
+      }
+    } catch (error) {
+      debugPrint(
+          "Catch keldi ------------------------------------------------getDoctorService $error");
+      return NetworkResponse(errorText: error.toString());
+    }
+  }
+
   static Future<NetworkResponse> bookAppointment(
       String date, String doctorId) async {
     String token = StorageRepository.getString(
@@ -468,21 +502,29 @@ class ApiProvider {
       );
 
       if (response.statusCode == 200) {
-        debugPrint("Table keldi ------------------------------------------------");
+        debugPrint(
+            "Table keldi ------------------------------------------------bookAppointment");
+
+        debugPrint(jsonDecode(response.body).toString());
         List<TableModel> appointments = (jsonDecode(response.body) as List?)
                 ?.map((e) => TableModel.fromJson(e))
                 .toList() ??
             [];
 
+        debugPrint(
+            "$appointments------------------------------bookAppointment");
+
         return NetworkResponse(data: appointments);
       } else {
-        debugPrint("Table kelmadi ------------------------------------------------");
+        debugPrint(
+            "Table kelmadi ------------------------------------------------bookAppointment");
         return NetworkResponse(
           errorText: networkResponse.data['message'],
         );
       }
     } catch (error) {
-      debugPrint("Catch keldi ------------------------------------------------");
+      debugPrint(
+          "Catch keldi ------------------------------------------------bookAppointment");
       return NetworkResponse(errorText: error.toString());
     }
   }

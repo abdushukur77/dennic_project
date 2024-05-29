@@ -80,7 +80,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (response.statusCode == 201) {
       response.stream.transform(utf8.decoder).listen((value) async {
         final Map<String, dynamic> responseData = json.decode(value);
-         imageUrl = responseData['url'];
+        imageUrl = responseData['url'];
 
         debugPrint("Image Url______________________________ ${imageUrl}");
 
@@ -164,7 +164,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Center(
                           child: CircleAvatar(
                             radius: 50.r,
-                            backgroundImage: NetworkImage(widget.myUserModel.imageUrl),
+                            backgroundImage:
+                                NetworkImage(widget.myUserModel.imageUrl),
                           ),
                         ),
                         Positioned(
@@ -172,139 +173,144 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           bottom: 0,
                           child: _imageFile == null
                               ? GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                      secondaryAnimation) =>
-                                      FullscreenImageScreen(
-                                        imageUrl: widget.myUserModel.imageUrl,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            FullscreenImageScreen(
+                                          imageUrl: widget.myUserModel.imageUrl,
+                                        ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return CupertinoFullscreenDialogTransition(
+                                            primaryRouteAnimation: animation,
+                                            secondaryRouteAnimation:
+                                                secondaryAnimation,
+                                            child: child,
+                                            linearTransition: true,
+                                          );
+                                        },
                                       ),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return CupertinoFullscreenDialogTransition(
-                                      primaryRouteAnimation: animation,
-                                      secondaryRouteAnimation:
-                                      secondaryAnimation,
-                                      child: child,
-                                      linearTransition: true,
                                     );
                                   },
-                                ),
-                              );
-
-
-                            },
-                                child: AvatarItem(
-                                                            image: widget.myUserModel.imageUrl,
-                                                            onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 24.w,
-                                        vertical: 14.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(40.r),
-                                          topRight: Radius.circular(40.r),
+                                  child: AvatarItem(
+                                    image: widget.myUserModel.imageUrl,
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 24.w,
+                                              vertical: 14.h,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(40.r),
+                                                topRight: Radius.circular(40.r),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ListTile(
+                                                  onTap: () async {
+                                                    await _pickImage(
+                                                        ImageSource.camera);
+                                                    _uploadImage();
+                                                  },
+                                                  leading: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 24.sp,
+                                                      color: AppColors.c_2972FE,
+                                                    ),
+                                                  ),
+                                                  title: Text(
+                                                    "Camera",
+                                                    style: TextStyle(
+                                                      color: AppColors.c_2972FE,
+                                                      fontSize: 24.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                ListTile(
+                                                  onTap: () async {
+                                                    await _pickImage(
+                                                        ImageSource.gallery);
+                                                    _uploadImage();
+                                                  },
+                                                  leading: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.image_search,
+                                                      size: 24.sp,
+                                                      color: AppColors.c_2972FE,
+                                                    ),
+                                                  ),
+                                                  title: Text(
+                                                    "Images",
+                                                    style: TextStyle(
+                                                      color: AppColors.c_2972FE,
+                                                      fontSize: 24.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      maxRadius: 50.r,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100.r),
+                                        child: Image.file(
+                                          _imageFile!,
+                                          width: 100.w,
+                                          height: 100.h,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                            onTap: () async {
-                                              await _pickImage(ImageSource.camera);
-                                              _uploadImage();
-                                            },
-                                            leading: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.camera_alt_outlined,
-                                                size: 24.sp,
-                                                color: AppColors.c_2972FE,
-                                              ),
-                                            ),
-                                            title: Text(
-                                              "Camera",
-                                              style: TextStyle(
-                                                color: AppColors.c_2972FE,
-                                                fontSize: 24.sp,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: InkWell(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        onTap: () {},
+                                        child: Container(
+                                          width: 23.w,
+                                          height: 20.h,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.c_2972FE,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
                                           ),
-                                          ListTile(
-                                            onTap: () async {
-                                              await _pickImage(ImageSource.gallery);
-                                              _uploadImage();
-                                            },
-                                            leading: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.image_search,
-                                                size: 24.sp,
-                                                color: AppColors.c_2972FE,
-                                              ),
-                                            ),
-                                            title: Text(
-                                              "Images",
-                                              style: TextStyle(
-                                                color: AppColors.c_2972FE,
-                                                fontSize: 24.sp,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
+                                          child: Icon(
+                                            Icons.edit,
+                                            size: 13.sp,
+                                            color: AppColors.white,
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  },
-                                );
-                                                            },
-                                                          ),
-                              )
-                              : Stack(
-                            children: [
-                              CircleAvatar(
-                                maxRadius: 50.r,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100.r),
-                                  child: Image.file(
-                                    _imageFile!,
-                                    width: 100.w,
-                                    height: 100.h,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(100),
-                                  onTap: () {},
-                                  child: Container(
-                                    width: 23.w,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.c_2972FE,
-                                      borderRadius: BorderRadius.circular(100),
                                     ),
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: 13.sp,
-                                      color: AppColors.white,
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
                         ),
                       ],
                     ),
@@ -334,7 +340,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       initialItem: genderController.text,
                       onChanged: (value) {
                         setState(() {
-                          gender = value!;
+                          gender = value;
                           genderController.text = value;
                         });
                       },
@@ -356,11 +362,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                         child: selectedDate != null
                             ? Text(
-                          selectedDate.toString().substring(0, 10),
-                          style: AppTextStyle.urbanistBold.copyWith(
-                            color: AppColors.c7E8CA0,
-                          ),
-                        )
+                                selectedDate.toString().substring(0, 10),
+                                style: AppTextStyle.urbanistBold.copyWith(
+                                  color: AppColors.c7E8CA0,
+                                ),
+                              )
                             : Text(widget.myUserModel.birthDate),
                       ),
                     ),
@@ -393,6 +399,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
+
 class FullscreenImageScreen extends StatelessWidget {
   final String imageUrl;
 
@@ -429,4 +436,3 @@ class FullscreenImageScreen extends StatelessWidget {
     );
   }
 }
-

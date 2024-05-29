@@ -12,15 +12,19 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   final DoctorRepository doctorRepository;
 
   DoctorBloc({required this.doctorRepository})
-      : super(DoctorState(
+      : super(
+          DoctorState(
             myUserModel: MyUserModel.initial(),
-            doctorModel: DoctorModel.initial())) {
+            doctorModel: DoctorModel.initial(),
+          ),
+        ) {
     on<FetchDoctors>(_onFetchDoctors);
     on<FetchDoctorsBySpecialization>(_onFetchDoctorsBySpecialization);
     on<FetchDoctorById>(_onFetchDoctorById);
     on<GetUser>(_onGetUser);
     on<GetDate>(_onFetchDateDoctor);
     on<GetTable>(_onFetchTableDoctor);
+    on<GetDoctorService>(_onFetchDoctorService);
   }
 
   Future<void> _onFetchDoctors(
@@ -116,6 +120,31 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     } else {
       debugPrint(
           "Errorga tushdi---------------------------_onFetchTableDoctor");
+      emit(state.copyWith(
+        formStatus: FormStatus.error,
+        errorMessage: networkResponse.errorText,
+      ));
+    }
+  }
+
+  Future<void> _onFetchDoctorService(GetDoctorService event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.fetchDoctorService(id: event.id);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint(
+          "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          tableModels: networkResponse.data,
+        ),
+      );
+    } else {
+      debugPrint(
+          "Errorga tushdi---------------------------_onFetchDoctorService");
       emit(state.copyWith(
         formStatus: FormStatus.error,
         errorMessage: networkResponse.errorText,

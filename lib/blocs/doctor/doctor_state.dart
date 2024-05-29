@@ -1,4 +1,5 @@
 import 'package:dennic_project/data/model/date_model/date_model.dart';
+import 'package:dennic_project/data/model/doctor_service/service_model.dart';
 import 'package:dennic_project/data/model/table/table_model.dart';
 
 import '../../data/model/doctor_model/doctor_model.dart';
@@ -15,11 +16,13 @@ class DoctorState {
   final DoctorModel doctorModel;
   final List<DateModel> dateModels;
   final List<TableModel> tableModels;
+  final List<ServiceModel> serviceModels;
 
   DoctorState({
     this.formStatus = FormStatus.pure,
     this.dateModels = const [],
     this.tableModels = const [],
+    this.serviceModels = const [],
     this.doctors = const [],
     this.searchDoctors = const [],
     this.errorMessage = '',
@@ -36,6 +39,7 @@ class DoctorState {
     String? errorMessage,
     List<DateModel>? dateModels,
     List<TableModel>? tableModels,
+    List<ServiceModel>? serviceModels,
   }) {
     return DoctorState(
       doctorModel: doctorModel ?? this.doctorModel,
@@ -46,6 +50,7 @@ class DoctorState {
       myUserModel: myUserModel ?? this.myUserModel,
       dateModels: dateModels ?? this.dateModels,
       tableModels: tableModels ?? this.tableModels,
+      serviceModels: serviceModels ?? this.serviceModels,
     );
   }
 }

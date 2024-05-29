@@ -30,7 +30,6 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   int activeIndex = 0;
-  AppointmentModel appointmentModel = AppointmentModel.initial();
 
   @override
   void initState() {
@@ -431,3 +430,5 @@ class FullscreenImageScreen extends StatelessWidget {
     );
   }
 }
+
+AppointmentModel appointmentModel = AppointmentModel.initial();

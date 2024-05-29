@@ -5,14 +5,13 @@ import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
-import 'package:dennic_project/screens/tab_box/appointment/appoinment_third.dart';
+import 'package:dennic_project/screens/detail/detail_screen.dart';
+import 'package:dennic_project/screens/tab_box/appointment/patient_screen/create_patient_screen.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../utils/styles/app_text_style.dart';
 import '../../detail/widgets/global_button.dart';
 
@@ -48,6 +47,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           GetTable(
             doctorId: widget.doctorModel.id,
             date: widget.appointmentModel.appointmentDate,
+          ),
+        );
+
+    context.read<DoctorBloc>().add(
+          GetDoctorService(
+            id: widget.doctorModel.id,
           ),
         );
     super.initState();
@@ -130,6 +135,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           );
                         }
                         if (state.formStatus == FormStatus.error) {
+                          debugPrint("Soatlar qismida errorga tushdi");
                           return Center(
                             child: Text(state.errorMessage),
                           );
@@ -144,14 +150,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                   (index) {
                                 return CategoryItems(
                                   day: day,
-                                  title: state.tableModels[index].time,
+                                  title: state.tableModels[index].time.toString(),
                                   subtitle: state.tableModels[index].timeOfDay
                                       ? "AM"
                                       : "PM",
                                   isSelected: actIndex == index,
                                   onTap: () {
                                     actIndex = index;
-                                    widget.appointmentModel =
+                                    appointmentModel =
                                         widget.appointmentModel.copyWith(
                                       appointmentTime:
                                           state.tableModels[index].time,
@@ -173,43 +179,66 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           fontSize: 16.sp, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 10.h),
-                    Column(
-                      children: appointmentTypes.map((appointment) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedAppointmentType = appointment['type']!;
-                            });
-                          },
-                          child: Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: 12.h,
+                    BlocBuilder<DoctorBloc, DoctorState>(
+                      builder: (context, state) {
+                        if (state.formStatus == FormStatus.loading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state.formStatus == FormStatus.error) {
+                          return Center(
+                            child: Text(state.errorMessage),
+                          );
+                        }
+                        if (state.formStatus == FormStatus.success) {
+                          return Column(
+                            children: [
+                              ...List.generate(
+                                state.serviceModels.length,
+                                (index) {
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 12.h,
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 12.h, horizontal: 24.w),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.all(16.w),
+                                            decoration: const BoxDecoration(
+                                                color: AppColors.white,
+                                                shape: BoxShape.circle),
+                                            child: const Icon(Icons.message),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          Text(state.serviceModels[index].name),
+                                          const Spacer(),
+                                          Text(
+                                            state.serviceModels[index]
+                                                .offlinePrice
+                                                .toString(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 12.h, horizontal: 24.w),
-                              decoration: BoxDecoration(
-                                  color: selectedAppointmentType ==
-                                          appointment['type']
-                                      ? AppColors.c_2972FE
-                                      : Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(16.w),
-                                    decoration: const BoxDecoration(
-                                        color: AppColors.white,
-                                        shape: BoxShape.circle),
-                                    child: const Icon(Icons.message),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Text(appointment['type']!),
-                                  const Spacer(),
-                                  Text(appointment['price']!),
-                                ],
-                              )),
+                            ],
+                          );
+                        }
+                        return const Center(
+                          child: Text("Hech qaysiga tushmadi"),
                         );
-                      }).toList(),
+                      },
                     ),
                   ],
                 ),
@@ -219,11 +248,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           GlobalButton(
             title: "Next ",
             onTap: () {
+              appointmentModel =
+                  appointmentModel.copyWith(doctorId: widget.doctorModel.id);
+              debugPrint(
+                  "${appointmentModel.toString()}--------------------------------");
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const AppointmentThirdScreen();
+                    return const CreatePatientScreen();
                   },
                 ),
               );

@@ -5,7 +5,7 @@ import 'package:dennic_project/blocs/specialization/specialization_event.dart';
 import 'package:dennic_project/data/repositories/auth_repository.dart';
 import 'package:dennic_project/data/repositories/doctor_repository.dart';
 import 'package:dennic_project/screens/splash/splash_screen.dart';
-import 'package:dennic_project/screens/tab_box/appointment/create_patient_screen.dart';
+import 'package:dennic_project/screens/tab_box/appointment/patient_screen/create_patient_screen.dart';
 import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

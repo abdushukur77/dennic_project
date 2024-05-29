@@ -50,12 +50,12 @@ class AppointmentModel {
   }
 
   static AppointmentModel initial() => AppointmentModel(
-    appointmentDate: '',
-    appointmentTime: '',
-    doctorId: '',
-    doctorServiceId: '',
-    patientId: '',
-  );
+        appointmentDate: '',
+        appointmentTime: '',
+        doctorId: '',
+        doctorServiceId: '',
+        patientId: '',
+      );
 
   @override
   String toString() {

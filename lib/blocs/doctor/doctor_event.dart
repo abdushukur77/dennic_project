@@ -24,3 +24,9 @@ class GetTable extends DoctorEvent {
   final String doctorId;
   final String date;
 }
+
+class GetDoctorService extends DoctorEvent {
+  GetDoctorService({required this.id});
+
+  final String id;
+}

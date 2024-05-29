@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
 import '../network/api_provider.dart';
 
@@ -19,4 +21,7 @@ class DoctorRepository {
   Future<NetworkResponse> getTable(
           {required String doctorId, required String date}) async =>
       await ApiProvider.bookAppointment(date, doctorId);
+
+  Future<NetworkResponse> fetchDoctorService({required String id}) async =>
+      await ApiProvider.getDoctorService(id);
 }
