@@ -51,14 +51,15 @@ class App extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                appBarTheme: const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Colors.transparent
-                )),
+                appBarTheme: const AppBarTheme(
+                    systemOverlayStyle: SystemUiOverlayStyle(
+                        statusBarColor: Colors.transparent)),
                 useMaterial3: true,
               ),
               home: child,
             );
           },
+
           child: const SplashScreen(),
         ),
       ),
