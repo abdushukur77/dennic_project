@@ -20,13 +20,14 @@ class DoctorModel {
   final int workYears;
   final String departmentId;
   final int roomNumber;
-  final String password;
   final String createdAt;
   final String updatedAt;
   final String deletedAt;
+  final int patientCount;
   final List<SpecializationM> specializations;
 
   DoctorModel({
+    required this.patientCount,
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -48,45 +49,104 @@ class DoctorModel {
     required this.workYears,
     required this.departmentId,
     required this.roomNumber,
-    required this.password,
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
     required this.specializations,
   });
 
+  DoctorModel.initial()
+      : patientCount = 0,
+        id = "",
+        firstName = "",
+        lastName = "",
+        imageUrl = "",
+        gender = "",
+        birthDate = "",
+        phoneNumber = "",
+        email = "",
+        address = "",
+        city = "",
+        country = "",
+        salary = 0.0,
+        startTime = "",
+        finishTime = "",
+        dayOfWeek = "",
+        bio = "",
+        startWorkDate = "",
+        endWorkDate = "",
+        workYears = 0,
+        departmentId = "",
+        roomNumber = 0,
+        createdAt = "",
+        updatedAt = "",
+        deletedAt = "",
+        specializations = [];
+
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      id: json['id'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      imageUrl: json['image_url'],
-      gender: json['gender'],
-      birthDate: json['birth_date'],
-      phoneNumber: json['phone_number'],
-      email: json['email'],
-      address: json['address'],
-      city: json['city'],
-      country: json['country'],
-      salary: json['salary'].toDouble(),
-      startTime: json['start_time'],
-      finishTime: json['finish_time'],
-      dayOfWeek: json['day_of_week'],
-      bio: json['bio'],
-      startWorkDate: json['start_work_date'],
-      endWorkDate: json['end_work_date'],
-      workYears: json['work_years'],
-      departmentId: json['department_id'],
-      roomNumber: json['room_number'],
-      password: json['password'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      deletedAt: json['deleted_at'],
-      specializations: (json['specializations'] as List)
-          .map((specJson) => SpecializationM.fromJson(specJson))
-          .toList(),
+      patientCount: json["patient_count"] as int? ?? 0,
+      id: json['id'] as String? ?? "",
+      firstName: json['first_name'] as String? ?? "",
+      lastName: json['last_name'] as String? ?? "",
+      imageUrl: json['image_url'] as String? ?? "",
+      gender: json['gender'] as String? ?? "",
+      birthDate: json['birth_date'] as String? ?? "",
+      phoneNumber: json['phone_number'] as String? ?? "",
+      email: json['email'] as String? ?? "",
+      address: json['address'] as String? ?? "",
+      city: json['city'] as String? ?? "",
+      country: json['country'] as String? ?? "",
+      salary: (json['salary'] as num?)?.toDouble() ?? 0.0,
+      startTime: json['start_time'] as String? ?? "",
+      finishTime: json['finish_time'] as String? ?? "",
+      dayOfWeek: json['day_of_week'] as String? ?? "",
+      bio: json['bio'] as String? ?? "",
+      startWorkDate: json['start_work_date'] as String? ?? "",
+      endWorkDate: json['end_work_date'] as String? ?? "",
+      workYears: json['work_years'] as int? ?? 0,
+      departmentId: json['department_id'] as String? ?? "",
+      roomNumber: json['room_number'] as int? ?? 0,
+      createdAt: json['created_at'] as String? ?? "",
+      updatedAt: json['updated_at'] as String? ?? "",
+      deletedAt: json['deleted_at'] as String? ?? "",
+      specializations: (json['specializations'] as List?)
+          ?.map((specJson) => SpecializationM.fromJson(specJson))
+          .toList() ?? [],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'image_url': imageUrl,
+      'gender': gender,
+      'birth_date': birthDate,
+      'phone_number': phoneNumber,
+      'email': email,
+      'address': address,
+      'city': city,
+      'country': country,
+      'salary': salary,
+      'start_time': startTime,
+      'finish_time': finishTime,
+      'day_of_week': dayOfWeek,
+      'bio': bio,
+      'start_work_date': startWorkDate,
+      'end_work_date': endWorkDate,
+      'work_years': workYears,
+      'department_id': departmentId,
+      'room_number': roomNumber,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'deleted_at': deletedAt,
+      'patient_count': patientCount,
+      'specializations': specializations.map((spec) => spec.toJson()).toList(),
+    };
+  }
+
 }
 
 class SpecializationM {
@@ -100,8 +160,15 @@ class SpecializationM {
 
   factory SpecializationM.fromJson(Map<String, dynamic> json) {
     return SpecializationM(
-      id: json['Id'] as String? ?? "",
-      name: json['Name']as String? ?? "" ,
+      id: json['id'] as String? ?? "",
+      name: json['name'] as String? ?? "",
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
   }
 }

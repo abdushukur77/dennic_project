@@ -7,11 +7,15 @@ class CategoryItems extends StatelessWidget {
   const CategoryItems({
     super.key,
     required this.title,
+    required this.day,
+    required this.subtitle,
     required this.isSelected,
     required this.onTap,
   });
 
   final String title;
+  final String day;
+  final String subtitle;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -31,18 +35,35 @@ class CategoryItems extends StatelessWidget {
             borderRadius: BorderRadius.circular(24.r),
             side: BorderSide(
               width: 2.w,
-              color: AppColors.c_2972FE,
+              color: subtitle == day ? AppColors.c_2972FE : AppColors.c_93B8FE,
             ),
           ),
         ),
-        onPressed: onTap,
-        child: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? AppColors.white : AppColors.c_2972FE,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-          ),
+        onPressed: subtitle == ''
+            ? onTap
+            : subtitle == day
+                ? onTap
+                : null,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$title ',
+              style: TextStyle(
+                color: isSelected ? AppColors.white : AppColors.c_2972FE,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              subtitle,
+              style: TextStyle(
+                color: isSelected ? AppColors.white : AppColors.c_2972FE,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );

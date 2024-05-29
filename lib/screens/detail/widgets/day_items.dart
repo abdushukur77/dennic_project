@@ -8,11 +8,13 @@ class DayItems extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    required this.isSelected,
     required this.onTap,
   });
 
   final String title;
   final String subtitle;
+  final bool isSelected;
   final VoidCallback onTap;
 
   @override
@@ -26,6 +28,7 @@ class DayItems extends StatelessWidget {
             width: 60.w,
             height: 88.h,
             decoration: BoxDecoration(
+              color: isSelected ? AppColors.c_2972FE : AppColors.white,
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
                 width: 1.w,
@@ -38,7 +41,7 @@ class DayItems extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: AppColors.c_2972FE,
+                    color: isSelected ? AppColors.white : AppColors.c_2972FE,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                   ),
@@ -46,7 +49,7 @@ class DayItems extends StatelessWidget {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: AppColors.c_2972FE,
+                    color: isSelected ? AppColors.white : AppColors.c_2972FE,
                     fontSize: 23.sp,
                     fontWeight: FontWeight.w600,
                   ),

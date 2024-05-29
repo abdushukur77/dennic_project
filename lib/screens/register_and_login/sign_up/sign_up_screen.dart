@@ -10,6 +10,7 @@ import 'package:dennic_project/screens/register_and_login/widget/my_text_from_te
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/extention/extantions.dart';
+import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
@@ -154,6 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   5.getH(),
                   MyTextFromFieldTel(
+                    inputFormatter: AppInputFormatters.phoneFormatter,
                     controller: controllerPhoneNumber,
                     labelText: 'Type your phone number',
                     perefixIcon: AppImages.call,
@@ -161,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       setState(() {});
                     },
                     errorText: 'Phone number error',
-                    regExp: AppConstants.phoneRegExp,
+                    // regExp: AppConstants.phoneRegExp,
                   ),
                   MyTextFromField(
                     controller: controllerPassword,
@@ -280,7 +282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           gender: gender,
                           lastName: controllerLastName.text,
                           password: controllerPassword.text,
-                          phoneNumber: "+998${controllerPhoneNumber.text}",
+                          phoneNumber: controllerPhoneNumber.text.replaceAll(" ", ""),
                         );
 
                         if (controllerPhoneNumber.text.isNotEmpty &&

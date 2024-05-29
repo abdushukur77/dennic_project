@@ -23,8 +23,6 @@ class SpecialistDoctorScreen extends StatefulWidget {
 class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Column(
@@ -47,15 +45,20 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                       ),
                     ),
                     10.getW(),
-                    Text("Specialist Doctor",
-                        style: AppTextStyle.urbanistMedium.copyWith(
-                          color: AppColors.c_2C3A4B,
-                          fontSize: 26.sp,
-                          fontWeight: FontWeight.w600,
-                        )),
+                    Text(
+                      "Specialist Doctor",
+                      style: AppTextStyle.urbanistMedium.copyWith(
+                        color: AppColors.c_2C3A4B,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const Spacer(),
                     RingAndFavoriteItems(
-                      icon: Icon(Icons.menu, color: AppColors.c_2972FE),
+                      icon: const Icon(
+                        Icons.menu,
+                        color: AppColors.c_2972FE,
+                      ),
                       onTap: () {},
                     ),
                   ],
@@ -75,24 +78,23 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
               if (state.formStatus == FormStatus.success) {
                 return Expanded(
                   child: GridView.count(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w,vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
                     crossAxisCount: 2,
-                    childAspectRatio: 0.90,
+                    childAspectRatio: 0.85,
                     crossAxisSpacing: 20.w,
                     mainAxisSpacing: 24.h,
                     children: [
                       ...List.generate(
                         state.specializations.length,
-                            (index) {
+                        (index) {
                           return SpecialistScreenItems(
                             icon: state.specializations[index].imageUrl,
                             title: state.specializations[index].name,
-                            subtitle: state.specializations[index].order.toString(),
-                            color1: generateRandomColors()[0],
-                            onTap: () {
-
-
-                            },
+                            subtitle:
+                                state.specializations[index].order.toString(),
+                            color1: generateRandomColors(index + 1)[0],
+                            onTap: () {},
                           );
                         },
                       ),
@@ -100,7 +102,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
                   ),
                 );
               }
-              return SizedBox();
+              return const SizedBox();
             },
           ),
         ],

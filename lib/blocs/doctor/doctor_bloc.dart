@@ -1,3 +1,5 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
+import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +13,22 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   final DoctorRepository doctorRepository;
 
   DoctorBloc({required this.doctorRepository})
-      : super(DoctorState(myUserModel: MyUserModel.initial())) {
+      : super(
+          DoctorState(
+            myUserModel: MyUserModel.initial(),
+            doctorModel: DoctorModel.initial(),
+            appointmentModel: AppointmentModel.initial(),
+          ),
+        ) {
     on<FetchDoctors>(_onFetchDoctors);
     on<FetchDoctorsBySpecialization>(_onFetchDoctorsBySpecialization);
+    on<FetchDoctorById>(_onFetchDoctorById);
     on<GetUser>(_onGetUser);
+    on<GetDate>(_onFetchDateDoctor);
+    on<GetTable>(_onFetchTableDoctor);
+    on<GetDoctorService>(_onFetchDoctorService);
+    on<PostPatient>(_onPostPatient);
+    on<PostAppointment>(_onPostAppointment);
   }
 
   Future<void> _onFetchDoctors(
@@ -43,8 +57,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     NetworkResponse networkResponse = await doctorRepository.getUser();
 
     if (networkResponse.errorText.isEmpty) {
-
-      debugPrint(" My User Model    ${networkResponse.data}");
+      debugPrint(" My User Model   ${networkResponse.data}");
       emit(state.copyWith(
           formStatus: FormStatus.success, myUserModel: networkResponse.data));
     }
@@ -63,6 +76,151 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       emit(state.copyWith(
           formStatus: FormStatus.success, searchDoctors: networkResponse.data));
     } else {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onFetchDateDoctor(GetDate event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse = await doctorRepository.getDate();
+
+    if (networkResponse.errorText.isEmpty) {
+      print("Errorga tushdi---------------------------");
+      emit(
+        state.copyWith(
+            formStatus: FormStatus.success, dateModels: networkResponse.data),
+      );
+    } else {
+      print(
+          "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(state.copyWith(
+        formStatus: FormStatus.error,
+        errorMessage: networkResponse.errorText,
+      ));
+    }
+  }
+
+  Future<void> _onFetchTableDoctor(GetTable event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse = await doctorRepository.getTable(
+        doctorId: event.doctorId, date: event.date);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint(
+          "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          tableModels: networkResponse.data,
+        ),
+      );
+    } else {
+      debugPrint(
+          "Errorga tushdi---------------------------_onFetchTableDoctor");
+      emit(state.copyWith(
+        formStatus: FormStatus.error,
+        errorMessage: networkResponse.errorText,
+      ));
+    }
+  }
+
+  Future<void> _onFetchDoctorService(GetDoctorService event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.fetchDoctorService(id: event.id);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint(
+          "Succesga tushdi ${networkResponse.data}---------------------------");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          serviceModels: networkResponse.data,
+        ),
+      );
+    } else {
+      debugPrint(
+          "Errorga tushdi---------------------------_onFetchDoctorService");
+      emit(state.copyWith(
+        formStatus: FormStatus.error,
+        errorMessage: networkResponse.errorText,
+      ));
+    }
+  }
+
+  Future<void> _onFetchDoctorById(
+    FetchDoctorById event,
+    Emitter<DoctorState> emit,
+  ) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.fetchDoctorById(event.doctorId);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(state.copyWith(
+          formStatus: FormStatus.success, doctorModel: networkResponse.data));
+    } else {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onPostPatient(PostPatient event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.postPatient(patientModel: event.patientModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint("On post patient blocda if ning ichiga tushdi");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          id: networkResponse.data,
+        ),
+      );
+
+      debugPrint("CREATED PATIENT");
+    } else {
+      debugPrint("On post patient blocda else ning ichiga tushdi");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onPostAppointment(PostAppointment event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.postAppointment(event.appointmentModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint("On post appointment blocda if ning ichiga tushdi");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          id: networkResponse.data,
+        ),
+      );
+    } else {
+      debugPrint("On post appointment blocda else ning ichiga tushdi");
       emit(
         state.copyWith(
           formStatus: FormStatus.error,
