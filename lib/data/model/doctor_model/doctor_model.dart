@@ -111,8 +111,9 @@ class DoctorModel {
       updatedAt: json['updated_at'] as String? ?? "",
       deletedAt: json['deleted_at'] as String? ?? "",
       specializations: (json['specializations'] as List?)
-          ?.map((specJson) => SpecializationM.fromJson(specJson))
-          .toList() ?? [],
+              ?.map((specJson) => SpecializationM.fromJson(specJson))
+              .toList() ??
+          [],
     );
   }
 
@@ -146,7 +147,6 @@ class DoctorModel {
       'specializations': specializations.map((spec) => spec.toJson()).toList(),
     };
   }
-
 }
 
 class SpecializationM {

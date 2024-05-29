@@ -1,12 +1,13 @@
 import 'package:dennic_project/blocs/appoinment/bloc.dart';
 import 'package:dennic_project/blocs/appoinment/event.dart';
+import 'package:dennic_project/blocs/appoinment/state.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
-import 'package:dennic_project/data/model/appointment/appointment_model.dart';
+import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
-import 'package:dennic_project/screens/detail/detail_screen.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/address_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/birth_date_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/blood_group_input.dart';
@@ -43,14 +44,6 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController problemDescriptionController =
       TextEditingController();
-
-  final List<String> ages = [
-    "10+",
-    "20+",
-    "30+",
-    "40+",
-    "50+",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -131,31 +124,59 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                 SizedBox(
                   width: double.infinity,
                   height: 55.h,
-                  child: BlocBuilder<DoctorBloc, DoctorState>(
-                    builder: (context, state) {
+                  child: BlocConsumer<AppointmentBloc, AppointmentState>(
+                    listener: (BuildContext context, AppointmentState myState) {
+                      debugPrint("DEBUG PRINT ${myState.formStatus}");
+
+                      if (state.formStatus == FormStatus.success) {
+                        if (myState.statusMessage == "ok") {
+                          debugPrint("My Id: ${myState.potentId}");
+                        }
+                      }
+                    },
+                    builder: (BuildContext context, AppointmentState state) {
                       return ElevatedButton(
-                        onPressed: () {
-                          PatientModel patientModel = PatientModel(
-                            address: addressController.text,
-                            birthDate: birthDateController.text,
-                            bloodGroup: bloodGroupController.text,
-                            city: cityController.text,
-                            country: countryController.text,
-                            firstName: firstNameController.text,
-                            gender: "male",
-                            lastName: lastNameController.text,
-                            patientProblem: problemDescriptionController.text,
-                            phoneNumber:
-                                phoneNumberController.text.replaceAll(" ", ""),
-                          );
-                          context.read<DoctorBloc>().add(
-                                PostPatient(
-                                  patientModel: patientModel,
+                        onPressed: () async {
+                          context.read<AppointmentBloc>().add(
+                                Addkasal(
+                                  patientModel: PatientModel(
+                                    address: addressController.text,
+                                    birthDate: birthDateController.text,
+                                    bloodGroup: bloodGroupController.text,
+                                    city: cityController.text,
+                                    country: countryController.text,
+                                    firstName: firstNameController.text,
+                                    gender: "male",
+                                    lastName: lastNameController.text,
+                                    patientProblem:
+                                        problemDescriptionController.text,
+                                    phoneNumber: phoneNumberController.text
+                                        .replaceAll(" ", ""),
+                                  ),
                                 ),
                               );
 
-                          // appointmentModel =
-                          //     appointmentModel.copyWith(patientId: state.id);
+                          // NetworkResponse id =
+                          //     await ApiProvider.createPatient(patientModel);
+                          // if (!context.mounted) return;
+                          // context.read<AppointmentBloc>().add(
+                          //       UpdatePatientId(
+                          //         id.data,
+                          //       ),
+                          //     );
+                          context.read<DoctorBloc>().add(
+                                PostAppointment(
+                                  appointmentModel: state.appointment,
+                                ),
+                              );
+                          debugPrint(context
+                              .read<AppointmentBloc>()
+                              .state
+                              .appointment
+                              .toString());
+                          // context.read<DoctorBloc>().add(PostAppointment(
+                          //     appointmentModel:
+                          //     context.read<AppointmentBloc>().state.appointment));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF93B8FE),
@@ -173,6 +194,28 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                   ),
                 ),
                 20.getH(),
+                BlocBuilder<AppointmentBloc, AppointmentState>(
+                  builder: (context, state) {
+                    return TextButton(
+                        onPressed: () {
+                          context.read<AppointmentBloc>().add(
+                                UpdatePatientId(
+                                  state.potentId,
+                                ),
+                              );
+                          debugPrint(context
+                              .read<AppointmentBloc>()
+                              .state
+                              .appointment
+                              .toString());
+                          context.read<DoctorBloc>().add(PostAppointment(
+                              appointmentModel:
+                              context.read<AppointmentBloc>().state.appointment));
+                        },
+                        child: Text("Appointment"));
+                  },
+                ),
+                20.getH(),
               ],
             ),
           );
@@ -180,14 +223,18 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
         listener: (BuildContext context, DoctorState state) {
           if (state.formStatus == FormStatus.success) {
             String id = state.id;
-
-
+            debugPrint(
+              "CURRENT ID: $id",
+            );
             context.read<AppointmentBloc>().add(UpdatePatientId(id));
+
+            // context.read<AppointmentBloc>().add(UpdatePatientId(id));
             // appointmentModel = appointmentModel.copyWith(patientId: id);
-            context
-                .read<DoctorBloc>()
-                .add(PostAppointment(appointmentModel: context.read<AppointmentBloc>().state.appointment));
-            debugPrint(context.read<AppointmentBloc>().state.appointment.toString());
+            context.read<DoctorBloc>().add(PostAppointment(
+                appointmentModel:
+                    context.read<AppointmentBloc>().state.appointment));
+            debugPrint(
+                context.read<AppointmentBloc>().state.appointment.toString());
             // appointmentModel = AppointmentModel.initial();
           }
         },

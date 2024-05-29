@@ -425,6 +425,8 @@ class ApiProvider {
     return networkResponse;
   }
 
+  /////////////////////////////////////////////////
+
   static Future<NetworkResponse> getDate() async {
     Uri uri = Uri.parse("https://swag.dennic.uz/v1/appointment/dates");
 
@@ -540,6 +542,8 @@ class ApiProvider {
       PatientModel patientModel) async {
     NetworkResponse networkResponse = NetworkResponse();
 
+    // debugPrint("BEFORE    ${patientModel.toString()}");
+
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/patient/create");
 
@@ -550,9 +554,9 @@ class ApiProvider {
       );
 
       if (response.statusCode == 200) {
-        debugPrint("Patient yaratildi------------------------createPatient");
+        debugPrint("Patient yaratildi: ${jsonDecode(response.body)["id"]}");
         networkResponse.data = jsonDecode(response.body)["id"];
-        debugPrint("DATA ${networkResponse.data}");
+        // debugPrint("DATA ${networkResponse.data}");
       } else {
         debugPrint(
             "Status Code: ${response.statusCode} Body: ${response.body}-----------------------------------createPatient");
@@ -574,7 +578,7 @@ class ApiProvider {
     String token = StorageRepository.getString(
       key: "access_token",
     );
-debugPrint(token);
+    debugPrint(token);
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
@@ -598,7 +602,7 @@ debugPrint(token);
             "-------------------------createAppointment");
       } else {
         final responseJson = jsonDecode(response.body);
-        networkResponse.errorText = responseJson["messages"] ?? "Unknown error";
+        networkResponse.errorText = response.body;
         debugPrint(
             "Else ga tushdi -------------${response.statusCode}------${networkResponse.errorText}----------------------------createAppointment");
         return NetworkResponse(

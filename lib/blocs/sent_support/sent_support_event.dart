@@ -17,7 +17,7 @@ class SendSupportEvent extends SentSupportEvent {
       ];
 }
 
-class ChangeSentSupportInitialEvent extends SentSupportEvent{
+class ChangeSentSupportInitialEvent extends SentSupportEvent {
   @override
   List<Object?> get props => throw UnimplementedError();
 }

@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
     debugPrint("WWWWWWWWWWWWWWWWWWWW ${isNewUser.toString()}");
     Future.delayed(
       const Duration(seconds: 4),
-          () {
+      () {
         if (isNewUser) {
           Navigator.pushReplacement(
             context,

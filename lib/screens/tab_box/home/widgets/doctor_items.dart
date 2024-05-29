@@ -44,12 +44,11 @@ class DoctorItems extends StatelessWidget {
                     topRight: Radius.circular(12.r),
                   ),
                   child: Image.network(
-                     image,
+                    image,
                     width: 160.w,
                     height: 160.h,
                     fit: BoxFit.cover,
                   ),
-
                 ),
                 8.getH(),
                 Padding(

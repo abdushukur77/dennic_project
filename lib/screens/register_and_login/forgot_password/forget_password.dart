@@ -74,13 +74,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     onPressed: state.formStatus == FormStatus.loading
                         ? null
                         : () {
-                      debugPrint(" WWWWWWWWWWW ${controllerPhoneNumber.text.replaceAll(" ", "")}");
+                            debugPrint(
+                                " WWWWWWWWWWW ${controllerPhoneNumber.text.replaceAll(" ", "")}");
 
-                            context.read<AuthBloc>().add(
-                                  AuthForgetPasswordEvent(
-                                      phoneNumber:
-                                      controllerPhoneNumber.text.replaceAll(" ", ""),
-                                  ));
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthForgetPasswordEvent(
+                                  phoneNumber: controllerPhoneNumber.text
+                                      .replaceAll(" ", ""),
+                                ));
                           },
                     child: state.formStatus == FormStatus.loading
                         ? const Center(

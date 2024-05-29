@@ -31,16 +31,15 @@ class SpecialistScreenItems extends StatelessWidget {
           vertical: 24.h,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.r),
-        color: color1
-        ),
+            borderRadius: BorderRadius.circular(16.r), color: color1),
         child: Column(
           children: [
             SvgPicture.network(
               icon,
               width: 43.w,
               height: 40.h,
-              fit: BoxFit.cover,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
             ),
             16.getH(),
             Text(

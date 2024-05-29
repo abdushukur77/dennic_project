@@ -282,7 +282,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           gender: gender,
                           lastName: controllerLastName.text,
                           password: controllerPassword.text,
-                          phoneNumber: controllerPhoneNumber.text.replaceAll(" ", ""),
+                          phoneNumber:
+                              controllerPhoneNumber.text.replaceAll(" ", ""),
                         );
 
                         if (controllerPhoneNumber.text.isNotEmpty &&
@@ -292,7 +293,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           debugPrint("Qonday");
 
                           if ((controllerPassword.text !=
-                              controllerConfirm.text)&& !check) {
+                                  controllerConfirm.text) &&
+                              !check) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.red,

@@ -5,12 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsDoctorItems extends StatelessWidget {
-  const DetailsDoctorItems({super.key, required this.fullName, required this.bio, required this.image, required this.onTap});
+  const DetailsDoctorItems(
+      {super.key,
+      required this.fullName,
+      required this.bio,
+      required this.image,
+      required this.onTap});
 
   final String fullName;
   final String bio;
   final String image;
-  final VoidCallback  onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class DetailsDoctorItems extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    fullName ,
+                    fullName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

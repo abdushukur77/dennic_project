@@ -8,7 +8,7 @@ class SpecializationState {
   final String errorMessage;
 
   SpecializationState({
-    this.formStatus =FormStatus.pure,
+    this.formStatus = FormStatus.pure,
     this.specializations = const [],
     this.errorMessage = '',
   });
@@ -19,9 +19,8 @@ class SpecializationState {
     String? errorMessage,
   }) {
     return SpecializationState(
-      specializations: specializations ?? this.specializations,
-      errorMessage: errorMessage ?? this.errorMessage,
-      formStatus: formStatus ?? this.formStatus
-    );
+        specializations: specializations ?? this.specializations,
+        errorMessage: errorMessage ?? this.errorMessage,
+        formStatus: formStatus ?? this.formStatus);
   }
 }

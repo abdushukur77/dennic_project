@@ -1,3 +1,5 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
+import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AppointmentEvent extends Equatable {
@@ -50,4 +52,10 @@ class UpdatePatientId extends AppointmentEvent {
 
   @override
   List<Object> get props => [patientId];
+}
+
+class Addkasal extends AppointmentEvent {
+  final PatientModel patientModel;
+
+  Addkasal({required this.patientModel});
 }

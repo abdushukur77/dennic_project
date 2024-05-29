@@ -25,8 +25,8 @@ class AppointmentModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'appointment_date': "$appointmentDate:00",
-      'appointment_time': appointmentTime,
+      'appointment_date': appointmentDate,
+      'appointment_time': "$appointmentTime:00",
       'doctor_id': doctorId,
       'doctor_service_id': doctorServiceId,
       'patient_id': patientId,

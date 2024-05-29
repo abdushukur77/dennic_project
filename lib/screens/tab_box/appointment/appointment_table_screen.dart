@@ -4,10 +4,8 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
-import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
-import 'package:dennic_project/screens/detail/detail_screen.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/create_patient_screen.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
@@ -18,8 +16,7 @@ import '../../../utils/styles/app_text_style.dart';
 import '../../detail/widgets/global_button.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen(
-      {super.key,  required this.doctorModel});
+  const AppointmentScreen({super.key, required this.doctorModel});
 
   final DoctorModel doctorModel;
 
@@ -32,19 +29,21 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   String selectedAppointmentType = 'Messaging';
 
   String day = "AM";
-  String id= "";
+  String id = "";
 
   int activeIndex = -1;
   int actIndex = -1;
-
-
 
   @override
   void initState() {
     context.read<DoctorBloc>().add(
           GetTable(
             doctorId: widget.doctorModel.id,
-            date: context.read<AppointmentBloc>().state.appointment.appointmentDate,
+            date: context
+                .read<AppointmentBloc>()
+                .state
+                .appointment
+                .appointmentDate,
           ),
         );
 
@@ -107,7 +106,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           onTap: () {
                             day = "PM";
                             ApiProvider.bookAppointment(
-                                context.read<AppointmentBloc>().state.appointment.appointmentDate,
+                                context
+                                    .read<AppointmentBloc>()
+                                    .state
+                                    .appointment
+                                    .appointmentDate,
                                 widget.doctorModel.id);
                             setState(() {
                               activeIndex = 1;
@@ -148,14 +151,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                   (index) {
                                 return CategoryItems(
                                   day: day,
-                                  title: state.tableModels[index].time.toString(),
+                                  title:
+                                      state.tableModels[index].time.toString(),
                                   subtitle: state.tableModels[index].timeOfDay
                                       ? "AM"
                                       : "PM",
                                   isSelected: actIndex == index,
                                   onTap: () {
                                     actIndex = index;
-                                 context.read<AppointmentBloc>().add(UpdateAppointmentTime( state.tableModels[index].time));
+                                    context.read<AppointmentBloc>().add(
+                                        UpdateAppointmentTime(
+                                            state.tableModels[index].time));
                                     setState(() {});
                                   },
                                 );
@@ -244,8 +250,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           GlobalButton(
             title: "Next ",
             onTap: () {
-
-              context.read<AppointmentBloc>().add(UpdateDoctorId(widget.doctorModel.id));
+              context
+                  .read<AppointmentBloc>()
+                  .add(UpdateDoctorId(widget.doctorModel.id));
               context.read<AppointmentBloc>().add(UpdateDoctorServiceId(id));
 
               // appointmentModel =

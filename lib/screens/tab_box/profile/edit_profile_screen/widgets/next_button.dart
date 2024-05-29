@@ -27,7 +27,7 @@ class NextButton extends StatelessWidget {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          child:  Text(
+          child: Text(
             title,
             style: TextStyle(
               fontSize: 18,

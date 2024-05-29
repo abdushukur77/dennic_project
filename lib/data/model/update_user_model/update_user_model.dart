@@ -18,11 +18,11 @@ class UpdateUserModel {
   factory UpdateUserModel.fromJson(Map<String, dynamic> json) {
     return UpdateUserModel(
       birthDate: json['birth_date'] as String? ?? "",
-      firstName: json['first_name']as String? ?? "",
-      gender: json['gender']as String? ?? "",
-      id: json['id']as String? ?? "",
-      imageUrl: json['image_url']as String? ?? "",
-      lastName: json['last_name']as String? ?? "",
+      firstName: json['first_name'] as String? ?? "",
+      gender: json['gender'] as String? ?? "",
+      id: json['id'] as String? ?? "",
+      imageUrl: json['image_url'] as String? ?? "",
+      lastName: json['last_name'] as String? ?? "",
     );
   }
 

@@ -11,8 +11,9 @@ class AuthState {
 
   final String errorText;
   final String statusMessage;
-  final UserModel userModel;
   final FormStatus formStatus;
+
+  final UserModel userModel;
   final String userToken;
 
   AuthState copyWith({

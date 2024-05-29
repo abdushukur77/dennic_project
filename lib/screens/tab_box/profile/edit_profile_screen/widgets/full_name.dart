@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FullNameInput extends StatelessWidget {
-  const FullNameInput({super.key, required this.title, required this.enabled, required this.nameController});
+  const FullNameInput(
+      {super.key,
+      required this.title,
+      required this.enabled,
+      required this.nameController});
 
   final String title;
   final bool enabled;
   final TextEditingController nameController;
-
 
   @override
   Widget build(BuildContext context) {

@@ -37,7 +37,8 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthBloc,AuthState>(builder: (BuildContext context, state) {
+        body: BlocConsumer<AuthBloc, AuthState>(
+      builder: (BuildContext context, state) {
         return Stack(
           children: [
             SingleChildScrollView(
@@ -74,7 +75,7 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
                     perefixIcon: AppImages.lock,
                     obzorText: obthorText,
                     suffixIcon:
-                    obthorText ? AppImages.openEye : AppImages.closeEye,
+                        obthorText ? AppImages.openEye : AppImages.closeEye,
                     valueChanged: _onChange,
                     regExp: AppConstants.passwordRegExp,
                     errorText: 'Password error',
@@ -92,7 +93,7 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
                     perefixIcon: AppImages.lock,
                     obzorText: obthorText2,
                     suffixIcon:
-                    obthorText2 ? AppImages.openEye : AppImages.closeEye,
+                        obthorText2 ? AppImages.openEye : AppImages.closeEye,
                     valueChanged: _onChange,
                     regExp: AppConstants.passwordRegExp,
                     errorText: 'Confirm password error',
@@ -104,8 +105,7 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
                         title: "Minimum 8 characters"),
                   if (write)
                     CheckInput(
-                        check: atleastNumber,
-                        title: "Atleast 1 number (1-9)"),
+                        check: atleastNumber, title: "Atleast 1 number (1-9)"),
                   if (write)
                     CheckInput(
                         check: atleastLowercaseOrUppercaseLetters,
@@ -128,47 +128,43 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
                     onPressed: state.formStatus == FormStatus.loading
                         ? null
                         : () {
-                      context.read<AuthBloc>().add(
-                        AuthUpdatePasswordEvent(
-                          newPassword: controllerPassword.text,
-                        ),
-                      );
-                    },
+                            context.read<AuthBloc>().add(
+                                  AuthUpdatePasswordEvent(
+                                    newPassword: controllerPassword.text,
+                                  ),
+                                );
+                          },
                     child: state.formStatus == FormStatus.loading
                         ? const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    )
+                            child: CircularProgressIndicator.adaptive(),
+                          )
                         : Text(
-                      "Confirm New Password",
-                      style: AppTextStyle.urbanistBold.copyWith(
-                        fontSize: 14.sp,
-                        color: AppColors.cFFFFFF,
-                      ),
-                    ),
+                            "Confirm New Password",
+                            style: AppTextStyle.urbanistBold.copyWith(
+                              fontSize: 14.sp,
+                              color: AppColors.cFFFFFF,
+                            ),
+                          ),
                   ),
                 ),
               ),
             ),
           ],
         );
-
-
-      }, listener: (BuildContext context, AuthState state) {
+      },
+      listener: (BuildContext context, AuthState state) {
         if (state.formStatus == FormStatus.success) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) {
                 return PasswordVerifiedScreen();
-
               },
             ),
           );
         }
-
-
-      },)
-    );
+      },
+    ));
   }
 
   _onChange(String value) {

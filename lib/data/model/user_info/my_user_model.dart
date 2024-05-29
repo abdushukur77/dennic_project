@@ -43,15 +43,15 @@ class MyUserModel {
     };
   }
 
-  static MyUserModel initial() =>
-      MyUserModel(id: "",
-        firstName: "",
-        lastName: "",
-        birthDate: "",
-        phoneNumber: "",
-        password: "",
-        gender: "",
-        imageUrl: "");
+  static MyUserModel initial() => MyUserModel(
+      id: "",
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      phoneNumber: "",
+      password: "",
+      gender: "",
+      imageUrl: "");
 
   MyUserModel copyWith({
     String? id,

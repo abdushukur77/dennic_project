@@ -1,4 +1,3 @@
-
 class AppImages {
   //.png
 
@@ -12,10 +11,9 @@ class AppImages {
   static const String call = "assets/icons/call.svg";
   static const String boy = "assets/images/boy.png";
   static const String girl = "assets/images/girl.png";
-  static const String phone  = "assets/images/phone.png";
-  static const String callPng  = "assets/images/call.png";
-  static const String dennic  = "assets/images/dennic.png";
-
+  static const String phone = "assets/images/phone.png";
+  static const String callPng = "assets/images/call.png";
+  static const String dennic = "assets/images/dennic.png";
 
   //.svg
 
@@ -48,17 +46,17 @@ class AppImages {
       "assets/icons/radio_button_square.svg";
   static const String radioButtonSquareDone =
       "assets/icons/radio_button_square_done.svg";
-  static const String cansel  = "assets/icons/cansel.svg";
-  static const String calendar  = "assets/icons/calendar.svg";
-  static const String belll  = "assets/icons/belll.svg";
-  static const String pluss  = "assets/icons/pluss.svg";
-  static const String instagram  = "assets/icons/instagram.svg";
-  static const String tiktok  = "assets/icons/tiktok.svg";
-  static const String facebook  = "assets/icons/facebook.svg";
-  static const String twitter  = "assets/icons/twitter.svg";
-  static const String yahoo  = "assets/icons/yahoo.svg";
-  static const String chat  = "assets/icons/chat.svg";
-  static const String whatsapp  = "assets/icons/whatsapp.svg";
-  static const String wechat  = "assets/icons/wechat.svg";
-  static const String alarm  = "assets/icons/alarm.svg";
+  static const String cansel = "assets/icons/cansel.svg";
+  static const String calendar = "assets/icons/calendar.svg";
+  static const String belll = "assets/icons/belll.svg";
+  static const String pluss = "assets/icons/pluss.svg";
+  static const String instagram = "assets/icons/instagram.svg";
+  static const String tiktok = "assets/icons/tiktok.svg";
+  static const String facebook = "assets/icons/facebook.svg";
+  static const String twitter = "assets/icons/twitter.svg";
+  static const String yahoo = "assets/icons/yahoo.svg";
+  static const String chat = "assets/icons/chat.svg";
+  static const String whatsapp = "assets/icons/whatsapp.svg";
+  static const String wechat = "assets/icons/wechat.svg";
+  static const String alarm = "assets/icons/alarm.svg";
 }

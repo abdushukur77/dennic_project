@@ -19,25 +19,25 @@ class TimerDisplay extends StatelessWidget {
     return Center(
       child: visibleRestart
           ? TextButton(
-        onPressed: onResend,
-        style: TextButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6.r),
-          ),
-          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-        ),
-        child: Text(
-          "Resend code",
-          style: TextStyle(
-            color: Colors.blue,
-            fontSize: 16.sp,
-          ),
-        ),
-      )
+              onPressed: onResend,
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+              ),
+              child: Text(
+                "Resend code",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 16.sp,
+                ),
+              ),
+            )
           : Text(
-        "Resend code in $start seconds",
-        style: const TextStyle(color: Colors.black, fontSize: 16),
-      ),
+              "Resend code in $start seconds",
+              style: const TextStyle(color: Colors.black, fontSize: 16),
+            ),
     );
   }
 }

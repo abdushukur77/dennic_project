@@ -28,7 +28,7 @@ class PinCodeDisplay extends StatelessWidget {
         children: [
           ...List.generate(
             4,
-                (index) {
+            (index) {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 8.w),
                 width: 56.w,
@@ -41,21 +41,21 @@ class PinCodeDisplay extends StatelessWidget {
                     color: isCorrect
                         ? Colors.green
                         : (!error && pinCode.length == 4)
-                        ? Colors.red
-                        : (index < pinCode.length)
-                        ? Colors.blue
-                        : Colors.grey.shade200,
+                            ? Colors.red
+                            : (index < pinCode.length)
+                                ? Colors.blue
+                                : Colors.grey.shade200,
                   ),
                   shape: BoxShape.circle,
                 ),
                 child: (index < pinCode.length)
                     ? Center(
-                  child: Text(
-                    list[index],
-                    style:
-                    TextStyle(color: Colors.black, fontSize: 20.sp),
-                  ),
-                )
+                        child: Text(
+                          list[index],
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 20.sp),
+                        ),
+                      )
                     : const SizedBox(),
               );
             },

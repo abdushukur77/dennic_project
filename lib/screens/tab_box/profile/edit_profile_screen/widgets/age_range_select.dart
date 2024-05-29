@@ -53,7 +53,8 @@ class AgeRangeSelection extends StatelessWidget {
                 day: "",
                 title: ages[index],
                 isSelected: actIndex == index,
-                onTap: () => onSelected(index), subtitle: '',
+                onTap: () => onSelected(index),
+                subtitle: '',
               );
             })
           ],

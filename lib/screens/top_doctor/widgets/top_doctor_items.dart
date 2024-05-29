@@ -14,7 +14,8 @@ class TopDoctorItems extends StatelessWidget {
     required this.rate,
     required this.review,
     required this.onTap,
-    required this.favoriteTap, required this.image,
+    required this.favoriteTap,
+    required this.image,
   });
 
   final String name;

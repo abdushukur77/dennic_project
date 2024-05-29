@@ -25,7 +25,6 @@ class SignInScreen extends StatefulWidget {
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
-
 class _SignInScreenState extends State<SignInScreen> {
   bool obthorText = true;
   bool _loading = false;
@@ -64,7 +63,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 70.getH(),
                 MyTextFromFieldTel(
-
                   // regExp: AppConstants.phoneRegExp,
                   errorText: 'Phone number error',
                   controller: phoneNumberController,
@@ -72,7 +70,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   perefixIcon: AppImages.call,
                   valueChanged: (String value) {
                     setState(() {});
-                  }, inputFormatter: AppInputFormatters.phoneFormatter,
+                  },
+                  inputFormatter: AppInputFormatters.phoneFormatter,
                 ),
                 30.getH(),
                 MyTextFromField(
@@ -129,13 +128,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         backgroundColor: AppColors.c257CFF,
                         padding: EdgeInsets.symmetric(vertical: 15.he())),
                     onPressed: () {
-                      debugPrint("BBBBBBBBB ${phoneNumberController.text.toString().replaceAll(" ", "")}");
+                      debugPrint(
+                          "BBBBBBBBB ${phoneNumberController.text.toString().replaceAll(" ", "")}");
                       _loading = true;
                       setState(() {});
                       LoginModel loginModel = LoginModel(
                         fcmToken: "asdfasdfsaf",
                         password: passwordController.text,
-                        phoneNumber: phoneNumberController.text.toString().replaceAll(" ", ""),
+                        phoneNumber: phoneNumberController.text
+                            .toString()
+                            .replaceAll(" ", ""),
                         platformName: "mobile",
                         platformType: "mobile",
                       );
@@ -207,17 +209,16 @@ class _SignInScreenState extends State<SignInScreen> {
               MaterialPageRoute(
                 builder: (context) {
                   return const SignInScreen();
-
                 },
               ),
             );
           }
 
-          if (state.formStatus == FormStatus.error ){
+          if (state.formStatus == FormStatus.error) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                _loading=false;
+                _loading = false;
                 return AlertDialog(
                   title: Text(state.errorText),
                 );
@@ -225,21 +226,23 @@ class _SignInScreenState extends State<SignInScreen> {
             );
           }
 
-          if (state.statusMessage=="logged") {
-            debugPrint("${state.statusMessage=='logged'}  ");
+          if (state.statusMessage == "logged") {
+            debugPrint("${state.statusMessage == 'logged'}  ");
             StorageRepository.setBool(
               key: "is_new_user",
               value: true,
             ).then(
-                  (value) {
+              (value) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) {return const TabBoxScreen();}),
+                  MaterialPageRoute(builder: (context) {
+                    return const TabBoxScreen();
+                  }),
                 );
               },
             );
           }
-          bool a =StorageRepository.getBool(
+          bool a = StorageRepository.getBool(
             key: "is_new_user",
           );
           debugPrint("${a} WWWWWWWWWWWWWWWWWWWWWWWWWW");

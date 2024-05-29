@@ -55,11 +55,11 @@ class UserModel {
   }
 
   static UserModel initial() => UserModel(
-    birthDate: '',
-    firstName: '',
-    gender: '',
-    lastName: '',
-    password: '',
-    phoneNumber: '',
-  );
+        birthDate: '',
+        firstName: '',
+        gender: '',
+        lastName: '',
+        password: '',
+        phoneNumber: '',
+      );
 }

@@ -74,7 +74,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _registerUser(RegisterUserEvent event, emit) async {
-
     NetworkResponse networkResponse =
         await _appRepository.registerUser(userModel: event.userModel);
 
@@ -85,7 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           statusMessage: "registered",
         ),
       );
-    debugPrint("Qonday");
+      debugPrint("Qonday");
     } else {
       debugPrint("Error MAkkamik :( ${networkResponse.errorText}");
 
@@ -105,10 +104,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     networkResponse = await _appRepository.logoutUser(token: "");
 
-
     if (networkResponse.errorText.isEmpty) {
-
-
       emit(
         state.copyWith(
           statusMessage: "logout",
@@ -123,14 +119,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     }
-
-
-
   }
 
   Future<void> _verifyOtpCode(AuthVerifyOtpCoderEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
-    emit(state.copyWith(formStatus: FormStatus.loading,statusMessage: ""));
+    emit(state.copyWith(formStatus: FormStatus.loading, statusMessage: ""));
 
     networkResponse = await _appRepository.verifyOtpCodeUser(
       phoneNumber: event.phoneNumber,
@@ -152,7 +145,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _forgetPassword(AuthForgetPasswordEvent event, emit) async {
     NetworkResponse networkResponse = NetworkResponse();
-    emit(state.copyWith(formStatus: FormStatus.loading,statusMessage: ""));
+    emit(state.copyWith(formStatus: FormStatus.loading, statusMessage: ""));
 
     networkResponse =
         await _appRepository.forgetPassword(phoneNumber: event.phoneNumber);

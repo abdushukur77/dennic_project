@@ -16,8 +16,8 @@ class RingAndFavoriteItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        minimumSize: Size(44.w, 44.h),  // Adjusted minimum size
-        padding: EdgeInsets.all(10.h),   // Adjusted padding
+        minimumSize: Size(44.w, 44.h), // Adjusted minimum size
+        padding: EdgeInsets.all(10.h), // Adjusted padding
         backgroundColor: AppColors.c_2972FE.withOpacity(.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
@@ -26,7 +26,7 @@ class RingAndFavoriteItems extends StatelessWidget {
       onPressed: onTap,
       child: Icon(
         icon.icon,
-        size: 24.w,  // Adjusted icon size
+        size: 24.w, // Adjusted icon size
         color: icon.color,
       ),
     );

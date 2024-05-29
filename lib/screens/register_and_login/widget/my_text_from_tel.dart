@@ -23,7 +23,7 @@ class MyTextFromFieldTel extends StatelessWidget {
     required this.errorText,
     required this.inputFormatter,
   });
-final TextInputFormatter inputFormatter;
+  final TextInputFormatter inputFormatter;
   final String labelText;
   // final RegExp regExp;
   final String errorText;
@@ -38,9 +38,8 @@ final TextInputFormatter inputFormatter;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-inputFormatters: [AppInputFormatters.phoneFormatter],
+      inputFormatters: [AppInputFormatters.phoneFormatter],
       controller: controller,
-
       maxLength: 17,
       onChanged: valueChanged,
       textInputAction: textInputAction,

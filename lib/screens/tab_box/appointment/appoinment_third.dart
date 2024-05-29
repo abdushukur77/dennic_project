@@ -57,7 +57,7 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
         ),
       ),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -177,7 +177,8 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                             onTap: () {
                               actIndex = index;
                               setState(() {});
-                            }, subtitle: '',
+                            },
+                            subtitle: '',
                           );
                         })
                       ],
@@ -420,7 +421,6 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                       ),
                     ),
                     SizedBox(height: 20.h),
-
                   ],
                 ),
               ),

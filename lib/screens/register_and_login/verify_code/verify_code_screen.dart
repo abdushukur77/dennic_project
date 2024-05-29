@@ -31,7 +31,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
   bool visibleRestart = false;
   bool error = false;
   bool reversAnimation = false;
-  bool isCorrect=false;
+  bool isCorrect = false;
 
   @override
   void initState() {
@@ -96,14 +96,20 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           pinCode += title;
           list = pinCode.split('');
           if (pinCode.length == 4) {
-            if (pinCode == "7777"){
-              debugPrint(widget.userModel.phoneNumber.toString().replaceAll(" ", "").substring(4));
+            if (pinCode == "7777") {
+              debugPrint(widget.userModel.phoneNumber
+                  .toString()
+                  .replaceAll(" ", "")
+                  .substring(4));
               context.read<AuthBloc>().add(
                     AuthRequestPassword(
                       verifyModel: VerifyModel(
                         code: 7777,
                         fcmToken: 'aaaaaadvdaa',
-                        phoneNumber:widget.userModel.phoneNumber.toString().replaceAll(" ", "").substring(4),
+                        phoneNumber: widget.userModel.phoneNumber
+                            .toString()
+                            .replaceAll(" ", "")
+                            .substring(4),
                         platformName: 'Samsung',
                         platformType: 'mobile',
                       ),
@@ -140,7 +146,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -166,7 +171,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
             ),
             SizedBox(height: 8.w),
             Text(
-              "Please enter the code we just sent to phone number +(998) ${widget.userModel.phoneNumber.substring(4,6)}-XXX-XX-${widget.userModel.phoneNumber.substring(11,13)}",
+              "Please enter the code we just sent to phone number +(998) ${widget.userModel.phoneNumber.substring(4, 6)}-XXX-XX-${widget.userModel.phoneNumber.substring(11, 13)}",
               style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
@@ -187,13 +192,17 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                         width: 56.w,
                         height: 56.h,
                         decoration: BoxDecoration(
-                          color:(index < pinCode.length)
+                          color: (index < pinCode.length)
                               ? Colors.white
                               : Colors.grey.shade200,
                           border: Border.all(
-                            color:(isCorrect)?Colors.green:(error)?Colors.red:
-                            index < pinCode.length?Colors.blue
-                                : Colors.grey.shade200,
+                            color: (isCorrect)
+                                ? Colors.green
+                                : (error)
+                                    ? Colors.red
+                                    : index < pinCode.length
+                                        ? Colors.blue
+                                        : Colors.grey.shade200,
                           ),
                           shape: BoxShape.circle,
                         ),
@@ -228,10 +237,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                     visibleRestart = false;
                     startTimer();
                     context.read<AuthBloc>().add(
-                      RegisterUserEvent(userModel: widget.userModel),
-                    );
+                          RegisterUserEvent(userModel: widget.userModel),
+                        );
                     setState(() {});
-
                   },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -321,9 +329,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
               ],
             ),
             BlocListener<AuthBloc, AuthState>(
-              listener: (BuildContext context, AuthState state)async{
+              listener: (BuildContext context, AuthState state) async {
                 if (state.statusMessage == "query_ok") {
-                  isCorrect=true;
+                  isCorrect = true;
                   setState(() {});
                   await Future.delayed(Duration(milliseconds: 500));
                   Navigator.pushReplacement(context,

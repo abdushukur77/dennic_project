@@ -68,7 +68,7 @@ class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
               fontSize: 14.sp,
             ),
             contentPadding:
-            EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+                EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
               borderSide: BorderSide(

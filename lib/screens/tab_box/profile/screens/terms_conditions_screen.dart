@@ -39,11 +39,11 @@ class TermsConditionsScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding:  EdgeInsets.all(16.w),
+        padding: EdgeInsets.all(16.w),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: RichText(
-            text:  TextSpan(
+            text: TextSpan(
               style: TextStyle(color: Colors.black, fontSize: 16.sp),
               children: const [
                 TextSpan(
@@ -51,22 +51,28 @@ class TermsConditionsScreen extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: 'These terms and conditions outline the rules and regulations for the use of our clinic’s services and website. By accessing or using our services, you accept these terms and conditions in full. Do not continue to use Dennic system if you do not agree to all of the terms and conditions stated on this page.\n\n',
+                  text:
+                      'These terms and conditions outline the rules and regulations for the use of our clinic’s services and website. By accessing or using our services, you accept these terms and conditions in full. Do not continue to use Dennic system if you do not agree to all of the terms and conditions stated on this page.\n\n',
                 ),
                 TextSpan(
-                  text: 'Dennic system provides healthcare services, including a list of services. These services are provided subject to these terms and conditions. Appointments can be booked through our website, phone, or in person. Cancellations must be made at least 24 hours in advance. Late cancellations or no-shows may incur a fee.\n\n',
+                  text:
+                      'Dennic system provides healthcare services, including a list of services. These services are provided subject to these terms and conditions. Appointments can be booked through our website, phone, or in person. Cancellations must be made at least 24 hours in advance. Late cancellations or no-shows may incur a fee.\n\n',
                 ),
                 TextSpan(
-                  text: 'Fees for services are outlined in the clinic and on our website. All fees are subject to change. We accept [list payment methods]. Payment is due at the time of service unless other arrangements have been made.\n\n',
+                  text:
+                      'Fees for services are outlined in the clinic and on our website. All fees are subject to change. We accept [list payment methods]. Payment is due at the time of service unless other arrangements have been made.\n\n',
                 ),
                 TextSpan(
-                  text: 'Patients are responsible for providing accurate and complete health information. They must inform us of any changes in their health condition. Your privacy is important to us. Please refer to our Privacy Policy for details on how we collect, use, and protect your information.\n\n',
+                  text:
+                      'Patients are responsible for providing accurate and complete health information. They must inform us of any changes in their health condition. Your privacy is important to us. Please refer to our Privacy Policy for details on how we collect, use, and protect your information.\n\n',
                 ),
                 TextSpan(
-                  text: 'Dennic system is not liable for any direct, indirect, incidental, or consequential damages that result from the use of our services. We reserve the right to modify these terms at any time. Changes will be posted on our website. Continued use of our services constitutes acceptance of the new terms.\n\n',
+                  text:
+                      'Dennic system is not liable for any direct, indirect, incidental, or consequential damages that result from the use of our services. We reserve the right to modify these terms at any time. Changes will be posted on our website. Continued use of our services constitutes acceptance of the new terms.\n\n',
                 ),
                 TextSpan(
-                  text: 'These terms are governed by and construed in accordance with the laws of Uzbekistan, and you submit to the non-exclusive jurisdiction of the state and federal courts located in [Your State/Country] for the resolution of any disputes. If you have any questions about these Terms and Conditions, please contact us at ',
+                  text:
+                      'These terms are governed by and construed in accordance with the laws of Uzbekistan, and you submit to the non-exclusive jurisdiction of the state and federal courts located in [Your State/Country] for the resolution of any disputes. If you have any questions about these Terms and Conditions, please contact us at ',
                 ),
                 TextSpan(
                   text: 'mubinayigitaliyeva00@gmail.com',
