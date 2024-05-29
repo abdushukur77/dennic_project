@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
+import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import '../network/api_provider.dart';
 
 class DoctorRepository {
@@ -24,4 +25,8 @@ class DoctorRepository {
 
   Future<NetworkResponse> fetchDoctorService({required String id}) async =>
       await ApiProvider.getDoctorService(id);
+
+  Future<NetworkResponse> postPatient(
+          {required PatientModel patientModel}) async =>
+      await ApiProvider.createPatient(patientModel);
 }

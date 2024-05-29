@@ -31,6 +31,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   String selectedAppointmentType = 'Messaging';
 
   String day = "AM";
+  String id= "";
 
   int activeIndex = -1;
   int actIndex = -1;
@@ -198,7 +199,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 state.serviceModels.length,
                                 (index) {
                                   return GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      id = state.serviceModels[index].id;
+                                    },
                                     child: Container(
                                       margin: EdgeInsets.symmetric(
                                         vertical: 12.h,
@@ -249,7 +252,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             title: "Next ",
             onTap: () {
               appointmentModel =
-                  appointmentModel.copyWith(doctorId: widget.doctorModel.id);
+                  appointmentModel.copyWith(doctorId: widget.doctorModel.id,doctorServiceId: id);
               debugPrint(
                   "${appointmentModel.toString()}--------------------------------");
               Navigator.push(

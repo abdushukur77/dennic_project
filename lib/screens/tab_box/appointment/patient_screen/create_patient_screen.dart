@@ -1,3 +1,6 @@
+import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
+import 'package:dennic_project/blocs/doctor/doctor_event.dart';
+import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/address_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/birth_date_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/blood_group_input.dart';
@@ -7,10 +10,9 @@ import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/name_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/phone_number.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/problem_description.dart';
-import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CreatePatientScreen extends StatefulWidget {
@@ -32,7 +34,8 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController problemDescriptionController = TextEditingController();
+  final TextEditingController problemDescriptionController =
+      TextEditingController();
 
   final List<String> ages = [
     "10+",
@@ -109,7 +112,8 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                       },
                     ),
                     SizedBox(height: 24.h),
-                    ProblemDescriptionInput(controller: problemDescriptionController),
+                    ProblemDescriptionInput(
+                        controller: problemDescriptionController),
                     SizedBox(height: 20.h),
                   ],
                 ),
@@ -120,7 +124,24 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
               height: 55.h,
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle Next button press
+                  PatientModel patientModel = PatientModel(
+                    address: addressController.text,
+                    birthDate: birthDateController.text,
+                    bloodGroup: bloodGroupController.text,
+                    city: cityController.text,
+                    country: countryController.text,
+                    firstName: firstNameController.text,
+                    gender: selectedGender==1?"male":"female",
+                    lastName: lastNameController.text,
+                    patientProblem: problemDescriptionController.text,
+                    phoneNumber: phoneNumberController.text,
+                  );
+
+                  context.read<DoctorBloc>().add(
+                        PostPatient(
+                          patientModel: patientModel,
+                        ),
+                      );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF93B8FE),

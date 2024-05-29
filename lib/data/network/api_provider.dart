@@ -3,6 +3,7 @@ import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/doctor_service/service_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
+import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/data/model/table/table_model.dart';
 import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
@@ -457,12 +458,16 @@ class ApiProvider {
         debugPrint(
             "Doctor service keldi ------------------------------------------------getDoctorService");
 
-        List<ServiceModel> serviceModels = (jsonDecode(response.body) as List?)
-                ?.map((e) => ServiceModel.fromJson(e))
-                .toList() ??
-            [];
+        debugPrint("RUNTIME TYPE IS RESPONSE: ${response.body.runtimeType}");
 
-        debugPrint("$serviceModels-------------------------------getDoctorService");
+        List<ServiceModel> serviceModels =
+            (jsonDecode(response.body)["doctor_services"] as List?)
+                    ?.map((e) => ServiceModel.fromJson(e))
+                    .toList() ??
+                [];
+
+        debugPrint(
+            "$serviceModels-------------------------------getDoctorService");
 
         return NetworkResponse(data: serviceModels);
       } else {
@@ -527,5 +532,36 @@ class ApiProvider {
           "Catch keldi ------------------------------------------------bookAppointment");
       return NetworkResponse(errorText: error.toString());
     }
+  }
+
+  static Future<NetworkResponse> createPatient(
+      PatientModel patientModel) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/patient");
+
+      http.Response response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(patientModel.toJson()),
+      );
+      debugPrint("Patient ---${response.statusCode}}-------------------createPatient");
+      if (response.statusCode == 200) {
+        debugPrint("Patient yaratildi------------------------createPatient");
+
+        networkResponse.data = "Created";
+      } else if (response.statusCode == 400) {
+        debugPrint(
+            "Status Coed: ${response.body}-----------------------------------");
+        networkResponse.errorText = "this_is_already_created";
+      }
+    } catch (error) {
+      return NetworkResponse(errorText: error.toString());
+    }
+
+    return networkResponse;
   }
 }

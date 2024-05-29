@@ -1,4 +1,5 @@
 import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
+import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
           DoctorState(
             myUserModel: MyUserModel.initial(),
             doctorModel: DoctorModel.initial(),
+            patientModel: PatientModel.initial(),
           ),
         ) {
     on<FetchDoctors>(_onFetchDoctors);
@@ -25,6 +27,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<GetDate>(_onFetchDateDoctor);
     on<GetTable>(_onFetchTableDoctor);
     on<GetDoctorService>(_onFetchDoctorService);
+    on<PostPatient>(_onPostPatient);
   }
 
   Future<void> _onFetchDoctors(
@@ -139,7 +142,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       emit(
         state.copyWith(
           formStatus: FormStatus.success,
-          tableModels: networkResponse.data,
+          serviceModels: networkResponse.data,
         ),
       );
     } else {
@@ -164,6 +167,31 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(
           formStatus: FormStatus.success, doctorModel: networkResponse.data));
+    } else {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onPostPatient(PostPatient event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.postPatient(patientModel: event.patientModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          patientModel: networkResponse.data,
+        ),
+      );
+
+      debugPrint("CREATED PATIENT");
     } else {
       emit(
         state.copyWith(

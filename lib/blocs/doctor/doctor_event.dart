@@ -1,3 +1,5 @@
+import 'package:dennic_project/data/model/patient/patient_modedl.dart';
+
 abstract class DoctorEvent {}
 
 class FetchDoctors extends DoctorEvent {}
@@ -29,4 +31,10 @@ class GetDoctorService extends DoctorEvent {
   GetDoctorService({required this.id});
 
   final String id;
+}
+
+class PostPatient extends DoctorEvent {
+  PostPatient({required this.patientModel});
+
+  final PatientModel patientModel;
 }

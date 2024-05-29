@@ -1,4 +1,4 @@
-class Patient {
+class PatientModel {
   String address;
   String birthDate;
   String bloodGroup;
@@ -10,7 +10,7 @@ class Patient {
   String patientProblem;
   String phoneNumber;
 
-  Patient({
+  PatientModel({
     required this.address,
     required this.birthDate,
     required this.bloodGroup,
@@ -23,8 +23,8 @@ class Patient {
     required this.phoneNumber,
   });
 
-  factory Patient.fromJson(Map<String, dynamic> json) {
-    return Patient(
+  factory PatientModel.fromJson(Map<String, dynamic> json) {
+    return PatientModel(
       address: json['address'] as String? ?? "",
       birthDate: json['birth_date'] as String? ?? "",
       bloodGroup: json['blood_group'] as String? ?? "",
@@ -53,8 +53,8 @@ class Patient {
     };
   }
 
-  static Patient initial() {
-    return Patient(
+  static PatientModel initial() {
+    return PatientModel(
       address: '',
       birthDate: '',
       bloodGroup: '',

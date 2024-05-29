@@ -50,7 +50,7 @@ class GenderSelector extends StatelessWidget {
               onChanged: onChanged,
             ),
             Text(
-              "Male",
+              "male",
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
@@ -64,7 +64,7 @@ class GenderSelector extends StatelessWidget {
               onChanged: onChanged,
             ),
             Text(
-              "Female",
+              "female",
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
