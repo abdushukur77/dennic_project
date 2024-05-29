@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProblemDescriptionInput extends StatelessWidget {
   final TextEditingController controller;
+  final TextInputAction textInputAction;
 
-  const ProblemDescriptionInput({required this.controller, Key? key})
+
+  const ProblemDescriptionInput({required this.controller, Key? key, required this.textInputAction})
       : super(key: key);
 
   @override

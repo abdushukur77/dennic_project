@@ -53,6 +53,32 @@ class PatientModel {
     };
   }
 
+  PatientModel copyWith({
+    String? address,
+    String? birthDate,
+    String? bloodGroup,
+    String? city,
+    String? country,
+    String? firstName,
+    String? gender,
+    String? lastName,
+    String? patientProblem,
+    String? phoneNumber,
+  }) {
+    return PatientModel(
+      address: address ?? this.address,
+      birthDate: birthDate ?? this.birthDate,
+      bloodGroup: bloodGroup ?? this.bloodGroup,
+      city: city ?? this.city,
+      country: country ?? this.country,
+      firstName: firstName ?? this.firstName,
+      gender: gender ?? this.gender,
+      lastName: lastName ?? this.lastName,
+      patientProblem: patientProblem ?? this.patientProblem,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+    );
+  }
+
   static PatientModel initial() {
     return PatientModel(
       address: '',

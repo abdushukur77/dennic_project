@@ -5,9 +5,7 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
-import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
-import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/address_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/birth_date_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/blood_group_input.dart';
@@ -91,19 +89,33 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                         NameInput(
                           firstNameController: firstNameController,
                           lastNameController: lastNameController,
+                          textInputAction: TextInputAction.next,
                         ),
                         SizedBox(height: 24.h),
-                        AddressInput(controller: addressController),
+                        AddressInput(
+                            controller: addressController,
+                            textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
-                        BirthDateInput(controller: birthDateController),
+                        BirthDateInput(
+                            controller: birthDateController,
+                            textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
-                        BloodGroupInput(controller: bloodGroupController),
+                        BloodGroupInput(
+                            controller: bloodGroupController,
+                            textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
-                        CityInput(controller: cityController),
+                        CityInput(
+                            controller: cityController,
+                            textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
-                        CountryInput(controller: countryController),
+                        CountryInput(
+                            controller: countryController,
+                            textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
-                        PhoneNumberInput(controller: phoneNumberController),
+                        PhoneNumberInput(
+                          controller: phoneNumberController,
+                          textInputAction: TextInputAction.next,
+                        ),
                         SizedBox(height: 24.h),
                         GenderSelector(
                           selectedGender: selectedGender,
@@ -115,7 +127,8 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                         ),
                         SizedBox(height: 24.h),
                         ProblemDescriptionInput(
-                            controller: problemDescriptionController),
+                            controller: problemDescriptionController,
+                            textInputAction: TextInputAction.done),
                         SizedBox(height: 20.h),
                       ],
                     ),

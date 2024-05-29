@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BirthDateInput extends StatelessWidget {
   final TextEditingController controller;
+  final TextInputAction textInputAction;
 
-  const BirthDateInput({required this.controller, Key? key}) : super(key: key);
+
+  const BirthDateInput({required this.controller, Key? key, required this.textInputAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,11 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class NameInput extends StatelessWidget {
   final TextEditingController firstNameController;
   final TextEditingController lastNameController;
+  final TextInputAction textInputAction;
 
   const NameInput({
     required this.firstNameController,
     required this.lastNameController,
-    Key? key,
+    Key? key, required this.textInputAction,
   }) : super(key: key);
 
   @override
