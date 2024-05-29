@@ -212,7 +212,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         await doctorRepository.postAppointment(event.appointmentModel);
 
     if (networkResponse.errorText.isEmpty) {
-      debugPrint("On post appointment blocda if ning ichiga tushdi");
+      debugPrint("On post appointment blocda DONEEEEEEEEEEEEEE");
       emit(
         state.copyWith(
           formStatus: FormStatus.success,

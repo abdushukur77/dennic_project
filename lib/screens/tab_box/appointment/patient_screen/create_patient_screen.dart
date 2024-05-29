@@ -197,22 +197,27 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                 BlocBuilder<AppointmentBloc, AppointmentState>(
                   builder: (context, state) {
                     return TextButton(
-                        onPressed: () {
-                          context.read<AppointmentBloc>().add(
-                                UpdatePatientId(
-                                  state.potentId,
-                                ),
-                              );
-                          debugPrint(context
-                              .read<AppointmentBloc>()
-                              .state
-                              .appointment
-                              .toString());
-                          context.read<DoctorBloc>().add(PostAppointment(
-                              appointmentModel:
-                              context.read<AppointmentBloc>().state.appointment));
-                        },
-                        child: Text("Appointment"));
+                      onPressed: () {
+                        context.read<AppointmentBloc>().add(
+                              UpdatePatientId(
+                                state.potentId,
+                              ),
+                            );
+                        debugPrint(context
+                            .read<AppointmentBloc>()
+                            .state
+                            .appointment
+                            .toString());
+                        context.read<DoctorBloc>().add(PostAppointment(
+                            appointmentModel: context
+                                .read<AppointmentBloc>()
+                                .state
+                                .appointment));
+                      },
+                      child: const Text(
+                        "Appointment",
+                      ),
+                    );
                   },
                 ),
                 20.getH(),
