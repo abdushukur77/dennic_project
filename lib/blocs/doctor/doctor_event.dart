@@ -1,3 +1,4 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 
 abstract class DoctorEvent {}
@@ -37,4 +38,10 @@ class PostPatient extends DoctorEvent {
   PostPatient({required this.patientModel});
 
   final PatientModel patientModel;
+}
+
+class PostAppointment extends DoctorEvent {
+  PostAppointment({required this.appointmentModel});
+
+  final AppointmentModel appointmentModel;
 }

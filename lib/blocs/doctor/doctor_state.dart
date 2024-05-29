@@ -1,6 +1,6 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/doctor_service/service_model.dart';
-import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/data/model/table/table_model.dart';
 
 import '../../data/model/doctor_model/doctor_model.dart';
@@ -15,10 +15,11 @@ class DoctorState {
   final String errorMessage;
   final MyUserModel myUserModel;
   final DoctorModel doctorModel;
+  final AppointmentModel appointmentModel;
   final List<DateModel> dateModels;
   final List<TableModel> tableModels;
   final List<ServiceModel> serviceModels;
-  final PatientModel patientModel;
+  final String id;
 
   DoctorState({
     this.formStatus = FormStatus.pure,
@@ -28,9 +29,10 @@ class DoctorState {
     this.doctors = const [],
     this.searchDoctors = const [],
     this.errorMessage = '',
+    this.id = "",
     required this.myUserModel,
     required this.doctorModel,
-    required this.patientModel,
+    required this.appointmentModel,
   });
 
   DoctorState copyWith({
@@ -43,7 +45,8 @@ class DoctorState {
     List<DateModel>? dateModels,
     List<TableModel>? tableModels,
     List<ServiceModel>? serviceModels,
-    PatientModel? patientModel,
+    String? id,
+    AppointmentModel? appointmentModel,
   }) {
     return DoctorState(
       doctorModel: doctorModel ?? this.doctorModel,
@@ -55,7 +58,8 @@ class DoctorState {
       dateModels: dateModels ?? this.dateModels,
       tableModels: tableModels ?? this.tableModels,
       serviceModels: serviceModels ?? this.serviceModels,
-      patientModel: patientModel ?? this.patientModel,
+      id: id ?? this.id,
+      appointmentModel: appointmentModel ?? this.appointmentModel,
     );
   }
 }

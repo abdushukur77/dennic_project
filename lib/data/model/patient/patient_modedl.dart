@@ -82,4 +82,9 @@ class PatientModel {
     if (phoneNumber.isNotEmpty) data['phone_number'] = phoneNumber;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'PatientModel(address: $address, birthDate: $birthDate, bloodGroup: $bloodGroup, city: $city, country: $country, firstName: $firstName, gender: $gender, lastName: $lastName, patientProblem: $patientProblem, phoneNumber: $phoneNumber)';
+  }
 }

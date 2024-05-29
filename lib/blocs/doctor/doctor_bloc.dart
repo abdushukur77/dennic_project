@@ -1,5 +1,5 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/doctor_model/doctor_model.dart';
-import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
           DoctorState(
             myUserModel: MyUserModel.initial(),
             doctorModel: DoctorModel.initial(),
-            patientModel: PatientModel.initial(),
+            appointmentModel: AppointmentModel.initial(),
           ),
         ) {
     on<FetchDoctors>(_onFetchDoctors);
@@ -28,6 +28,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<GetTable>(_onFetchTableDoctor);
     on<GetDoctorService>(_onFetchDoctorService);
     on<PostPatient>(_onPostPatient);
+    on<PostAppointment>(_onPostAppointment);
   }
 
   Future<void> _onFetchDoctors(
@@ -184,15 +185,42 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         await doctorRepository.postPatient(patientModel: event.patientModel);
 
     if (networkResponse.errorText.isEmpty) {
+      debugPrint("On post patient blocda if ning ichiga tushdi");
       emit(
         state.copyWith(
           formStatus: FormStatus.success,
-          patientModel: networkResponse.data,
+          id: networkResponse.data,
         ),
       );
 
       debugPrint("CREATED PATIENT");
     } else {
+      debugPrint("On post patient blocda else ning ichiga tushdi");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onPostAppointment(PostAppointment event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.postAppointment(event.appointmentModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint("On post appointment blocda if ning ichiga tushdi");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.success,
+          id: networkResponse.data,
+        ),
+      );
+    } else {
+      debugPrint("On post appointment blocda else ning ichiga tushdi");
       emit(
         state.copyWith(
           formStatus: FormStatus.error,

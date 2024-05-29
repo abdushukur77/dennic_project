@@ -36,11 +36,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   int activeIndex = -1;
   int actIndex = -1;
 
-  final List<Map<String, String>> appointmentTypes = [
-    {'type': 'Messaging', 'price': '\$5'},
-    {'type': 'Voice Call', 'price': '\$10'},
-    {'type': 'Video Call', 'price': '\$20'},
-  ];
+
 
   @override
   void initState() {

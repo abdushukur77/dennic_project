@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dennic_project/data/local/storage_repository.dart';
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/doctor_service/service_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
@@ -497,7 +498,7 @@ class ApiProvider {
         Uri.parse("https://swag.dennic.uz/v1/appointment/booking"),
         headers: {
           'accept': 'application/json',
-          'Authorization': ' $token',
+          'Authorization': token,
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
@@ -539,29 +540,73 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/patient");
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/patient/create");
 
       http.Response response = await http.post(
         uri,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode(patientModel.toJson()),
       );
-      debugPrint("Patient ---${response.statusCode}}-------------------createPatient");
+
       if (response.statusCode == 200) {
         debugPrint("Patient yaratildi------------------------createPatient");
-
-        networkResponse.data = "Created";
-      } else if (response.statusCode == 400) {
+        networkResponse.data = jsonDecode(response.body)["id"];
+        debugPrint("DATA ${networkResponse.data}");
+      } else {
         debugPrint(
-            "Status Coed: ${response.body}-----------------------------------");
-        networkResponse.errorText = "this_is_already_created";
+            "Status Code: ${response.statusCode} Body: ${response.body}-----------------------------------createPatient");
+
+        final responseJson = jsonDecode(response.body);
+        networkResponse.errorText = responseJson["messages"] ?? "Unknown error";
       }
     } catch (error) {
-      return NetworkResponse(errorText: error.toString());
+      debugPrint(
+          "Catch keldi----------------------------createPatient ${error.toString()}");
+      networkResponse.errorText = error.toString();
     }
 
+    return networkResponse;
+  }
+
+  static Future<NetworkResponse> createAppointment(
+      AppointmentModel appointmentModel) async {
+    String token = StorageRepository.getString(
+      key: "access_token",
+    );
+
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      final response = await http.post(
+        Uri.parse("https://swag.dennic.uz/v1/appointment/create"),
+        headers: {
+          'accept': 'application/json',
+          'Authorization': token,
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(appointmentModel.toJson()),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint(
+            "If ga tushdi ------------------------------------------------createAppointment");
+
+        networkResponse.data = jsonDecode(response.body)["patient_full_name"];
+
+        debugPrint(networkResponse.data +
+            "-------------------------createAppointment");
+      } else {
+        debugPrint(
+            "Else ga tushdi -------------${response.statusCode}------------ ${appointmentModel.toString()}-----------------------createAppointment");
+        return NetworkResponse(
+          errorText: networkResponse.data['message'],
+        );
+      }
+    } catch (error) {
+      debugPrint(
+          "Catch keldi ------------------------------------------------createAppointment");
+      return NetworkResponse(errorText: error.toString());
+    }
     return networkResponse;
   }
 }
