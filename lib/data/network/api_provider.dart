@@ -5,6 +5,7 @@ import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/doctor_service/service_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
+import 'package:dennic_project/data/model/support/support_model.dart';
 import 'package:dennic_project/data/model/table/table_model.dart';
 import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
 import 'package:dennic_project/data/model/user_info/my_user_model.dart';
@@ -431,7 +432,7 @@ class ApiProvider {
       http.Response response = await http.get(uri);
 
       if (response.statusCode == 200) {
-        print("Response body: ${response.body}");
+        debugPrint("Response body: ${response.body}");
 
         List<DateModel> dates = (jsonDecode(response.body) as List<dynamic>)
             .map((e) => DateModel.fromJson(e))
@@ -573,7 +574,7 @@ class ApiProvider {
     String token = StorageRepository.getString(
       key: "access_token",
     );
-
+debugPrint(token);
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
@@ -596,17 +597,59 @@ class ApiProvider {
         debugPrint(networkResponse.data +
             "-------------------------createAppointment");
       } else {
+        final responseJson = jsonDecode(response.body);
+        networkResponse.errorText = responseJson["messages"] ?? "Unknown error";
         debugPrint(
-            "Else ga tushdi -------------${response.statusCode}------------ ${appointmentModel.toString()}-----------------------createAppointment");
+            "Else ga tushdi -------------${response.statusCode}------${networkResponse.errorText}----------------------------createAppointment");
         return NetworkResponse(
-          errorText: networkResponse.data['message'],
+          errorText: networkResponse.errorText,
         );
       }
     } catch (error) {
       debugPrint(
-          "Catch keldi ------------------------------------------------createAppointment");
+          "Catch keldi -------------${error.toString()}-----------------------------------createAppointment");
       return NetworkResponse(errorText: error.toString());
     }
     return networkResponse;
+  }
+
+  static const String _baseUrl = 'https://swag.dennic.uz/v1';
+
+  static Future<NetworkResponse> sendSupportMessage({
+    required SupportModel supportModel,
+  }) async {
+    final url = Uri.parse('$_baseUrl/support');
+    final headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    final body = jsonEncode(supportModel.toJson());
+
+    try {
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Support message sent successfully.');
+        return NetworkResponse(data: 'Support message sent successfully.');
+      } else {
+        // Handle error response
+        debugPrint(
+            'Failed to send support message. Status code: ${response.statusCode}');
+        return NetworkResponse(
+          data:
+              'Failed to send support message. Status code: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Handle exception
+      debugPrint('Error sending support message: $e');
+      return NetworkResponse(
+        errorText: e.toString(),
+      );
+    }
   }
 }

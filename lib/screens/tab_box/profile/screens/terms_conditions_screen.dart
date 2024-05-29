@@ -39,18 +39,45 @@ class TermsConditionsScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages. \n\n The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-              style: TextStyle(
-                fontSize: 16.sp,
-                height: 1.5,
-                color: AppColors.c_545D69,
-              ),
-            )
-          ],
+        padding:  EdgeInsets.all(16.w),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: RichText(
+            text:  TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16.sp),
+              children: const [
+                TextSpan(
+                  text: '\t Welcome to Dennic system. ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'These terms and conditions outline the rules and regulations for the use of our clinic’s services and website. By accessing or using our services, you accept these terms and conditions in full. Do not continue to use Dennic system if you do not agree to all of the terms and conditions stated on this page.\n\n',
+                ),
+                TextSpan(
+                  text: 'Dennic system provides healthcare services, including a list of services. These services are provided subject to these terms and conditions. Appointments can be booked through our website, phone, or in person. Cancellations must be made at least 24 hours in advance. Late cancellations or no-shows may incur a fee.\n\n',
+                ),
+                TextSpan(
+                  text: 'Fees for services are outlined in the clinic and on our website. All fees are subject to change. We accept [list payment methods]. Payment is due at the time of service unless other arrangements have been made.\n\n',
+                ),
+                TextSpan(
+                  text: 'Patients are responsible for providing accurate and complete health information. They must inform us of any changes in their health condition. Your privacy is important to us. Please refer to our Privacy Policy for details on how we collect, use, and protect your information.\n\n',
+                ),
+                TextSpan(
+                  text: 'Dennic system is not liable for any direct, indirect, incidental, or consequential damages that result from the use of our services. We reserve the right to modify these terms at any time. Changes will be posted on our website. Continued use of our services constitutes acceptance of the new terms.\n\n',
+                ),
+                TextSpan(
+                  text: 'These terms are governed by and construed in accordance with the laws of Uzbekistan, and you submit to the non-exclusive jurisdiction of the state and federal courts located in [Your State/Country] for the resolution of any disputes. If you have any questions about these Terms and Conditions, please contact us at ',
+                ),
+                TextSpan(
+                  text: 'mubinayigitaliyeva00@gmail.com',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                TextSpan(
+                  text: ', +998972645292  or Najot Ta\'lim, Uzbekistan.',
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

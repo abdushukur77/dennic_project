@@ -1,3 +1,5 @@
+import 'package:dennic_project/blocs/appoinment/bloc.dart';
+import 'package:dennic_project/blocs/appoinment/event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
@@ -17,9 +19,8 @@ import '../../detail/widgets/global_button.dart';
 
 class AppointmentScreen extends StatefulWidget {
   const AppointmentScreen(
-      {super.key, required this.appointmentModel, required this.doctorModel});
+      {super.key,  required this.doctorModel});
 
-  final AppointmentModel appointmentModel;
   final DoctorModel doctorModel;
 
   @override
@@ -43,7 +44,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     context.read<DoctorBloc>().add(
           GetTable(
             doctorId: widget.doctorModel.id,
-            date: widget.appointmentModel.appointmentDate,
+            date: context.read<AppointmentBloc>().state.appointment.appointmentDate,
           ),
         );
 
@@ -58,7 +59,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     debugPrint(
-        "${widget.appointmentModel.appointmentDate.toString()}--------------");
+        "${context.read<AppointmentBloc>().state.appointment.appointmentDate}--------------");
 
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +107,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           onTap: () {
                             day = "PM";
                             ApiProvider.bookAppointment(
-                                widget.appointmentModel.appointmentDate,
+                                context.read<AppointmentBloc>().state.appointment.appointmentDate,
                                 widget.doctorModel.id);
                             setState(() {
                               activeIndex = 1;
@@ -154,11 +155,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                   isSelected: actIndex == index,
                                   onTap: () {
                                     actIndex = index;
-                                    appointmentModel =
-                                        widget.appointmentModel.copyWith(
-                                      appointmentTime:
-                                          state.tableModels[index].time,
-                                    );
+                                 context.read<AppointmentBloc>().add(UpdateAppointmentTime( state.tableModels[index].time));
                                     setState(() {});
                                   },
                                 );
@@ -247,10 +244,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           GlobalButton(
             title: "Next ",
             onTap: () {
-              appointmentModel =
-                  appointmentModel.copyWith(doctorId: widget.doctorModel.id,doctorServiceId: id);
+
+              context.read<AppointmentBloc>().add(UpdateDoctorId(widget.doctorModel.id));
+              context.read<AppointmentBloc>().add(UpdateDoctorServiceId(id));
+
+              // appointmentModel =
+              //     appointmentModel.copyWith(doctorId: widget.doctorModel.id,doctorServiceId: id);
               debugPrint(
-                  "${appointmentModel.toString()}--------------------------------");
+                  "${context.read<AppointmentBloc>().state.appointment.toString()}--------------------------------");
               Navigator.push(
                 context,
                 MaterialPageRoute(

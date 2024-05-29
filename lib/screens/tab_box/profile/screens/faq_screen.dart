@@ -106,13 +106,13 @@ class _FaqScreenState extends State<FaqScreen> {
                     ...List.generate(categories.length, (index) {
                       return Row(
                         children: [
-                          CategoryItems(
+                          CategoryItems(day: "",
                             title: categories[index],
                             isSelected: actIndex == index,
                             onTap: () {
                               actIndex = index;
                               setState(() {});
-                            },
+                            }, subtitle: '',
                           ),
                           SizedBox(
                             width: 5.w,

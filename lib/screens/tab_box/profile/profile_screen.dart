@@ -4,6 +4,7 @@ import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/edit_profile_screen.dart';
+import 'package:dennic_project/screens/tab_box/profile/screens/help_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -33,11 +34,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? _imageFile;
 
-    @override
-    void initState() {
-      Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
-      super.initState();
-    }
+  @override
+  void initState() {
+    Future.microtask(() => context.read<DoctorBloc>()..add(GetUser()));
+    super.initState();
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -117,12 +118,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const Spacer(),
                           RingAndFavoriteItems(
                             icon: const Icon(Icons.edit),
-
-                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return EditProfileScreen(myUserModel: state.myUserModel,);
+                            onTap: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return EditProfileScreen(
+                                myUserModel: state.myUserModel,
+                              );
                             })),
                           ),
-
                         ],
                       ),
                       24.getH(),
@@ -130,30 +132,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           _imageFile == null
                               ? GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                      secondaryAnimation) =>
-                                      FullscreenImageScreen(
-                                        imageUrl: state.myUserModel.imageUrl,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            FullscreenImageScreen(
+                                          imageUrl: state.myUserModel.imageUrl,
+                                        ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return CupertinoFullscreenDialogTransition(
+                                            primaryRouteAnimation: animation,
+                                            secondaryRouteAnimation:
+                                                secondaryAnimation,
+                                            child: child,
+                                            linearTransition: true,
+                                          );
+                                        },
                                       ),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return CupertinoFullscreenDialogTransition(
-                                      primaryRouteAnimation: animation,
-                                      secondaryRouteAnimation:
-                                      secondaryAnimation,
-                                      child: child,
-                                      linearTransition: true,
                                     );
                                   },
-                                ),
-                              );
-
-                            },
-                                child: AvatarItem(
+                                  child: AvatarItem(
                                     image: state.myUserModel.imageUrl,
                                     onTap: () {
                                       showModalBottomSheet(
@@ -192,7 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     style: TextStyle(
                                                       color: AppColors.c_2972FE,
                                                       fontSize: 24.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ),
@@ -215,7 +217,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     style: TextStyle(
                                                       color: AppColors.c_2972FE,
                                                       fontSize: 24.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ),
@@ -226,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       );
                                     },
                                   ),
-                              )
+                                )
                               : Stack(
                                   children: [
                                     CircleAvatar(
@@ -340,9 +343,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ListTileItems(
                           icon: const Icon(Icons.directions_boat_filled),
                           title: "Notification",
-                          onTap: () async {
-
-                          },
+                          onTap: () async {},
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
@@ -375,7 +376,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ListTileItems(
                           icon: const Icon(Icons.help),
                           title: "Help",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return HelpScreen();
+                            }));
+                          },
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
@@ -549,5 +555,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 }

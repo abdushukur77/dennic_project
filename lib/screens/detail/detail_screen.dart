@@ -1,3 +1,6 @@
+import 'package:dennic_project/blocs/appoinment/bloc.dart';
+import 'package:dennic_project/blocs/appoinment/event.dart';
+import 'package:dennic_project/blocs/appoinment/state.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
@@ -42,8 +45,14 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+    width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    height = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -55,14 +64,15 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Row(
                 children: List.generate(
                   20,
-                  (index) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: ShimmerWidget(
-                      border: BorderRadius.circular(12.r),
-                      width: 169.w,
-                      height: 229.h,
-                    ),
-                  ),
+                      (index) =>
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        child: ShimmerWidget(
+                          border: BorderRadius.circular(12.r),
+                          width: 169.w,
+                          height: 229.h,
+                        ),
+                      ),
                 ),
               ),
             );
@@ -98,7 +108,8 @@ class _DetailScreenState extends State<DetailScreen> {
                               Expanded(
                                 flex: 20,
                                 child: Text(
-                                  "${state.doctorModel.firstName} ${state.doctorModel.lastName}",
+                                  "${state.doctorModel.firstName} ${state
+                                      .doctorModel.lastName}",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -155,8 +166,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                             24.getH(),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 ShareItems(
                                                   icon: AppImages.whatsapp,
@@ -179,8 +190,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                             24.getH(),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 ShareItems(
                                                   icon: AppImages.yahoo,
@@ -222,16 +233,17 @@ class _DetailScreenState extends State<DetailScreen> {
                                     context,
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
+                                          secondaryAnimation) =>
                                           FullscreenImageScreen(
-                                        imageUrl: state.doctorModel.imageUrl,
-                                      ),
+                                            imageUrl: state.doctorModel
+                                                .imageUrl,
+                                          ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         return CupertinoFullscreenDialogTransition(
                                           primaryRouteAnimation: animation,
                                           secondaryRouteAnimation:
-                                              secondaryAnimation,
+                                          secondaryAnimation,
                                           linearTransition: true,
                                           child: child,
                                         );
@@ -240,7 +252,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                   );
                                 },
                                 fullName:
-                                    "${state.doctorModel.firstName} ${state.doctorModel.lastName}",
+                                "${state.doctorModel.firstName} ${state
+                                    .doctorModel.lastName}",
                                 bio: state.doctorModel.bio,
                                 image: state.doctorModel.imageUrl,
                               ),
@@ -259,7 +272,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     PatientsItems(
                                       icon: Icons.people,
@@ -309,7 +322,9 @@ class _DetailScreenState extends State<DetailScreen> {
                               ),
                               8.getH(),
                               Text(
-                                "Mon - Fri, ${state.doctorModel.startTime} AM - ${state.doctorModel.finishTime} PM",
+                                "Mon - Fri, ${state.doctorModel
+                                    .startTime} AM - ${state.doctorModel
+                                    .finishTime} PM",
                                 style: TextStyle(
                                   color: AppColors.c_09101D,
                                   fontSize: 14.sp,
@@ -336,23 +351,24 @@ class _DetailScreenState extends State<DetailScreen> {
                               24.getW(),
                               ...List.generate(
                                 state.dateModels.length,
-                                (index) {
+                                    (index) {
                                   return DayItems(
                                     title: state.dateModels[index].week
                                         .substring(0, 3),
                                     subtitle:
-                                        state.dateModels[index].date.substring(
+                                    state.dateModels[index].date.substring(
                                       state.dateModels[index].date.length - 2,
                                       state.dateModels[index].date.length,
                                     ),
                                     isSelected: activeIndex == index,
                                     onTap: () {
-                                      setState(()  {
-                                       appointmentModel= appointmentModel.copyWith(
-                                          appointmentDate: state.dateModels[index].date,
-                                        );
+                                      setState(() {
                                         activeIndex = index;
                                       });
+
+                                      context.read<AppointmentBloc>()
+                                        ..add(UpdateAppointmentDate(
+                                            state.dateModels[index].date));
                                     },
                                   );
                                 },
@@ -375,7 +391,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         builder: (context) {
                           return AppointmentScreen(
                             doctorModel: state.doctorModel,
-                            appointmentModel: appointmentModel,
+
                           );
                         },
                       ),
@@ -431,4 +447,4 @@ class FullscreenImageScreen extends StatelessWidget {
   }
 }
 
-AppointmentModel appointmentModel = AppointmentModel.initial();
+// AppointmentModel appointmentModel = AppointmentModel.initial();

@@ -132,7 +132,15 @@ class _HomeScreenState extends State<HomeScreen> {
               BlocBuilder<SpecializationBloc, SpecializationState>(
                 builder: (context, state) {
                   if (state.formStatus == FormStatus.loading) {
-                    return const CircularProgressIndicator();
+                    return SizedBox(
+                      height: 170.h,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return ShimmerWidget(width: 121.w, height: 167.h);
+                          }),
+                    );
                   }
                   if (state.formStatus == FormStatus.error) {
                     return Text(state.errorMessage);

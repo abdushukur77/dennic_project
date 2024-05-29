@@ -1,3 +1,5 @@
+import 'package:dennic_project/blocs/appoinment/bloc.dart';
+import 'package:dennic_project/blocs/appoinment/event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
@@ -146,15 +148,14 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                             phoneNumber:
                                 phoneNumberController.text.replaceAll(" ", ""),
                           );
-
                           context.read<DoctorBloc>().add(
                                 PostPatient(
                                   patientModel: patientModel,
                                 ),
                               );
 
-                          appointmentModel =
-                              appointmentModel.copyWith(patientId: state.id);
+                          // appointmentModel =
+                          //     appointmentModel.copyWith(patientId: state.id);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF93B8FE),
@@ -179,11 +180,14 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
         listener: (BuildContext context, DoctorState state) {
           if (state.formStatus == FormStatus.success) {
             String id = state.id;
-            appointmentModel = appointmentModel.copyWith(patientId: id);
+
+
+            context.read<AppointmentBloc>().add(UpdatePatientId(id));
+            // appointmentModel = appointmentModel.copyWith(patientId: id);
             context
                 .read<DoctorBloc>()
-                .add(PostAppointment(appointmentModel: appointmentModel));
-            debugPrint(appointmentModel.toString());
+                .add(PostAppointment(appointmentModel: context.read<AppointmentBloc>().state.appointment));
+            debugPrint(context.read<AppointmentBloc>().state.appointment.toString());
             // appointmentModel = AppointmentModel.initial();
           }
         },

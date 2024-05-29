@@ -1,5 +1,11 @@
+import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/blocs/sent_support/sent_support_bloc.dart';
+import 'package:dennic_project/data/model/support/support_model.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
+import 'package:dennic_project/screens/register_and_login/forgot_password/forget_password.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ContactUsScreen extends StatefulWidget {
@@ -15,9 +21,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   final emailController = TextEditingController();
   final messageController = TextEditingController();
 
-  void _send() {
+  Future<void> _send(SupportModel supportModel) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      context.read<SentSupportBloc>().add(
+            SendSupportEvent(
+              supportModel,
+            ),
+          );
     }
   }
 
@@ -79,6 +90,23 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                BlocListener<SentSupportBloc, SentSupportState>(
+                  listener: (s, p) {
+                    if (p.formStatus == FormStatus.success) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'SUPPORT SEND SUCCESSFULLY',
+                          ),
+                        ),
+                      );
+                      context.read<SentSupportBloc>().add(
+                            ChangeSentSupportInitialEvent(),
+                          );
+                    }
+                  },
+                  child: const SizedBox.shrink(),
+                ),
                 Padding(
                   padding: EdgeInsets.only(left: 24.w, bottom: 8.h),
                   child: RichText(
@@ -362,7 +390,18 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   width: double.infinity,
                   height: 55.h,
                   child: ElevatedButton(
-                    onPressed: _send,
+                    onPressed: () async {
+                      SupportModel supportModel = SupportModel(
+                        email: emailController.text,
+                        fullName: fullNameController.text,
+                        message: messageController.text,
+                        phoneNumber: controllerPhoneNumber.text,
+                      );
+
+                      await _send(
+                        supportModel,
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isFull
                           ? const Color(0xFF6499FF)

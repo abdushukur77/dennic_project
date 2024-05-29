@@ -39,18 +39,39 @@ class PrivacyPolicyScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages. \n\n The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-              style: TextStyle(
-                fontSize: 16.sp,
-                height: 1.5,
-                color: AppColors.c_545D69,
-              ),
-            )
-          ],
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16.sp),
+              children: [
+
+                TextSpan(
+                  text: '\t Dennic system is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and disclose information about you when you use our services. We collect personal information such as name, contact details, health information, and payment information when you use our services. We also collect information on how our services are accessed and used, including IP addresses, browser type, and pages visited.\n\n',
+                ),
+                TextSpan(
+                  text: 'We use your information to provide and improve our healthcare services. We may use your contact information to send you updates and important information about your health and appointments. We use your information to process payments and manage billing.\n\n',
+                ),
+                TextSpan(
+                  text: 'We do not share your personal information with third parties except with your consent, when required by law or to protect our legal rights, and with service providers who assist us in providing our services under strict confidentiality agreements.\n\n',
+                ),
+                TextSpan(
+                  text: 'We take reasonable measures to protect your information from unauthorized access, use, or disclosure. However, no method of transmission over the internet or electronic storage is completely secure. You have the right to access and correct your personal information. You may withdraw your consent for us to use your personal information at any time.\n\n',
+                ),
+                TextSpan(
+                  text: 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on our website. If you have any questions about this Privacy Policy, please contact us at ',
+                ),
+                TextSpan(
+                  text: 'mubinayigitaliyeva00@gmail.com',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                TextSpan(
+                  text: ', +998972645292, or Najot Ta\'lim, Uzbekistan.',
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
