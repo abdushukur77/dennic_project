@@ -163,7 +163,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               ...List.generate(state.tableModels.length,
                                   (index) {
                                 return CategoryItems(
-                                  isBusy:state.tableModels[index].status ,
+                                  // isBusy:state.tableModels[index].status ,
                                   day: day,
                                   title:
                                       state.tableModels[index].time.toString(),

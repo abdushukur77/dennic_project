@@ -10,14 +10,13 @@ class CategoryItems extends StatelessWidget {
     required this.day,
     required this.subtitle,
     required this.isSelected,
-    required this.onTap, this.isBusy,
+    required this.onTap,
   });
 
   final String title;
   final String day;
   final String subtitle;
   final bool isSelected;
-  final bool? isBusy;
   final VoidCallback onTap;
 
   @override
@@ -40,11 +39,11 @@ class CategoryItems extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: isBusy! ? (){}:( subtitle == ''
+        onPressed: subtitle == ''
             ? onTap
             : subtitle == day
             ? onTap
-            : null),
+            : null,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
