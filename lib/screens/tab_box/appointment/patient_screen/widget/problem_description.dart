@@ -6,8 +6,8 @@ class ProblemDescriptionInput extends StatelessWidget {
   final TextEditingController controller;
   final TextInputAction textInputAction;
 
-
-  const ProblemDescriptionInput({required this.controller, Key? key, required this.textInputAction})
+  const ProblemDescriptionInput(
+      {required this.controller, Key? key, required this.textInputAction})
       : super(key: key);
 
   @override

@@ -70,9 +70,9 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             );
           }
-          if (state.formStatus == FormStatus.error) {
-            return Text(state.errorMessage);
-          }
+          // if (state.formStatus == FormStatus.error) {
+          //   return Text(state.errorMessage);
+          // }
           if (state.formStatus == FormStatus.success) {
             return Column(
               children: [
@@ -355,7 +355,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       });
 
                                       context.read<AppointmentBloc>()
-                                        ..add(UpdateAppointmentDate(
+                                        .add(UpdateAppointmentDate(
                                             state.dateModels[index].date));
                                     },
                                   );

@@ -211,15 +211,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: List.generate(
-                            20,
-                            (index) => Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.w),
-                                  child: ShimmerWidget(
-                                      border: BorderRadius.circular(12.r),
-                                      width: 169.w,
-                                      height: 229.h),
-                                )),
+                          20,
+                          (index) => Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: ShimmerWidget(
+                                border: BorderRadius.circular(12.r),
+                                width: 169.w,
+                                height: 229.h),
+                          ),
+                        ),
                       ),
                     );
                   }

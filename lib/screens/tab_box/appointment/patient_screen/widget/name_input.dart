@@ -10,7 +10,8 @@ class NameInput extends StatelessWidget {
   const NameInput({
     required this.firstNameController,
     required this.lastNameController,
-    Key? key, required this.textInputAction,
+    Key? key,
+    required this.textInputAction,
   }) : super(key: key);
 
   @override

@@ -6,17 +6,19 @@ import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
+import 'package:dennic_project/screens/global_widget/countries_drop_down.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/address_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/birth_date_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/blood_group_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/city_input.dart';
-import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/country_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/gender_selector.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/name_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/phone_number.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/problem_description.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
+import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,6 +34,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
   int actIndex = -1;
   int? selectedGender;
 
+  final TextEditingController searchController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -46,11 +49,14 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: ShaderMask(
             shaderCallback: (Rect bounds) {
               return const LinearGradient(
@@ -108,9 +114,54 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                             controller: cityController,
                             textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
-                        CountryInput(
-                            controller: countryController,
-                            textInputAction: TextInputAction.next),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10.h,
+                            horizontal: 20.w,
+                          ),
+                          child: GestureDetector(
+                            onTap: () async {
+                              String? selectedCountry =
+                                  await showModalBottomSheet<String>(
+                                context: context,
+                                builder: (context) {
+                                  return CountriesDropDown(
+                                    items: AppConstants.countries,
+                                    textEditingController: searchController,
+                                  );
+                                },
+                              );
+
+                              if (selectedCountry != null) {
+                                if (!context.mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Selected country: $selectedCountry')),
+                                );
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Please, select country',
+                                  style: AppTextStyle.urbanistBold
+                                      .copyWith(fontSize: 16.sp),
+                                ),
+                                Text(
+                                  '*',
+                                  style: AppTextStyle.urbanistBold.copyWith(
+                                    fontSize: 16.sp,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // CountryInput(
+                        //     controller: countryController,
+                        //     textInputAction: TextInputAction.next),
                         SizedBox(height: 24.h),
                         PhoneNumberInput(
                           controller: phoneNumberController,
@@ -140,7 +191,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                   child: BlocConsumer<AppointmentBloc, AppointmentState>(
                     listener: (BuildContext context, AppointmentState myState) {
                       debugPrint("DEBUG PRINT ${myState.formStatus}");
-
+                      debugPrint("DEBUG PRINT ${myState.potentId}");
                       if (state.formStatus == FormStatus.success) {
                         if (myState.statusMessage == "ok") {
                           debugPrint("My Id: ${myState.potentId}");
@@ -187,15 +238,20 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                               .state
                               .appointment
                               .toString());
-                          // context.read<DoctorBloc>().add(PostAppointment(
-                          //     appointmentModel:
-                          //     context.read<AppointmentBloc>().state.appointment));
+                          context.read<DoctorBloc>().add(
+                                PostAppointment(
+                                  appointmentModel: context
+                                      .read<AppointmentBloc>()
+                                      .state
+                                      .appointment,
+                                ),
+                              );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF93B8FE),
                         ),
                         child: const Text(
-                          "Next",
+                          "Book",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -206,33 +262,33 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                     },
                   ),
                 ),
-                20.getH(),
-                BlocBuilder<AppointmentBloc, AppointmentState>(
-                  builder: (context, state) {
-                    return TextButton(
-                      onPressed: () {
-                        context.read<AppointmentBloc>().add(
-                              UpdatePatientId(
-                                state.potentId,
-                              ),
-                            );
-                        debugPrint(context
-                            .read<AppointmentBloc>()
-                            .state
-                            .appointment
-                            .toString());
-                        context.read<DoctorBloc>().add(PostAppointment(
-                            appointmentModel: context
-                                .read<AppointmentBloc>()
-                                .state
-                                .appointment));
-                      },
-                      child: const Text(
-                        "Appointment",
-                      ),
-                    );
-                  },
-                ),
+                // 20.getH(),
+                // BlocBuilder<AppointmentBloc, AppointmentState>(
+                //   builder: (context, state) {
+                //     return TextButton(
+                //       onPressed: () {
+                //         context.read<AppointmentBloc>().add(
+                //               UpdatePatientId(
+                //                 state.potentId,
+                //               ),
+                //             );
+                //         debugPrint(context
+                //             .read<AppointmentBloc>()
+                //             .state
+                //             .appointment
+                //             .toString());
+                //         context.read<DoctorBloc>().add(PostAppointment(
+                //             appointmentModel: context
+                //                 .read<AppointmentBloc>()
+                //                 .state
+                //                 .appointment));
+                //       },
+                //       child: const Text(
+                //         "Appointment",
+                //       ),
+                //     );
+                //   },
+                // ),
                 20.getH(),
               ],
             ),

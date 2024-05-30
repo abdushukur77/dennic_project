@@ -34,7 +34,9 @@ class HelpScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: ShaderMask(
             shaderCallback: (Rect bounds) {
               return const LinearGradient(

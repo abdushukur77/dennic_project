@@ -21,7 +21,7 @@ class AppointmentScreen extends StatefulWidget {
   final DoctorModel doctorModel;
 
   @override
-  _AppointmentScreenState createState() => _AppointmentScreenState();
+  State<AppointmentScreen> createState() => _AppointmentScreenState();
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
@@ -135,12 +135,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        if (state.formStatus == FormStatus.error) {
-                          debugPrint("Soatlar qismida errorga tushdi");
-                          return Center(
-                            child: Text(state.errorMessage),
-                          );
-                        }
+                        // if (state.formStatus == FormStatus.error) {
+                        //   debugPrint("Soatlar qismida errorga tushdi");
+                        //   return Center(
+                        //     child: Text(state.errorMessage),
+                        //   );
+                        // }
                         if (state.formStatus == FormStatus.success) {
                           return Wrap(
                             runSpacing: 10.w,
@@ -169,7 +169,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             ],
                           );
                         }
-                        return const Text("Hech qaysiga tushmadi :(");
+                        return const SizedBox.shrink();
                       },
                     ),
                     SizedBox(height: 20.h),
@@ -186,11 +186,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        if (state.formStatus == FormStatus.error) {
-                          return Center(
-                            child: Text(state.errorMessage),
-                          );
-                        }
+                        // if (state.formStatus == FormStatus.error) {
+                        //   return Center(
+                        //     child: Text(state.errorMessage),
+                        //   );
+                        // }
                         if (state.formStatus == FormStatus.success) {
                           return Column(
                             children: [
@@ -237,9 +237,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             ],
                           );
                         }
-                        return const Center(
-                          child: Text("Hech qaysiga tushmadi"),
-                        );
+                        return const SizedBox.shrink();
                       },
                     ),
                   ],

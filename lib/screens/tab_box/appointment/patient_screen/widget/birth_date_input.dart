@@ -6,8 +6,9 @@ class BirthDateInput extends StatelessWidget {
   final TextEditingController controller;
   final TextInputAction textInputAction;
 
-
-  const BirthDateInput({required this.controller, Key? key, required this.textInputAction}) : super(key: key);
+  const BirthDateInput(
+      {required this.controller, Key? key, required this.textInputAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

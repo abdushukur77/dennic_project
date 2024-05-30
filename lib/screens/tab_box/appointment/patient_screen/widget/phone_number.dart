@@ -10,8 +10,8 @@ class PhoneNumberInput extends StatelessWidget {
   final TextEditingController controller;
   final TextInputAction textInputAction;
 
-
-  const PhoneNumberInput({required this.controller, Key? key, required this.textInputAction})
+  const PhoneNumberInput(
+      {required this.controller, Key? key, required this.textInputAction})
       : super(key: key);
 
   @override

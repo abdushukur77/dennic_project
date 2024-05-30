@@ -6,8 +6,9 @@ class CityInput extends StatelessWidget {
   final TextEditingController controller;
   final TextInputAction textInputAction;
 
-
-  const CityInput({required this.controller, Key? key, required this.textInputAction}) : super(key: key);
+  const CityInput(
+      {required this.controller, Key? key, required this.textInputAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
