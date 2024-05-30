@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/data/model/appointment/appointment_model.dart';
+import 'package:dennic_project/data/model/appointment_history/appointment_history_model.dart';
 import 'package:dennic_project/data/model/date_model/date_model.dart';
 import 'package:dennic_project/data/model/doctor_service/service_model.dart';
 import 'package:dennic_project/data/model/login_model/login_model.dart';
@@ -649,11 +650,49 @@ class ApiProvider {
         );
       }
     } catch (e) {
-      // Handle exception
       debugPrint('Error sending support message: $e');
       return NetworkResponse(
         errorText: e.toString(),
       );
+    }
+  }
+
+  static Future<NetworkResponse> getAppointmentHistory() async {
+    String userToken = StorageRepository.getString(key: 'access_token');
+
+    debugPrint("myError.isEmpty ----------------------$userToken-");
+
+    try {
+      Uri uri = Uri.parse("https://swag.dennic.uz/v1/appointment");
+      http.Response response = await http.get(
+        uri,
+        headers: {
+          "Authorization": userToken,
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint(
+            "AWWWWWWWWWWW ${response.body}--------------getAppointmentHistory");
+
+        List<AppointmentHistoryModel> histories = (jsonDecode(response.body) as List?)
+                ?.map((e) => AppointmentHistoryModel.fromJson(e))
+                .toList() ??
+            [];
+
+        return NetworkResponse(data: histories);
+      } else {
+        debugPrint(
+            "Else qismiga tushdi------------------------${response.statusCode}---getAppointmentHistory");
+
+        return NetworkResponse(
+            errorText: "Else qismiga tushdi: ${response.statusCode}");
+      }
+    } catch (error) {
+      debugPrint(
+          "Catch keldi----------------------------getAppointmentHistory");
+      return NetworkResponse(errorText: error.toString());
     }
   }
 }
