@@ -5,15 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/colors/app_colors.dart';
 
 class GlobalButton extends StatelessWidget {
-  const GlobalButton({super.key, required this.title, required this.onTap});
+  const GlobalButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.w,
+    this.h,
+  });
 
   final String title;
   final VoidCallback onTap;
+  final double? w;
+  final double? h;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
+      padding: EdgeInsets.symmetric(horizontal: w ?? 24.w, vertical: h ?? 14.h),
       child: SizedBox(
         width: double.infinity,
         child: TextButton(

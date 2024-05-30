@@ -9,6 +9,7 @@ import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/create_patient_screen.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
+import 'package:dennic_project/utils/utility_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +31,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   String day = "AM";
   String id = "";
+
+  bool isTapped = false;
 
   int activeIndex = -1;
   int actIndex = -1;
@@ -58,6 +61,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     debugPrint(
+      DateTime.parse(
+              context.read<AppointmentBloc>().state.appointment.appointmentDate)
+          .toString(),
+    );
+    debugPrint(
         "${context.read<AppointmentBloc>().state.appointment.appointmentDate}--------------");
 
     return Scaffold(
@@ -79,7 +87,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Monday, March 25 2022',
+                      formatDateTime(DateTime.parse(context
+                              .read<AppointmentBloc>()
+                              .state
+                              .appointment
+                              .appointmentDate)
+                          .toString()),
                       style:
                           AppTextStyle.urbanistMedium.copyWith(fontSize: 16.sp),
                     ),
@@ -150,6 +163,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               ...List.generate(state.tableModels.length,
                                   (index) {
                                 return CategoryItems(
+                                  isBusy:state.tableModels[index].status ,
                                   day: day,
                                   title:
                                       state.tableModels[index].time.toString(),
@@ -199,6 +213,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 (index) {
                                   return GestureDetector(
                                     onTap: () {
+                                      setState(() {
+                                        isTapped = !isTapped;
+                                      });
                                       id = state.serviceModels[index].id;
                                     },
                                     child: Container(
@@ -208,7 +225,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                       padding: EdgeInsets.symmetric(
                                           vertical: 12.h, horizontal: 24.w),
                                       decoration: BoxDecoration(
-                                        color: Colors.grey,
+                                        color: isTapped
+                                            ? AppColors.c_2972FE
+                                            : AppColors.c_93B8FE,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
@@ -221,12 +240,26 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                             child: const Icon(Icons.message),
                                           ),
                                           SizedBox(width: 10.w),
-                                          Text(state.serviceModels[index].name),
+                                          Text(
+                                            state.serviceModels[index].name,
+                                            style: AppTextStyle.urbanistBold
+                                                .copyWith(
+                                              color: isTapped
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          ),
                                           const Spacer(),
                                           Text(
                                             state.serviceModels[index]
                                                 .offlinePrice
                                                 .toString(),
+                                            style: AppTextStyle.urbanistBold
+                                                .copyWith(
+                                              color: isTapped
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -246,6 +279,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             ),
           ),
           GlobalButton(
+            h: 10,
+            w: 10,
             title: "Next ",
             onTap: () {
               context

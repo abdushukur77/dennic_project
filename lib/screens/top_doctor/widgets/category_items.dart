@@ -10,13 +10,14 @@ class CategoryItems extends StatelessWidget {
     required this.day,
     required this.subtitle,
     required this.isSelected,
-    required this.onTap,
+    required this.onTap, this.isBusy,
   });
 
   final String title;
   final String day;
   final String subtitle;
   final bool isSelected;
+  final bool? isBusy;
   final VoidCallback onTap;
 
   @override
@@ -30,20 +31,20 @@ class CategoryItems extends StatelessWidget {
             horizontal: 16.w,
             vertical: 6.h,
           ),
-          backgroundColor: isSelected ? AppColors.c_2972FE : AppColors.white,
+          backgroundColor: isSelected ? AppColors.c_2972FE : Colors.white10,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24.r),
             side: BorderSide(
               width: 2.w,
-              color: subtitle == day ? AppColors.c_2972FE : AppColors.c_93B8FE,
+              color: subtitle == day ? AppColors.c_2972FE : AppColors.c_93B8FE.withOpacity(0.1),
             ),
           ),
         ),
-        onPressed: subtitle == ''
+        onPressed: isBusy! ? (){}:( subtitle == ''
             ? onTap
             : subtitle == day
-                ? onTap
-                : null,
+            ? onTap
+            : null),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

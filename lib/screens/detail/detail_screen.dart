@@ -32,7 +32,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  int activeIndex = 0;
+  int activeIndex = -1;
 
   @override
   void initState() {

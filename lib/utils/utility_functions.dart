@@ -1,5 +1,6 @@
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 showSnackbar({required BuildContext context, required String message}) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -73,3 +74,21 @@ showErrorForLogin(
     );
   }
 }
+
+String formatDateTime(String input) {
+  // Stringni DateTime formatiga o'girish
+  DateTime dateTime = DateTime.parse(input);
+
+  // Kutilgan formatni yaratish
+  DateFormat formatter = DateFormat('EEEE, MMMM dd yyyy');
+  String formattedDate = formatter.format(dateTime);
+
+  return formattedDate;
+}
+
+void main() {
+  String input = '2024-06-01 00:00:00.000';
+  String output = formatDateTime(input);
+  print(output); // Output: Saturday, June 01 2024
+}
+
