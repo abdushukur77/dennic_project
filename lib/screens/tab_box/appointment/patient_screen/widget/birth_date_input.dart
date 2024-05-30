@@ -48,7 +48,7 @@ class BirthDateInput extends StatelessWidget {
                 blurRadius: 50.r,
                 offset: const Offset(12.0, 26.0),
                 spreadRadius: 0,
-              )
+              ),
             ],
           ),
           child: TextField(
