@@ -1,12 +1,9 @@
 import 'package:dennic_project/blocs/appointment_history/appointment_history_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
-import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/history/widget/appointment.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
-import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
-import 'package:dennic_project/screens/tab_box/home/widgets/textfield_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
@@ -86,10 +83,9 @@ class MyAppointmentsScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         debugPrint("----------0987866787877---------------$index");
                         return AppointmentWidget(
-                            doctorName: state.appointmentHistories[index]
-                                    .doctorFirstName +""+
-                                state
-                                    .appointmentHistories[index].doctorLastName,
+                            doctorName: "${state.appointmentHistories[index]
+                                    .doctorFirstName}${state
+                                    .appointmentHistories[index].doctorLastName}",
                             time: state.appointmentHistories[index]
                                 .appointmentStartTime,
                             status:

@@ -26,7 +26,7 @@ class AppointmentWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2.w,
             blurRadius: 5.w,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -48,7 +48,7 @@ class AppointmentWidget extends StatelessWidget {
               children: [
                 Text(
                   doctorName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -95,6 +95,5 @@ class AppointmentWidget extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }
