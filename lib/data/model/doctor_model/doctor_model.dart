@@ -15,6 +15,7 @@ class DoctorModel {
   final String finishTime;
   final String dayOfWeek;
   final String bio;
+
   final String startWorkDate;
   final String endWorkDate;
   final int workYears;
