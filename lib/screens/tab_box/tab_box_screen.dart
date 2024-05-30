@@ -26,7 +26,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
     screens = [
       const HomeScreen(),
       const TopDoctorScreen(),
-      const HistoryScreen(),
+      const MyAppointmentsScreen(),
       const ProfileScreen()
     ];
     _userListener();
