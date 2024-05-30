@@ -149,7 +149,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           );
                         }
                         // if (state.formStatus == FormStatus.error) {
-                        //   debugPrint("Soatlar qismida errorga tushdi");
+                        //   debugPrint("Soatlar qismida err orga tushdi");
                         //   return Center(
                         //     child: Text(state.errorMessage),
                         //   );
