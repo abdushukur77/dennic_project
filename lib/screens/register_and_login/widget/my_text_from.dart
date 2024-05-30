@@ -78,7 +78,7 @@ class MyTextFromField extends StatelessWidget {
           ),
         ),
         prefixIcon: perefixIcon.contains("png")
-            ? Column(
+            ? const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(""),

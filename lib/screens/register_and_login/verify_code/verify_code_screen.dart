@@ -17,7 +17,8 @@ class VerifyCodeScreen extends StatefulWidget {
   final UserModel userModel;
 
   @override
-  _VerifyCodeScreenState createState() => _VerifyCodeScreenState();
+  State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
+
 }
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen>
@@ -333,10 +334,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 if (state.statusMessage == "query_ok") {
                   isCorrect = true;
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 500));
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  if(!context.mounted) return;
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
-                    return VerifiedScreen();
+                    return const VerifiedScreen();
                   }));
                 }
               },

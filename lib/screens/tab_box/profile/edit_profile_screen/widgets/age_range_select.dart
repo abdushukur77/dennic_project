@@ -8,7 +8,7 @@ class AgeRangeSelection extends StatelessWidget {
   final int actIndex;
   final Function(int) onSelected;
 
-  AgeRangeSelection({
+  const AgeRangeSelection({super.key,
     required this.ages,
     required this.actIndex,
     required this.onSelected,

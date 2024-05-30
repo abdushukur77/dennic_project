@@ -104,7 +104,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return ForgetPassword();
+                            return const ForgetPassword();
                           },
                         ),
                       );
@@ -245,16 +245,12 @@ class _SignInScreenState extends State<SignInScreen> {
           bool a = StorageRepository.getBool(
             key: "is_new_user",
           );
-          debugPrint("${a} WWWWWWWWWWWWWWWWWWWWWWWWWW");
+          debugPrint("$a WWWWWWWWWWWWWWWWWWWWWWWWWW");
         },
       ),
     );
   }
 
-  bool get _validation {
-    return passwordController.text.length > 7 &&
-        phoneNumberController.text.length == 13;
-  }
 }
 
 late AnimationController globalAnimationController;

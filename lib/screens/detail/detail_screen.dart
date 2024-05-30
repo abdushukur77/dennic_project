@@ -1,11 +1,9 @@
 import 'package:dennic_project/blocs/appoinment/bloc.dart';
 import 'package:dennic_project/blocs/appoinment/event.dart';
-import 'package:dennic_project/blocs/appoinment/state.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
-import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/screens/detail/widgets/day_items.dart';
 import 'package:dennic_project/screens/detail/widgets/details_doctor_items.dart';
 import 'package:dennic_project/screens/detail/widgets/global_button.dart';
@@ -144,7 +142,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                             Container(
                                               width: 38.w,
                                               height: 3.h,
-                                              color: AppColors.c_EBEEF2,
+                                              color: AppColors.cEBEEF2,
                                             ),
                                             24.getH(),
                                             Text(

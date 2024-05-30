@@ -1,7 +1,7 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
-import 'package:dennic_project/screens/notification/notification_screen.dart';
 import 'package:dennic_project/screens/register_and_login/sign_in/sign_in_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_items.dart';
@@ -79,13 +79,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: AppColors.c_2972FE,
                           ),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const NotificationScreen(),
-                              ),
-                            );
+                            ApiProvider.getAppointmentHistory();
+
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         const NotificationScreen(),
+                            //   ),
+                            // );
                           },
                         ),
                         16.getW(),

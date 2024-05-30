@@ -1,5 +1,4 @@
 import 'package:dennic_project/utils/colors/app_colors.dart';
-import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +26,7 @@ class DetailsDoctorItems extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             width: 1.w,
-            color: AppColors.c_F4F6F9,
+            color: AppColors.cF4F6F9,
           ),
         ),
         child: Row(

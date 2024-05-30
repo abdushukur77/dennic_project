@@ -26,7 +26,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
     screens = [
       const HomeScreen(),
       const TopDoctorScreen(),
-      const HistoryScreen(),
+      const MyAppointmentsScreen(),
       const ProfileScreen()
     ];
     _userListener();
@@ -84,7 +84,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
                             index == currentIndex ? width * .32 : width * .18,
                         alignment: Alignment.center,
                         child: AnimatedContainer(
-                          duration: Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
                           curve: Curves.fastLinearToSlowEaseIn,
                           height: index == currentIndex ? width * .12 : 0,
                           width: index == currentIndex ? width * .32 : 0,
@@ -97,7 +97,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
                         ),
                       ),
                       AnimatedContainer(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         curve: Curves.fastLinearToSlowEaseIn,
                         width:
                             index == currentIndex ? width * .31 : width * .18,
@@ -107,20 +107,20 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
                             Row(
                               children: [
                                 AnimatedContainer(
-                                  duration: Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
                                   curve: Curves.fastLinearToSlowEaseIn,
                                   width:
                                       index == currentIndex ? width * .13 : 0,
                                 ),
                                 AnimatedOpacity(
                                   opacity: index == currentIndex ? 1 : 0,
-                                  duration: Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
                                   curve: Curves.fastLinearToSlowEaseIn,
                                   child: Text(
                                     index == currentIndex
-                                        ? '${listOfStrings[index]}'
+                                        ? listOfStrings[index]
                                         : '',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.blueAccent,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 15,
@@ -132,7 +132,7 @@ class _TabBoxScreenState extends State<TabBoxScreen> {
                             Row(
                               children: [
                                 AnimatedContainer(
-                                  duration: Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
                                   curve: Curves.fastLinearToSlowEaseIn,
                                   width:
                                       index == currentIndex ? width * .03 : 20,

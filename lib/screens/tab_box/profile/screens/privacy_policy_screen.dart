@@ -41,11 +41,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: RichText(
             text: TextSpan(
               style: TextStyle(color: Colors.black, fontSize: 16.sp),
-              children: [
+              children: const [
                 TextSpan(
                   text:
                       '\t Dennic system is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and disclose information about you when you use our services. We collect personal information such as name, contact details, health information, and payment information when you use our services. We also collect information on how our services are accessed and used, including IP addresses, browser type, and pages visited.\n\n',

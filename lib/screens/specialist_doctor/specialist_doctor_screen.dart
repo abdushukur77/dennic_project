@@ -2,7 +2,6 @@ import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
 import 'package:dennic_project/blocs/specialization/specialization_state.dart';
 import 'package:dennic_project/screens/specialist_doctor/widgets/specialist_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
-import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';

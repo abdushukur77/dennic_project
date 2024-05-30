@@ -1,4 +1,3 @@
-import 'package:dennic_project/app/app.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
@@ -78,7 +77,7 @@ class MyTextFromFieldTel extends StatelessWidget {
         ),
         // prefixText: "+998 ",
         prefixIcon: perefixIcon.contains("png")
-            ? Column(
+            ? const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(""),

@@ -65,7 +65,7 @@ class ProblemDescriptionInput extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20.r),
                 borderSide: BorderSide(
-                  color: AppColors.c_EBEEF2,
+                  color: AppColors.cEBEEF2,
                   width: 1.w,
                 ),
               ),

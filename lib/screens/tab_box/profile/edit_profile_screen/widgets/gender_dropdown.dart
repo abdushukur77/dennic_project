@@ -6,7 +6,7 @@ class GenderDropdown extends StatelessWidget {
   final int? selectedGender;
   final Function(int?) onChanged;
 
-  GenderDropdown({
+  const GenderDropdown({super.key,
     required this.selectedGender,
     required this.onChanged,
   });
@@ -47,7 +47,7 @@ class GenderDropdown extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
-              color: AppColors.c_EBEEF2,
+              color: AppColors.cEBEEF2,
               width: 1,
             ),
             borderRadius: BorderRadius.circular(100.r),

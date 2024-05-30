@@ -5,7 +5,7 @@ class NextButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String title;
 
-  NextButton({required this.onPressed, required this.title});
+  const NextButton({super.key, required this.onPressed, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class NextButton extends StatelessWidget {
       height: 55.h,
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [Color(0xFF6499FF), Color(0xFF2972FE)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -29,7 +29,7 @@ class NextButton extends StatelessWidget {
           ),
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
               color: Colors.white,
