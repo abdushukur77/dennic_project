@@ -597,9 +597,9 @@ class ApiProvider {
         debugPrint(
             "If ga tushdi ------------------------------------------------createAppointment");
 
-        networkResponse.data = jsonDecode(response.body)["patient_full_name"];
+        networkResponse.data = jsonDecode(response.body);
 
-        debugPrint(networkResponse.data +
+        debugPrint(networkResponse.data + "${response.body}"
             "-------------------------createAppointment");
       } else {
         jsonDecode(response.body);

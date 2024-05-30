@@ -277,16 +277,13 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                                   patientModel: patientModel,
                                 ),
                               );
+
                           context.read<DoctorBloc>().add(
                                 PostAppointment(
                                   appointmentModel: state.appointment,
                                 ),
                               );
-                          debugPrint(context
-                              .read<AppointmentBloc>()
-                              .state
-                              .appointment
-                              .toString());
+
                           context.read<DoctorBloc>().add(
                                 PostAppointment(
                                   appointmentModel: context
@@ -312,6 +309,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                     },
                   ),
                 ),
+
                 20.getH(),
               ],
             ),

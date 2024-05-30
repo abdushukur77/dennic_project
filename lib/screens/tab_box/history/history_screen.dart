@@ -1,6 +1,8 @@
 import 'package:dennic_project/blocs/appointment_history/appointment_history_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
+import 'package:dennic_project/blocs/doctor/doctor_event.dart';
+import 'package:dennic_project/screens/tab_box/history/detail_appointments_screen.dart';
 import 'package:dennic_project/screens/tab_box/history/widget/appointment.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/doctor_logo.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/ring_and_favorite_items.dart';
@@ -78,27 +80,38 @@ class MyAppointmentsScreen extends StatelessWidget {
               if (state.formStatus == FormStatus.success) {
                 return Expanded(
                   child: ListView.builder(
-                    padding: EdgeInsets.only(bottom: 100.h),
+                      padding: EdgeInsets.only(bottom: 100.h),
                       itemCount: state.appointmentHistories.length,
                       itemBuilder: (context, index) {
-                        debugPrint("----------0987866787877---------------$index");
+                        debugPrint(
+                            "----------0987866787877---------------$index");
                         return AppointmentWidget(
-                            doctorName: "${state.appointmentHistories[index]
-                                    .doctorFirstName}${state
-                                    .appointmentHistories[index].doctorLastName}",
-                            time: state.appointmentHistories[index]
-                                .appointmentStartTime,
-                            status:
-                                state.appointmentHistories[index].patientStatus,
-                            imageUrlDoc: context
-                                .read<DoctorBloc>()
-                                .state
-                                .doctors
-                                .where((element) =>
-                                    element.id ==
-                                    state.appointmentHistories[index].doctorId)
-                                .toList()[0]
-                                .imageUrl);
+                          onTap: () {
+                            context.read<DoctorBloc>().add(FetchDoctorById(
+                                state.appointmentHistories[index].doctorId));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailAppointmentScreen(
+                                  appointmentHistoryModel:
+                                      state.appointmentHistories[index]);
+                            }));
+                          },
+                          doctorName:
+                              "${state.appointmentHistories[index].doctorFirstName}${state.appointmentHistories[index].doctorLastName}",
+                          time: state
+                              .appointmentHistories[index].appointmentStartTime,
+                          status:
+                              state.appointmentHistories[index].patientStatus,
+                          imageUrlDoc: context
+                              .read<DoctorBloc>()
+                              .state
+                              .doctors
+                              .where((element) =>
+                                  element.id ==
+                                  state.appointmentHistories[index].doctorId)
+                              .toList()[0]
+                              .imageUrl,
+                        );
                       }),
                 );
               }
