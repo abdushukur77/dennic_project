@@ -195,6 +195,8 @@ class ApiProvider {
             networkResponse.data["message"] as String? ?? "";
       }
     } catch (error) {
+
+
       networkResponse.errorText =
           networkResponse.data["message"] as String? ?? "";
     }

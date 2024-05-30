@@ -1,7 +1,8 @@
 class AppConstants {
   static RegExp passwordRegExp =
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
-  static RegExp textRegExp = RegExp("[a-zA-Z]");
+  static RegExp textRegExp = RegExp(r"^[A-Z][a-zA-Z]*");
+
 
   static const List<String> countries = [
     "Uzbekistan",

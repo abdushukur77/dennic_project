@@ -78,7 +78,7 @@ class AppointmentWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    time,
+                    time.substring(0,5),
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.grey,

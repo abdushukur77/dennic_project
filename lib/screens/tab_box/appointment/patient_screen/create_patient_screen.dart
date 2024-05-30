@@ -15,6 +15,8 @@ import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/name_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/phone_number.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/problem_description.dart';
+import 'package:dennic_project/screens/tab_box/history/history_screen.dart';
+import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:dennic_project/utils/images/app_images.dart';
@@ -250,6 +252,10 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                       debugPrint("DEBUG PRINT ${myState.potentId}");
                       if (state.formStatus == FormStatus.success) {
                         if (myState.statusMessage == "ok") {
+                          context
+                              .read<AppointmentBloc>()
+                              .add(UpdatePatientId(myState.potentId));
+
                           debugPrint("My Id: ${myState.potentId}");
                         }
                       }
@@ -259,18 +265,18 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                         onPressed: () async {
                           PatientModel patientModel = PatientModel(
                             address: addressController.text,
-                            birthDate: selectedDate!.toIso8601String().substring(0,10),
+                            birthDate: selectedDate!
+                                .toIso8601String()
+                                .substring(0, 10),
                             bloodGroup: bloodGroup,
                             city: cityController.text,
                             country: selectedCountry!,
                             firstName: firstNameController.text,
-                            gender:
-                            selectedGender == 1 ? "female" : "male",
+                            gender: selectedGender == 1 ? "female" : "male",
                             lastName: lastNameController.text,
-                            patientProblem:
-                            problemDescriptionController.text,
-                            phoneNumber: phoneNumberController.text
-                                .replaceAll(" ", ""),
+                            patientProblem: problemDescriptionController.text,
+                            phoneNumber:
+                                phoneNumberController.text.replaceAll(" ", ""),
                           );
                           context.read<AppointmentBloc>().add(
                                 Addkasal(
@@ -278,21 +284,111 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                                 ),
                               );
 
-                          context.read<DoctorBloc>().add(
-                                PostAppointment(
-                                  appointmentModel: state.appointment,
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    20.r,
+                                  ),
                                 ),
-                              );
+                                backgroundColor: const Color(0xFF252525),
+                                icon: SvgPicture.asset(
+                                  AppImages.lock,
+                                ),
+                                title: Text(
+                                  "Book appointment ? ",
+                                  style: TextStyle(
+                                    color: const Color(0xFFCFCFCF),
+                                    fontSize: 23.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                actions: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width: 112.w,
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFFFF0000),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                5.r,
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "No",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 112.w,
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFF30BE71),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                5.r,
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            context.read<DoctorBloc>().add(
+                                                  PostAppointment(
+                                                    appointmentModel: context
+                                                        .read<AppointmentBloc>()
+                                                        .state
+                                                        .appointment,
+                                                  ),
+                                                );
 
-                          context.read<DoctorBloc>().add(
-                                PostAppointment(
-                                  appointmentModel: context
-                                      .read<AppointmentBloc>()
-                                      .state
-                                      .appointment,
-                                ),
+                                            debugPrint(
+                                                "${state.appointment}+++++++++++++++++++++appointment");
+
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const TabBoxScreen(),
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            "Yes",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               );
-                          print(patientModel.toString() + "---------------------");
+                            },
+                          );
+
+                          print(patientModel.toString() +
+                              "---------------------");
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF93B8FE),
@@ -309,7 +405,6 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                     },
                   ),
                 ),
-
                 20.getH(),
               ],
             ),

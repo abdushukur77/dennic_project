@@ -743,7 +743,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 AppImages.lock,
                                                               ),
                                                               title: Text(
-                                                                "Do you want to delete",
+                                                                "Do you want to change photo",
                                                                 style:
                                                                     TextStyle(
                                                                   color: const Color(
@@ -829,6 +829,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                               lastName: state.myUserModel.lastName,
                                                                             ),
                                                                           );
+
+                                                                          Navigator.pop(context);
                                                                         },
                                                                         child:
                                                                             Text(

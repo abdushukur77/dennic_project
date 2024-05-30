@@ -19,9 +19,6 @@ class MyAppointmentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("History"),
-        ),
         body: Column(
           children: [
             Padding(
@@ -89,15 +86,19 @@ class MyAppointmentsScreen extends StatelessWidget {
                           onTap: () {
                             context.read<DoctorBloc>().add(FetchDoctorById(
                                 state.appointmentHistories[index].doctorId));
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return DetailAppointmentScreen(
-                                  appointmentHistoryModel:
-                                      state.appointmentHistories[index]);
-                            }));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailAppointmentScreen(
+                                      appointmentHistoryModel:
+                                          state.appointmentHistories[index]);
+                                },
+                              ),
+                            );
                           },
                           doctorName:
-                              "${state.appointmentHistories[index].doctorFirstName}${state.appointmentHistories[index].doctorLastName}",
+                              "${state.appointmentHistories[index].doctorFirstName} ${state.appointmentHistories[index].doctorLastName}",
                           time: state
                               .appointmentHistories[index].appointmentStartTime,
                           status:

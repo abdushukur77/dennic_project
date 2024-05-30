@@ -32,7 +32,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   String day = "AM";
   String id = "";
 
-  bool isTapped = false;
+  int isTapped = -1;
 
   int activeIndex = -1;
   int actIndex = -1;
@@ -148,12 +148,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        // if (state.formStatus == FormStatus.error) {
-                        //   debugPrint("Soatlar qismida err orga tushdi");
-                        //   return Center(
-                        //     child: Text(state.errorMessage),
-                        //   );
-                        // }
+
                         if (state.formStatus == FormStatus.success) {
                           return Wrap(
                             runSpacing: 10.w,
@@ -200,11 +195,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        // if (state.formStatus == FormStatus.error) {
-                        //   return Center(
-                        //     child: Text(state.errorMessage),
-                        //   );
-                        // }
+
                         if (state.formStatus == FormStatus.success) {
                           return Column(
                             children: [
@@ -214,7 +205,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                   return GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        isTapped = !isTapped;
+                                        isTapped = index;
                                       });
                                       id = state.serviceModels[index].id;
                                     },
@@ -225,7 +216,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                       padding: EdgeInsets.symmetric(
                                           vertical: 12.h, horizontal: 24.w),
                                       decoration: BoxDecoration(
-                                        color: isTapped
+                                        color: isTapped == index
                                             ? AppColors.c_2972FE
                                             : AppColors.c_93B8FE,
                                         borderRadius: BorderRadius.circular(10),
@@ -244,19 +235,18 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                             state.serviceModels[index].name,
                                             style: AppTextStyle.urbanistBold
                                                 .copyWith(
-                                              color: isTapped
+                                              color: isTapped == index
                                                   ? Colors.white
                                                   : Colors.black,
                                             ),
                                           ),
                                           const Spacer(),
                                           Text(
-                                            state.serviceModels[index]
-                                                .offlinePrice
+                                            "${state.serviceModels[index].offlinePrice} UZS"
                                                 .toString(),
                                             style: AppTextStyle.urbanistBold
                                                 .copyWith(
-                                              color: isTapped
+                                              color: isTapped == index
                                                   ? Colors.white
                                                   : Colors.black,
                                             ),

@@ -23,6 +23,7 @@ class AppointmentHistoryModel {
   final String paymentType;
   final String updatedAt;
   final String userId;
+  final String birth;
 
   AppointmentHistoryModel({
     required this.appointmentDate,
@@ -49,6 +50,7 @@ class AppointmentHistoryModel {
     required this.paymentType,
     required this.updatedAt,
     required this.userId,
+    required this.birth,
   });
 
   factory AppointmentHistoryModel.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,7 @@ class AppointmentHistoryModel {
       paymentType: json['payment_type'] as String? ?? '',
       updatedAt: json['updated_at'] as String? ?? '',
       userId: json['user_id'] as String? ?? '',
+      birth: json['patient_birth_date'] as String? ?? '',
     );
   }
 
@@ -106,6 +109,7 @@ class AppointmentHistoryModel {
       paymentType: '',
       updatedAt: '',
       userId: '',
+      birth: '',
     );
   }
 
@@ -135,6 +139,7 @@ class AppointmentHistoryModel {
       'payment_type': paymentType,
       'updated_at': updatedAt,
       'user_id': userId,
+      'patient_birth_date':birth
     };
   }
 }
