@@ -220,24 +220,12 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                                 ),
                               );
 
-                          // NetworkResponse id =
-                          //     await ApiProvider.createPatient(patientModel);
-                          // if (!context.mounted) return;
-                          // context.read<AppointmentBloc>().add(
-                          //       UpdatePatientId(
-                          //         id.data,
-                          //       ),
-                          //     );
                           context.read<DoctorBloc>().add(
                                 PostAppointment(
                                   appointmentModel: state.appointment,
                                 ),
                               );
-                          debugPrint(context
-                              .read<AppointmentBloc>()
-                              .state
-                              .appointment
-                              .toString());
+
                           context.read<DoctorBloc>().add(
                                 PostAppointment(
                                   appointmentModel: context
@@ -262,33 +250,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                     },
                   ),
                 ),
-                // 20.getH(),
-                // BlocBuilder<AppointmentBloc, AppointmentState>(
-                //   builder: (context, state) {
-                //     return TextButton(
-                //       onPressed: () {
-                //         context.read<AppointmentBloc>().add(
-                //               UpdatePatientId(
-                //                 state.potentId,
-                //               ),
-                //             );
-                //         debugPrint(context
-                //             .read<AppointmentBloc>()
-                //             .state
-                //             .appointment
-                //             .toString());
-                //         context.read<DoctorBloc>().add(PostAppointment(
-                //             appointmentModel: context
-                //                 .read<AppointmentBloc>()
-                //                 .state
-                //                 .appointment));
-                //       },
-                //       child: const Text(
-                //         "Appointment",
-                //       ),
-                //     );
-                //   },
-                // ),
+
                 20.getH(),
               ],
             ),
@@ -302,14 +264,11 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
             );
             context.read<AppointmentBloc>().add(UpdatePatientId(id));
 
-            // context.read<AppointmentBloc>().add(UpdatePatientId(id));
-            // appointmentModel = appointmentModel.copyWith(patientId: id);
             context.read<DoctorBloc>().add(PostAppointment(
                 appointmentModel:
                     context.read<AppointmentBloc>().state.appointment));
             debugPrint(
                 context.read<AppointmentBloc>().state.appointment.toString());
-            // appointmentModel = AppointmentModel.initial();
           }
         },
       ),

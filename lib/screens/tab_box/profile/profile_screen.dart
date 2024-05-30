@@ -1,13 +1,13 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
-import 'package:dennic_project/data/local/storage_repository.dart';
+import 'package:dennic_project/data/model/update_user_model/update_user_model.dart';
+import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/edit_profile_screen.dart';
 import 'package:dennic_project/screens/tab_box/profile/screens/help_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
@@ -26,12 +26,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../data/local/storage_repository.dart';
+import '../../../utils/images/app_images.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
+
+String imageUrl = "";
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File? _imageFile;
@@ -73,13 +78,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final response = await request.send();
 
-    response.stream.transform(utf8.decoder).listen((value) {
-      debugPrint(value);
-    });
-
     if (response.statusCode == 201) {
+      final responseBody = await response.stream.bytesToString();
+      final Map<String, dynamic> responseData = json.decode(responseBody);
+      imageUrl = responseData['url'];
+
+      debugPrint("Image Url______________________________ $imageUrl");
+
+      if (mounted) {
+        context.read<DoctorBloc>().add(GetUser());
+      }
     } else {
-      if(mounted) {
+      if (mounted) {
         context.read<DoctorBloc>().add(GetUser());
       }
       debugPrint('Image upload failed with status: ${response.statusCode}');
@@ -160,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   },
                                   child: AvatarItem(
                                     image: state.myUserModel.imageUrl,
-                                    onTap: () {
+                                    onTap: () async {
                                       showModalBottomSheet(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -181,8 +191,146 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ListTile(
                                                   onTap: () async {
                                                     await _pickImage(
-                                                        ImageSource.camera);
+                                                      ImageSource.camera,
+                                                    );
                                                     _uploadImage();
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                              20.r,
+                                                            ),
+                                                          ),
+                                                          backgroundColor:
+                                                              const Color(
+                                                                  0xFF252525),
+                                                          icon:
+                                                              SvgPicture.asset(
+                                                            AppImages.lock,
+                                                          ),
+                                                          title: Text(
+                                                            "Do you want to delete",
+                                                            style: TextStyle(
+                                                              color: const Color(
+                                                                  0xFFCFCFCF),
+                                                              fontSize: 23.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                SizedBox(
+                                                                  width: 112.w,
+                                                                  child:
+                                                                      TextButton(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      backgroundColor:
+                                                                          const Color(
+                                                                              0xFFFF0000),
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                          5.r,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                      "No",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            18.sp,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 112.w,
+                                                                  child:
+                                                                      TextButton(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      backgroundColor:
+                                                                          const Color(
+                                                                              0xFF30BE71),
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                          5.r,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await ApiProvider
+                                                                          .updateUser(
+                                                                        updateUserModel:
+                                                                            UpdateUserModel(
+                                                                          birthDate: state
+                                                                              .myUserModel
+                                                                              .birthDate
+                                                                              .toString()
+                                                                              .substring(0, 10),
+                                                                          firstName: state
+                                                                              .myUserModel
+                                                                              .firstName,
+                                                                          gender: state
+                                                                              .myUserModel
+                                                                              .gender,
+                                                                          id: state
+                                                                              .myUserModel
+                                                                              .id,
+                                                                          imageUrl:
+                                                                              imageUrl,
+                                                                          lastName: state
+                                                                              .myUserModel
+                                                                              .lastName,
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    child: Text(
+                                                                      "Yes",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            18.sp,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   leading: IconButton(
                                                     onPressed: () {},
@@ -207,6 +355,143 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     await _pickImage(
                                                         ImageSource.gallery);
                                                     _uploadImage();
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                              20.r,
+                                                            ),
+                                                          ),
+                                                          backgroundColor:
+                                                              const Color(
+                                                                  0xFF252525),
+                                                          icon:
+                                                              SvgPicture.asset(
+                                                            AppImages.lock,
+                                                          ),
+                                                          title: Text(
+                                                            "Do you want to delete",
+                                                            style: TextStyle(
+                                                              color: const Color(
+                                                                  0xFFCFCFCF),
+                                                              fontSize: 23.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                SizedBox(
+                                                                  width: 112.w,
+                                                                  child:
+                                                                      TextButton(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      backgroundColor:
+                                                                          const Color(
+                                                                              0xFFFF0000),
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                          5.r,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                      "No",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            18.sp,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 112.w,
+                                                                  child:
+                                                                      TextButton(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      backgroundColor:
+                                                                          const Color(
+                                                                              0xFF30BE71),
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                          5.r,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await ApiProvider
+                                                                          .updateUser(
+                                                                        updateUserModel:
+                                                                            UpdateUserModel(
+                                                                          birthDate: state
+                                                                              .myUserModel
+                                                                              .birthDate
+                                                                              .toString()
+                                                                              .substring(0, 10),
+                                                                          firstName: state
+                                                                              .myUserModel
+                                                                              .firstName,
+                                                                          gender: state
+                                                                              .myUserModel
+                                                                              .gender,
+                                                                          id: state
+                                                                              .myUserModel
+                                                                              .id,
+                                                                          imageUrl:
+                                                                              imageUrl,
+                                                                          lastName: state
+                                                                              .myUserModel
+                                                                              .lastName,
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    child: Text(
+                                                                      "Yes",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            18.sp,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   leading: IconButton(
                                                     onPressed: () {},
@@ -255,7 +540,349 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: InkWell(
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        onTap: () {},
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 24.w,
+                                                  vertical: 14.h,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(40.r),
+                                                    topRight:
+                                                        Radius.circular(40.r),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    ListTile(
+                                                      onTap: () async {
+                                                        await _pickImage(
+                                                            ImageSource.camera);
+                                                        _uploadImage();
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  20.r,
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  const Color(
+                                                                      0xFF252525),
+                                                              icon: SvgPicture
+                                                                  .asset(
+                                                                AppImages.lock,
+                                                              ),
+                                                              title: Text(
+                                                                "Do you want to delete",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: const Color(
+                                                                      0xFFCFCFCF),
+                                                                  fontSize:
+                                                                      23.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                              actions: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width:
+                                                                          112.w,
+                                                                      child:
+                                                                          TextButton(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              const Color(0xFFFF0000),
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(
+                                                                              5.r,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "No",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize:
+                                                                                18.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          112.w,
+                                                                      child:
+                                                                          TextButton(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              const Color(0xFF30BE71),
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(
+                                                                              5.r,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await ApiProvider
+                                                                              .updateUser(
+                                                                            updateUserModel:
+                                                                                UpdateUserModel(
+                                                                              birthDate: state.myUserModel.birthDate.toString().substring(0, 10),
+                                                                              firstName: state.myUserModel.firstName,
+                                                                              gender: state.myUserModel.gender,
+                                                                              id: state.myUserModel.id,
+                                                                              imageUrl: imageUrl,
+                                                                              lastName: state.myUserModel.lastName,
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "Yes",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize:
+                                                                                18.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      leading: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons
+                                                              .camera_alt_outlined,
+                                                          size: 24.sp,
+                                                          color: AppColors
+                                                              .c_2972FE,
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        "Camera",
+                                                        style: TextStyle(
+                                                          color: AppColors
+                                                              .c_2972FE,
+                                                          fontSize: 24.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ListTile(
+                                                      onTap: () async {
+                                                        await _pickImage(
+                                                            ImageSource
+                                                                .gallery);
+                                                        _uploadImage();
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  20.r,
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  const Color(
+                                                                      0xFF252525),
+                                                              icon: SvgPicture
+                                                                  .asset(
+                                                                AppImages.lock,
+                                                              ),
+                                                              title: Text(
+                                                                "Do you want to delete",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: const Color(
+                                                                      0xFFCFCFCF),
+                                                                  fontSize:
+                                                                      23.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                              actions: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width:
+                                                                          112.w,
+                                                                      child:
+                                                                          TextButton(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              const Color(0xFFFF0000),
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(
+                                                                              5.r,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "No",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize:
+                                                                                18.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          112.w,
+                                                                      child:
+                                                                          TextButton(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              const Color(0xFF30BE71),
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(
+                                                                              5.r,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await ApiProvider
+                                                                              .updateUser(
+                                                                            updateUserModel:
+                                                                                UpdateUserModel(
+                                                                              birthDate: state.myUserModel.birthDate.toString().substring(0, 10),
+                                                                              firstName: state.myUserModel.firstName,
+                                                                              gender: state.myUserModel.gender,
+                                                                              id: state.myUserModel.id,
+                                                                              imageUrl: imageUrl,
+                                                                              lastName: state.myUserModel.lastName,
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "Yes",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize:
+                                                                                18.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      leading: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons.image_search,
+                                                          size: 24.sp,
+                                                          color: AppColors
+                                                              .c_2972FE,
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        "Images",
+                                                        style: TextStyle(
+                                                          color: AppColors
+                                                              .c_2972FE,
+                                                          fontSize: 24.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ).then(
+                                            (value) {
+                                              Navigator.pop(context);
+                                              return imageUrl;
+                                            },
+                                          );
+                                        },
                                         child: Container(
                                           width: 23.w,
                                           height: 20.h,
@@ -369,7 +996,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ListTileItems(
                           icon: const Icon(Icons.remove_red_eye),
                           title: "Appearance",
-                          onTap: () {},
+                          onTap: () async {
+                            await ApiProvider.updateUser(
+                              updateUserModel: UpdateUserModel(
+                                birthDate: state.myUserModel.birthDate
+                                    .toString()
+                                    .substring(0, 10),
+                                firstName: state.myUserModel.firstName,
+                                gender: state.myUserModel.gender,
+                                id: state.myUserModel.id,
+                                imageUrl: imageUrl,
+                                lastName: state.myUserModel.lastName,
+                              ),
+                            );
+                          },
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
