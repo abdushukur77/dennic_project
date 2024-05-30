@@ -602,7 +602,7 @@ class ApiProvider {
         debugPrint(networkResponse.data +
             "-------------------------createAppointment");
       } else {
-        final responseJson = jsonDecode(response.body);
+        jsonDecode(response.body);
         networkResponse.errorText = response.body;
         debugPrint(
             "Else ga tushdi -------------${response.statusCode}------${networkResponse.errorText}----------------------------createAppointment");

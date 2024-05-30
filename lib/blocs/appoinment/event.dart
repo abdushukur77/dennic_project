@@ -1,4 +1,3 @@
-import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:equatable/equatable.dart';
 
@@ -57,5 +56,5 @@ class UpdatePatientId extends AppointmentEvent {
 class Addkasal extends AppointmentEvent {
   final PatientModel patientModel;
 
-  Addkasal({required this.patientModel});
+  const Addkasal({required this.patientModel});
 }

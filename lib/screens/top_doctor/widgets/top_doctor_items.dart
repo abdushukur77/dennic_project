@@ -1,5 +1,4 @@
 import 'package:dennic_project/utils/colors/app_colors.dart';
-import 'package:dennic_project/utils/images/app_images.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,7 +100,7 @@ class TopDoctorItems extends StatelessWidget {
             ),
             10.getW(),
             RingAndFavoriteItems(
-              icon: Icon(Icons.favorite, color: AppColors.c_2972FE),
+              icon: const Icon(Icons.favorite, color: AppColors.c_2972FE),
               onTap: favoriteTap,
             ),
           ],

@@ -1,12 +1,9 @@
-import 'package:dennic_project/blocs/auth/auth_bloc.dart';
-import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
 import 'package:dennic_project/blocs/specialization/specialization_state.dart';
-import 'package:dennic_project/data/local/storage_repository.dart';
 import 'package:dennic_project/screens/detail/detail_screen.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
@@ -40,8 +37,6 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -99,7 +94,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return SpecialistDoctorScreen();
+                            return const SpecialistDoctorScreen();
                           }));
                         },
                         title: '',
@@ -113,7 +108,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
             BlocBuilder<SpecializationBloc, SpecializationState>(
               builder: (context, state) {
                 if (state.formStatus == FormStatus.loading) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 if (state.formStatus == FormStatus.error) {
                   return Text(state.errorMessage);
@@ -130,7 +125,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                           title: "All",
                           isSelected: activeIndex == -1,
                           onTap: () {
-                            context.read<DoctorBloc>()..add(FetchDoctors());
+                            context.read<DoctorBloc>().add(FetchDoctors());
                             activeIndex = -1;
                             setState(() {});
                           },
@@ -160,7 +155,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                     ),
                   );
                 }
-                return SizedBox();
+                return const SizedBox();
               },
             ),
             BlocBuilder<DoctorBloc, DoctorState>(
@@ -178,7 +173,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                     children: [
                       24.getH(),
                       SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -189,9 +184,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                                 (index) {
                                   return TopDoctorItems(
                                     image: state.searchDoctors[index].imageUrl,
-                                    name: state.searchDoctors[index].firstName +
-                                        " " +
-                                        state.searchDoctors[index].lastName,
+                                    name: "${state.searchDoctors[index].firstName} ${state.searchDoctors[index].lastName}",
                                     description: state.searchDoctors[index].bio,
                                     rate: (4.7).toString(),
                                     review: 4692.toString(),

@@ -112,7 +112,7 @@ class HelpScreen extends StatelessWidget {
                     ),
                   ),
                   const Divider(
-                    color: AppColors.c_EBEEF2,
+                    color: AppColors.cEBEEF2,
                   )
                 ],
               )

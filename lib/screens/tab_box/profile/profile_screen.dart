@@ -77,7 +77,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (response.statusCode == 201) {
     } else {
-      context.read<DoctorBloc>().add(GetUser());
+      if(mounted) {
+        context.read<DoctorBloc>().add(GetUser());
+      }
       debugPrint('Image upload failed with status: ${response.statusCode}');
     }
   }
@@ -147,8 +149,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             primaryRouteAnimation: animation,
                                             secondaryRouteAnimation:
                                                 secondaryAnimation,
-                                            child: child,
                                             linearTransition: true,
+                                            child: child,
                                           );
                                         },
                                       ),
@@ -328,7 +330,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         width: double.infinity,
                         height: 1.h,
-                        color: AppColors.c_EBEEF2,
+                        color: AppColors.cEBEEF2,
                       ),
                     ],
                   ),
@@ -349,7 +351,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
                           width: double.infinity,
                           height: 1.h,
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                         ),
                         ListTileItems(
                           icon: const Icon(Icons.security),
@@ -360,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
                           width: double.infinity,
                           height: 1.h,
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                         ),
                         ListTileItems(
                           icon: const Icon(Icons.remove_red_eye),
@@ -371,7 +373,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
                           width: double.infinity,
                           height: 1.h,
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                         ),
                         ListTileItems(
                           icon: const Icon(Icons.help),
@@ -387,7 +389,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
                           width: double.infinity,
                           height: 1.h,
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                         ),
                         ListTileItems(
                           icon: const Icon(Icons.people_alt_outlined),
@@ -398,7 +400,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 24.w),
                           width: double.infinity,
                           height: 1.h,
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -524,13 +526,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 56.h,
                               width: 47.w,
                               decoration: BoxDecoration(
-                                color: AppColors.c_FF1843.withOpacity(.1),
+                                color: AppColors.cFF1843.withOpacity(.1),
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Icon(
                                 Icons.login,
                                 size: 25.sp,
-                                color: AppColors.c_FF1843,
+                                color: AppColors.cFF1843,
                               ),
                             ),
                             title: Text(

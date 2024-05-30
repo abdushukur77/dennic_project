@@ -4,7 +4,6 @@ import 'package:dennic_project/screens/register_and_login/forgot_password/forgot
 import 'package:dennic_project/screens/register_and_login/forgot_password/forgot_verify_code_screen/widget/pin_code_display.dart';
 import 'package:dennic_project/screens/register_and_login/forgot_password/forgot_verify_code_screen/widget/timer_display_widget.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +22,7 @@ class ForgotVerifyCodeScreen extends StatefulWidget {
   final String phoneNumber;
 
   @override
-  _ForgotVerifyCodeScreenState createState() => _ForgotVerifyCodeScreenState();
+  State<ForgotVerifyCodeScreen> createState() => _ForgotVerifyCodeScreenState();
 }
 
 class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
@@ -117,6 +116,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
           error = true;
           isCorrect = true;
           await Future.delayed(const Duration(seconds: 1));
+          if(!context.mounted) return;
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -169,7 +169,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                     error: error,
                     animationAlign: animationAlign,
                   ),
-                  SizedBox(height: 37),
+                  const SizedBox(height: 37),
                   TimerDisplay(
                     visibleRestart: visibleRestart,
                     start: _start,
@@ -194,7 +194,7 @@ class _ForgotVerifyCodeScreenState extends State<ForgotVerifyCodeScreen>
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return VerifiedScreen();
+                              return const VerifiedScreen();
                             },
                           ),
                         );

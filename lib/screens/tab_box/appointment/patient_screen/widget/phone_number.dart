@@ -1,6 +1,5 @@
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
-import 'package:dennic_project/utils/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -81,14 +80,14 @@ class PhoneNumberInput extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100.r),
                 borderSide: BorderSide(
-                  color: AppColors.c_EBEEF2,
+                  color: AppColors.cEBEEF2,
                   width: 1.we(),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100.r),
                 borderSide: BorderSide(
-                  color: AppColors.c_EBEEF2,
+                  color: AppColors.cEBEEF2,
                   width: 1.we(),
                 ),
               ),

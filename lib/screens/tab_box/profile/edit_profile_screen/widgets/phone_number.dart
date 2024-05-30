@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 
 class PhoneNumberInput extends StatelessWidget {
+  const PhoneNumberInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +59,7 @@ class PhoneNumberInput extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100.r),
                 borderSide: BorderSide(
-                  color: AppColors.c_EBEEF2,
+                  color: AppColors.cEBEEF2,
                   width: 1.w,
                 ),
               ),

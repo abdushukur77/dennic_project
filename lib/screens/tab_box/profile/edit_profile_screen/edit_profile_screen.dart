@@ -82,7 +82,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         final Map<String, dynamic> responseData = json.decode(value);
         imageUrl = responseData['url'];
 
-        debugPrint("Image Url______________________________ ${imageUrl}");
+        debugPrint("Image Url______________________________ $imageUrl");
 
         await ApiProvider.updateUser(
           updateUserModel: UpdateUserModel(
@@ -94,7 +94,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             lastName: lastNameController.text,
           ),
         );
-        context.read<DoctorBloc>().add(GetUser());
+        if(mounted) {
+          context.read<DoctorBloc>().add(GetUser());
+        }
       });
     } else {
       debugPrint('Image upload failed with status: ${response.statusCode}');
@@ -188,8 +190,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             primaryRouteAnimation: animation,
                                             secondaryRouteAnimation:
                                                 secondaryAnimation,
-                                            child: child,
                                             linearTransition: true,
+                                            child: child,
                                           );
                                         },
                                       ),
@@ -315,7 +317,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ],
                     ),
                     SizedBox(height: 24.h),
-                    Divider(thickness: 1),
+                    const Divider(thickness: 1),
                     SizedBox(height: 24.h),
                     FullNameInput(
                       nameController: firstNameController,
@@ -388,6 +390,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     lastName: lastNameController.text,
                   ),
                 );
+                if(!context.mounted) return ;
                 context.read<DoctorBloc>().add(GetUser());
                 Navigator.pop(context);
               },
@@ -403,7 +406,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 class FullscreenImageScreen extends StatelessWidget {
   final String imageUrl;
 
-  const FullscreenImageScreen({required this.imageUrl});
+  const FullscreenImageScreen({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -418,7 +421,7 @@ class FullscreenImageScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back_ios,
                     color: AppColors.white,
                   ))),
