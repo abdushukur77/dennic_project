@@ -676,11 +676,11 @@ class ApiProvider {
         debugPrint(
             "AWWWWWWWWWWW ${response.body}--------------getAppointmentHistory");
 
-        List<AppointmentHistoryModel> histories = (jsonDecode(response.body) as List?)
+        List<AppointmentHistoryModel> histories = (jsonDecode(response.body)["appointments"] as List?)
                 ?.map((e) => AppointmentHistoryModel.fromJson(e))
                 .toList() ??
             [];
-
+debugPrint("Length Lits _______________________________${histories.length}");
         return NetworkResponse(data: histories);
       } else {
         debugPrint(

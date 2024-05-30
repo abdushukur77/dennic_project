@@ -14,6 +14,7 @@ class HistoryScreen extends StatelessWidget {
       ),
       body: BlocBuilder<AppointmentHistoryBloc, AppointmentHistoryState>(
           builder: (context, state) {
+            debugPrint("++++++++++++++++++++++++++${state.formStatus}++++++++++++");
         if (state.formStatus == FormStatus.loading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -29,7 +30,7 @@ class HistoryScreen extends StatelessWidget {
               itemCount: state.appointmentHistories.length,
               itemBuilder: (context, index) {
                 return Text(
-                  state.appointmentHistories[index].patientFullName,
+                  state.appointmentHistories[index].doctorId,
                 );
               });
         }
