@@ -83,6 +83,11 @@ class MyAppointmentsScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         debugPrint("----------0987866787877---------------$index");
                         return AppointmentWidget(
+                          onTap: () {
+
+
+                          },
+
                             doctorName: "${state.appointmentHistories[index]
                                     .doctorFirstName}${state
                                     .appointmentHistories[index].doctorLastName}",
@@ -98,7 +103,7 @@ class MyAppointmentsScreen extends StatelessWidget {
                                     element.id ==
                                     state.appointmentHistories[index].doctorId)
                                 .toList()[0]
-                                .imageUrl);
+                                .imageUrl, );
                       }),
                 );
               }
