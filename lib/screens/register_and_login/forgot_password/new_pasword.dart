@@ -12,7 +12,6 @@ import '../../../utils/colors/app_colors.dart';
 import '../../../utils/constants/app_constants.dart';
 import '../../../utils/images/app_images.dart';
 import '../../../utils/styles/app_text_style.dart';
-import '../sign_in/sign_in_screen.dart';
 import '../sign_up/widget/check.dart';
 import '../widget/my_text_from.dart';
 
@@ -158,7 +157,7 @@ class _NewPassworScreenState extends State<NewPassworScreen> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return PasswordVerifiedScreen();
+                return const PasswordVerifiedScreen();
               },
             ),
           );

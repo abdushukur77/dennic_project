@@ -114,7 +114,7 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(100.r),
                             borderSide: BorderSide(
-                              color: AppColors.c_EBEEF2,
+                              color: AppColors.cEBEEF2,
                               width: 1.w,
                             ),
                           ),
@@ -234,7 +234,7 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(100.r),
                             borderSide: BorderSide(
-                              color: AppColors.c_EBEEF2,
+                              color: AppColors.cEBEEF2,
                               width: 1.w,
                             ),
                           ),
@@ -296,7 +296,7 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(100.r),
@@ -398,7 +398,7 @@ class _AppointmentThirdScreenState extends State<AppointmentThirdScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(100.r),
                               borderSide: BorderSide(
-                                color: AppColors.c_EBEEF2,
+                                color: AppColors.cEBEEF2,
                                 width: 1.w,
                               ),
                             ),

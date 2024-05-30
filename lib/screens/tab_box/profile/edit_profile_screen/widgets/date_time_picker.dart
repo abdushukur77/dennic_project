@@ -10,11 +10,12 @@ class DateOfBirthPicker extends StatefulWidget {
   final String dateController;
 
   @override
-  _DateOfBirthPickerState createState() => _DateOfBirthPickerState();
+  State<DateOfBirthPicker> createState() => _DateOfBirthPickerState();
+
 }
 
 class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
@@ -71,12 +72,12 @@ class _DateOfBirthPickerState extends State<DateOfBirthPicker> {
                 EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.grey,
               ),
             ),
             suffixIcon: IconButton(
-              icon: Icon(Icons.calendar_today),
+              icon: const Icon(Icons.calendar_today),
               onPressed: () => _selectDate(context),
             ),
           ),

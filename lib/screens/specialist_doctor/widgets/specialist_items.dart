@@ -39,7 +39,7 @@ class SpecialistScreenItems extends StatelessWidget {
               width: 43.w,
               height: 40.h,
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
             ),
             16.getH(),
             Text(

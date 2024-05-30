@@ -1,7 +1,6 @@
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/sent_support/sent_support_bloc.dart';
 import 'package:dennic_project/data/model/support/support_model.dart';
-import 'package:dennic_project/screens/register_and_login/forgot_password/forget_password.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -179,7 +178,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(100.r),
                         borderSide: BorderSide(
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                           width: 1.w,
                         ),
                       ),
@@ -270,7 +269,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(100.r),
                         borderSide: BorderSide(
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                           width: 1.w,
                         ),
                       ),
@@ -367,7 +366,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(100.r),
                         borderSide: BorderSide(
-                          color: AppColors.c_EBEEF2,
+                          color: AppColors.cEBEEF2,
                           width: 1.w,
                         ),
                       ),
@@ -465,7 +464,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.r),
                           borderSide: BorderSide(
-                            color: AppColors.c_EBEEF2,
+                            color: AppColors.cEBEEF2,
                             width: 1.w,
                           ),
                         ),

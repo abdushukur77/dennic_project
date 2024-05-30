@@ -1,14 +1,12 @@
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
-import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/utils/formatter/input_formatter.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/colors/app_colors.dart';
-import '../../../utils/constants/app_constants.dart';
 import '../../../utils/images/app_images.dart';
 import '../../../utils/styles/app_text_style.dart';
 import '../widget/my_text_from_tel.dart';

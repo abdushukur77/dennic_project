@@ -91,13 +91,13 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     NetworkResponse networkResponse = await doctorRepository.getDate();
 
     if (networkResponse.errorText.isEmpty) {
-      print("Errorga tushdi---------------------------");
+      debugPrint("Errorga tushdi---------------------------");
       emit(
         state.copyWith(
             formStatus: FormStatus.success, dateModels: networkResponse.data),
       );
     } else {
-      print(
+      debugPrint(
           "Succesga tushdi ${networkResponse.data}---------------------------");
       emit(state.copyWith(
         formStatus: FormStatus.error,

@@ -89,6 +89,6 @@ String formatDateTime(String input) {
 void main() {
   String input = '2024-06-01 00:00:00.000';
   String output = formatDateTime(input);
-  print(output); // Output: Saturday, June 01 2024
+  debugPrint(output); // Output: Saturday, June 01 2024
 }
 
