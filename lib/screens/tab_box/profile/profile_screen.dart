@@ -79,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (response.statusCode == 201) {
     } else {
-      if(mounted) {
+      if (mounted) {
         context.read<DoctorBloc>().add(GetUser());
       }
       debugPrint('Image upload failed with status: ${response.statusCode}');
