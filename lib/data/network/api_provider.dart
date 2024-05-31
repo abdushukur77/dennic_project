@@ -195,8 +195,6 @@ class ApiProvider {
             networkResponse.data["message"] as String? ?? "";
       }
     } catch (error) {
-
-
       networkResponse.errorText =
           networkResponse.data["message"] as String? ?? "";
     }
@@ -599,25 +597,20 @@ class ApiProvider {
         debugPrint(
             "If ga tushdi ------------------------------------------------createAppointment");
 
-        networkResponse.data = jsonDecode(response.body);
+        AppointmentModel appointmentModel =
+            AppointmentModel.fromJson(jsonDecode(response.body));
 
-        debugPrint(networkResponse.data + "${response.body}"
-            "-------------------------createAppointment");
+        return NetworkResponse(data: appointmentModel);
       } else {
-        jsonDecode(response.body);
-        networkResponse.errorText = response.body;
         debugPrint(
             "Else ga tushdi -------------${response.statusCode}------${networkResponse.errorText}----------------------------createAppointment");
-        return NetworkResponse(
-          errorText: networkResponse.errorText,
-        );
+        return NetworkResponse(errorText: response.statusCode.toString());
       }
     } catch (error) {
       debugPrint(
           "Catch keldi -------------${error.toString()}-----------------------------------createAppointment");
       return NetworkResponse(errorText: error.toString());
     }
-    return networkResponse;
   }
 
   static const String _baseUrl = 'https://swag.dennic.uz/v1';
@@ -678,11 +671,13 @@ class ApiProvider {
         debugPrint(
             "AWWWWWWWWWWW ${response.body}--------------getAppointmentHistory");
 
-        List<AppointmentHistoryModel> histories = (jsonDecode(response.body)["appointments"] as List?)
-                ?.map((e) => AppointmentHistoryModel.fromJson(e))
-                .toList() ??
-            [];
-debugPrint("Length Lits _______________________________${histories.length}");
+        List<AppointmentHistoryModel> histories =
+            (jsonDecode(response.body)["appointments"] as List?)
+                    ?.map((e) => AppointmentHistoryModel.fromJson(e))
+                    .toList() ??
+                [];
+        debugPrint(
+            "Length Lits _______________________________${histories.length}");
         return NetworkResponse(data: histories);
       } else {
         debugPrint(

@@ -6,6 +6,7 @@ import 'package:dennic_project/data/model/update_user_model/update_user_model.da
 import 'package:dennic_project/data/network/api_provider.dart';
 import 'package:dennic_project/screens/tab_box/profile/edit_profile_screen/edit_profile_screen.dart';
 import 'package:dennic_project/screens/tab_box/profile/screens/help_screen.dart';
+import 'package:dennic_project/screens/widgets/show_dialog_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
@@ -570,128 +571,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         showDialog(
                                                           context: context,
                                                           builder: (context) {
-                                                            return AlertDialog(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                  20.r,
-                                                                ),
-                                                              ),
-                                                              backgroundColor:
-                                                                  const Color(
-                                                                      0xFF252525),
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                AppImages.lock,
-                                                              ),
-                                                              title: Text(
-                                                                "Do you want to delete",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: const Color(
-                                                                      0xFFCFCFCF),
-                                                                  fontSize:
-                                                                      23.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                              actions: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceEvenly,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width:
-                                                                          112.w,
-                                                                      child:
-                                                                          TextButton(
-                                                                        style: TextButton
-                                                                            .styleFrom(
-                                                                          backgroundColor:
-                                                                              const Color(0xFFFF0000),
-                                                                          shape:
-                                                                              RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(
-                                                                              5.r,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          "No",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                18.sp,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width:
-                                                                          112.w,
-                                                                      child:
-                                                                          TextButton(
-                                                                        style: TextButton
-                                                                            .styleFrom(
-                                                                          backgroundColor:
-                                                                              const Color(0xFF30BE71),
-                                                                          shape:
-                                                                              RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(
-                                                                              5.r,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          await ApiProvider
-                                                                              .updateUser(
-                                                                            updateUserModel:
-                                                                                UpdateUserModel(
-                                                                              birthDate: state.myUserModel.birthDate.toString().substring(0, 10),
-                                                                              firstName: state.myUserModel.firstName,
-                                                                              gender: state.myUserModel.gender,
-                                                                              id: state.myUserModel.id,
-                                                                              imageUrl: imageUrl,
-                                                                              lastName: state.myUserModel.lastName,
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          "Yes",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                18.sp,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                            return ShowDialogItems(
+                                                              title:
+                                                                  "Book appointment ? ",
+                                                              onTap1: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              onTap2: () async {
+                                                                await ApiProvider
+                                                                    .updateUser(
+                                                                  updateUserModel:
+                                                                      UpdateUserModel(
+                                                                    birthDate: state
+                                                                        .myUserModel
+                                                                        .birthDate
+                                                                        .toString()
+                                                                        .substring(
+                                                                            0,
+                                                                            10),
+                                                                    firstName: state
+                                                                        .myUserModel
+                                                                        .firstName,
+                                                                    gender: state
+                                                                        .myUserModel
+                                                                        .gender,
+                                                                    id: state
+                                                                        .myUserModel
+                                                                        .id,
+                                                                    imageUrl:
+                                                                        imageUrl,
+                                                                    lastName: state
+                                                                        .myUserModel
+                                                                        .lastName,
+                                                                  ),
+                                                                );
+                                                              },
                                                             );
                                                           },
                                                         );
@@ -726,130 +641,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         showDialog(
                                                           context: context,
                                                           builder: (context) {
-                                                            return AlertDialog(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                  20.r,
-                                                                ),
-                                                              ),
-                                                              backgroundColor:
-                                                                  const Color(
-                                                                      0xFF252525),
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                AppImages.lock,
-                                                              ),
-                                                              title: Text(
-                                                                "Do you want to change photo",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: const Color(
-                                                                      0xFFCFCFCF),
-                                                                  fontSize:
-                                                                      23.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                              actions: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceEvenly,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width:
-                                                                          112.w,
-                                                                      child:
-                                                                          TextButton(
-                                                                        style: TextButton
-                                                                            .styleFrom(
-                                                                          backgroundColor:
-                                                                              const Color(0xFFFF0000),
-                                                                          shape:
-                                                                              RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(
-                                                                              5.r,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          "No",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                18.sp,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width:
-                                                                          112.w,
-                                                                      child:
-                                                                          TextButton(
-                                                                        style: TextButton
-                                                                            .styleFrom(
-                                                                          backgroundColor:
-                                                                              const Color(0xFF30BE71),
-                                                                          shape:
-                                                                              RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(
-                                                                              5.r,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          await ApiProvider
-                                                                              .updateUser(
-                                                                            updateUserModel:
-                                                                                UpdateUserModel(
-                                                                              birthDate: state.myUserModel.birthDate.toString().substring(0, 10),
-                                                                              firstName: state.myUserModel.firstName,
-                                                                              gender: state.myUserModel.gender,
-                                                                              id: state.myUserModel.id,
-                                                                              imageUrl: imageUrl,
-                                                                              lastName: state.myUserModel.lastName,
-                                                                            ),
-                                                                          );
+                                                            return ShowDialogItems(
+                                                              title:
+                                                                  "Do you want to change photo",
+                                                              onTap1: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              onTap2: () async {
+                                                                await ApiProvider
+                                                                    .updateUser(
+                                                                  updateUserModel:
+                                                                      UpdateUserModel(
+                                                                    birthDate: state
+                                                                        .myUserModel
+                                                                        .birthDate
+                                                                        .toString()
+                                                                        .substring(
+                                                                            0,
+                                                                            10),
+                                                                    firstName: state
+                                                                        .myUserModel
+                                                                        .firstName,
+                                                                    gender: state
+                                                                        .myUserModel
+                                                                        .gender,
+                                                                    id: state
+                                                                        .myUserModel
+                                                                        .id,
+                                                                    imageUrl:
+                                                                        imageUrl,
+                                                                    lastName: state
+                                                                        .myUserModel
+                                                                        .lastName,
+                                                                  ),
+                                                                );
 
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          "Yes",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                18.sp,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
                                                             );
                                                           },
                                                         );

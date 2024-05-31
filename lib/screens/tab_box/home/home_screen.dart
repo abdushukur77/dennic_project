@@ -80,14 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           onTap: () {
                             ApiProvider.getAppointmentHistory();
-
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         const NotificationScreen(),
-                            //   ),
-                            // );
                           },
                         ),
                         16.getW(),
