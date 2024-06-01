@@ -28,7 +28,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<GetTable>(_onFetchTableDoctor);
     on<GetDoctorService>(_onFetchDoctorService);
     on<PostPatient>(_onPostPatient);
-    // on<PostAppointment>(_onPostAppointment);
   }
 
   Future<void> _onFetchDoctors(

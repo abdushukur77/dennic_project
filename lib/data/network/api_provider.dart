@@ -542,9 +542,6 @@ class ApiProvider {
   static Future<NetworkResponse> createPatient(
       PatientModel patientModel) async {
     NetworkResponse networkResponse = NetworkResponse();
-
-    // debugPrint("BEFORE    ${patientModel.toString()}");
-
     try {
       Uri uri = Uri.parse("https://swag.dennic.uz/v1/patient/create");
 
@@ -557,7 +554,6 @@ class ApiProvider {
       if (response.statusCode == 200) {
         debugPrint("Patient yaratildi: ${jsonDecode(response.body)["id"]}");
         networkResponse.data = jsonDecode(response.body)["id"];
-        // debugPrint("DATA ${networkResponse.data}");
       } else {
         debugPrint(
             "Status Code: ${response.statusCode} Body: ${response.body}-----------------------------------createPatient");

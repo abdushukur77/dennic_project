@@ -59,7 +59,6 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
     on<UpdatePatientId>((event, emit) {
       emit(
         state.copyWith(
-          statusMessage: "",
           appointment: state.appointment.copyWith(
             patientId: event.patientId,
           ),
@@ -72,10 +71,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
   }
 
   _addKasal(Addkasal event, emit) async {
-    emit(state.copyWith(
-      formStatus: FormStatus.loading,
-      statusMessage: "",
-    ));
+    emit(state.copyWith(formStatus: FormStatus.loading));
 
     NetworkResponse networkResponse =
         await ApiProvider.createPatient(event.patientModel);
@@ -86,18 +82,16 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
         state.copyWith(
           formStatus: FormStatus.success,
           potentId: networkResponse.data as String,
-          statusMessage: "ok",
         ),
       );
 
       debugPrint(state.potentId);
     } else {
-      debugPrint("Error -----------");
+      debugPrint("Error --------------_addKasal");
       emit(
         state.copyWith(
           formStatus: FormStatus.error,
           errorText: networkResponse.errorText,
-          statusMessage: "",
         ),
       );
     }

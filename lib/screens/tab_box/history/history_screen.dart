@@ -21,7 +21,6 @@ class MyAppointmentsScreen extends StatelessWidget {
     return Scaffold(
         body: Column(
           children: [
-            SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Column(
@@ -63,7 +62,8 @@ class MyAppointmentsScreen extends StatelessWidget {
             ),
             BlocBuilder<AppointmentHistoryBloc, AppointmentHistoryState>(
                 builder: (context, state) {
-
+              debugPrint(
+                  "++++++++++++++++++++++++++${state.formStatus}++++++++++++");
               if (state.formStatus == FormStatus.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
