@@ -15,7 +15,6 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
       : super(
           AppointmentState(
             appointment: AppointmentModel.initial(),
-            potentId: '',
             formStatus: FormStatus.pure,
             errorText: '',
             statusMessage: '',
@@ -82,13 +81,12 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
       emit(
         state.copyWith(
           formStatus: FormStatus.success,
-          potentId: networkResponse.data as String,
+          appointment: state.appointment
+              .copyWith(patientId: networkResponse.data as String? ?? ""),
         ),
       );
 
       add(CreateBookAppointment());
-
-      debugPrint(state.potentId);
     } else {
       debugPrint("Error --------------_addKasal");
       emit(
@@ -104,10 +102,8 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
   Future<void> _onPostAppointment(CreateBookAppointment event, emit) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
-
-
     NetworkResponse networkResponse = await doctorRepository.postAppointment(
-      state.appointment.copyWith(patientId: state.potentId),
+      state.appointment,
     );
     if (networkResponse.errorText.isEmpty) {
       debugPrint("On post appointment blocda DONEEEEEEEEEEEEEE");
