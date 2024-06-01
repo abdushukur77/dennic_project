@@ -62,7 +62,5 @@ class Addkasal extends AppointmentEvent {
 }
 
 class CreateBookAppointment extends AppointmentEvent {
-  const CreateBookAppointment({required this.appointmentModel});
 
-  final AppointmentModel appointmentModel;
 }

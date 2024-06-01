@@ -59,6 +59,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
     on<UpdatePatientId>((event, emit) {
       emit(
         state.copyWith(
+          statusMessage: "",
           appointment: state.appointment.copyWith(
             patientId: event.patientId,
           ),
@@ -77,7 +78,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
         await ApiProvider.createPatient(event.patientModel);
 
     if (networkResponse.errorText.isEmpty) {
-      debugPrint("Qonday:   ${networkResponse.data}");
+      debugPrint("Qonday:  ${networkResponse.data}");
       emit(
         state.copyWith(
           formStatus: FormStatus.success,
@@ -85,11 +86,14 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
         ),
       );
 
+      add(CreateBookAppointment());
+
       debugPrint(state.potentId);
     } else {
       debugPrint("Error --------------_addKasal");
       emit(
         state.copyWith(
+          statusMessage: "",
           formStatus: FormStatus.error,
           errorText: networkResponse.errorText,
         ),
@@ -100,19 +104,24 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
   Future<void> _onPostAppointment(CreateBookAppointment event, emit) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
-    NetworkResponse networkResponse =
-        await doctorRepository.postAppointment(event.appointmentModel);
 
+
+    NetworkResponse networkResponse = await doctorRepository.postAppointment(
+      state.appointment.copyWith(patientId: state.potentId),
+    );
     if (networkResponse.errorText.isEmpty) {
       debugPrint("On post appointment blocda DONEEEEEEEEEEEEEE");
       emit(
         state.copyWith(
-            formStatus: FormStatus.success, appointment: networkResponse.data),
+          statusMessage: "ok",
+          formStatus: FormStatus.success,
+        ),
       );
     } else {
       debugPrint("On post appointment blocda else ning ichiga tushdi");
       emit(
         state.copyWith(
+          statusMessage: "",
           formStatus: FormStatus.error,
           errorText: networkResponse.errorText,
         ),

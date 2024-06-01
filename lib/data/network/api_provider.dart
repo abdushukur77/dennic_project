@@ -592,8 +592,9 @@ class ApiProvider {
       if (response.statusCode == 200) {
         debugPrint(
             "If ga tushdi ------------------------------------------------createAppointment");
+        // debugPrint("Data: ${response.body}");
 
-        networkResponse.data = jsonDecode(response.body);
+        networkResponse.data = "";
       } else {
         jsonDecode(response.body);
         networkResponse.errorText = response.body;

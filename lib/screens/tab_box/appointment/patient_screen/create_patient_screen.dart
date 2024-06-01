@@ -1,6 +1,8 @@
 import 'package:dennic_project/blocs/appoinment/bloc.dart';
 import 'package:dennic_project/blocs/appoinment/event.dart';
 import 'package:dennic_project/blocs/appoinment/state.dart';
+import 'package:dennic_project/blocs/appointment_history/appointment_history_bloc.dart';
+import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/screens/global_widget/countries_drop_down.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/address_input.dart';
@@ -77,339 +79,319 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
           ),
         ),
       ),
-      body: BlocBuilder<AppointmentBloc, AppointmentState>(
-        builder: (context, state) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        NameInput(
-                          firstNameController: firstNameController,
-                          lastNameController: lastNameController,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        SizedBox(height: 24.h),
-                        AddressInput(
-                            controller: addressController,
-                            textInputAction: TextInputAction.next),
-                        SizedBox(height: 24.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 24.w, bottom: 8.h),
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Birth of date",
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1.5,
-                                        color: AppColors.c_2C3A4B,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: "*",
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: const Color(0xFFDA1414),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                _selectDate(context);
-                                setState(() {});
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 24.w,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(100.r),
-                                  border: Border.all(
-                                    width: 1.w,
-                                    color: AppColors.cEBEEF2,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          AppColors.c_5A6CEA.withOpacity(0.08),
-                                      blurRadius: 50.r,
-                                      offset: const Offset(12.0, 26.0),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    filled: true,
-                                    fillColor: AppColors.white,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 15.h,
-                                    ),
-                                    prefixIcon: SvgPicture.asset(
-                                      AppImages.calendar,
-                                      width: 7.w,
-                                      height: 7.h,
-                                    ),
-                                  ),
-                                  child: selectedDate != null
-                                      ? Text(
-                                          selectedDate
-                                              .toString()
-                                              .substring(0, 10),
-                                          style: AppTextStyle.urbanistBold
-                                              .copyWith(
-                                                  color: AppColors.c7E8CA0),
-                                        )
-                                      : const Text('Select Date'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 24.h),
-                        const BloodGroupInput(),
-                        SizedBox(height: 24.h),
-                        CityInput(
-                            controller: cityController,
-                            textInputAction: TextInputAction.next),
-                        SizedBox(height: 24.h),
-                        CountryInput(
-                          onTap: () async {
-                            selectedCountry =
-                                await showModalBottomSheet<String>(
-                              context: context,
-                              builder: (context) {
-                                return CountriesDropDown(
-                                  items: AppConstants.countries,
-                                  textEditingController: searchController,
-                                );
-                              },
-                            );
+      body: BlocListener<AppointmentBloc, AppointmentState>(
+        listener: (BuildContext context, AppointmentState state) {
+          if (state.formStatus == FormStatus.success) {
+            debugPrint("Good");
+            if (state.statusMessage == "ok") {
+              debugPrint("Good okokokokokokokokokokok");
+              context.read<AppointmentHistoryBloc>().add(GetAppointmentHistoryEvent());
 
-                            if (selectedCountry != null) {
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Selected country: $selectedCountry',
-                                  ),
-                                ),
-                              );
-                            }
-                            setState(() {});
-                          },
-                        ),
-                        SizedBox(height: 24.h),
-                        PhoneNumberInput(
-                          controller: phoneNumberController,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        SizedBox(height: 24.h),
-                        GenderSelector(
-                          selectedGender: selectedGender,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedGender = value;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 24.h),
-                        ProblemDescriptionInput(
-                            controller: problemDescriptionController,
-                            textInputAction: TextInputAction.done),
-                        SizedBox(height: 20.h),
-                      ],
-                    ),
-                  ),
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TabBoxScreen(),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 55.h,
-                  child: BlocListener<AppointmentBloc, AppointmentState>(
-                    listener: (BuildContext context, AppointmentState myState) {
-                      if (state.potentId.isNotEmpty) {
-                        context
-                            .read<AppointmentBloc>()
-                            .add(UpdatePatientId(myState.potentId));
-
-                        debugPrint(
-                            "UpdatePatientId ga kelayotgan patientId: ${myState.potentId}--------create patient screen");
-
-                        debugPrint(
-                            "UpdatePatientId dan song: ${myState.appointment.patientId}------create patient screen");
-                      } else if (state.appointment.patientId.isNotEmpty) {
-                        debugPrint(
-                            "Yes tugmasini bosishdan oldingi appointment model: ${state.appointment}------create patient screen");
-
-                        context.read<AppointmentBloc>().add(
-                              CreateBookAppointment(
-                                appointmentModel: state.appointment,
+                (route) => false,
+              );
+            }
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      NameInput(
+                        firstNameController: firstNameController,
+                        lastNameController: lastNameController,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      SizedBox(height: 24.h),
+                      AddressInput(
+                          controller: addressController,
+                          textInputAction: TextInputAction.next),
+                      SizedBox(height: 24.h),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 24.w, bottom: 8.h),
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Birth of date",
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.5,
+                                      color: AppColors.c_2C3A4B,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "*",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: const Color(0xFFDA1414),
+                                    ),
+                                  )
+                                ],
                               ),
-                            );
-
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TabBoxScreen(),
+                            ),
                           ),
-                        );
-                      }
-                    },
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (addressController.text.isNotEmpty ||
-                            firstNameController.text.isNotEmpty ||
-                            cityController.text.isNotEmpty ||
-                            lastNameController.text.isNotEmpty ||
-                            addressController.text.isNotEmpty ||
-                            cityController.text.isNotEmpty) {
-                          PatientModel patientModel = PatientModel(
-                            address: addressController.text,
-                            birthDate: selectedDate!
-                                .toIso8601String()
-                                .substring(0, 10),
-                            bloodGroup: bloodGroup,
-                            city: cityController.text,
-                            country: selectedCountry!,
-                            firstName: firstNameController.text,
-                            gender: selectedGender == 1 ? "female" : "male",
-                            lastName: lastNameController.text,
-                            patientProblem: problemDescriptionController.text,
-                            phoneNumber:
-                                phoneNumberController.text.replaceAll(" ", ""),
-                          );
-
-                          context.read<AppointmentBloc>().add(
-                                Addkasal(
-                                  patientModel: patientModel,
+                          InkWell(
+                            onTap: () {
+                              _selectDate(context);
+                              setState(() {});
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 24.w,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(100.r),
+                                border: Border.all(
+                                  width: 1.w,
+                                  color: AppColors.cEBEEF2,
                                 ),
-                              );
-
-                          debugPrint(
-                              "PatientModel: $patientModel------------------create patient screen");
-
-                          showDialog(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.c_5A6CEA.withOpacity(0.08),
+                                    blurRadius: 50.r,
+                                    offset: const Offset(12.0, 26.0),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: InputDecorator(
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  fillColor: AppColors.white,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15.h,
+                                  ),
+                                  prefixIcon: SvgPicture.asset(
+                                    AppImages.calendar,
+                                    width: 7.w,
+                                    height: 7.h,
+                                  ),
+                                ),
+                                child: selectedDate != null
+                                    ? Text(
+                                        selectedDate
+                                            .toString()
+                                            .substring(0, 10),
+                                        style: AppTextStyle.urbanistBold
+                                            .copyWith(color: AppColors.c7E8CA0),
+                                      )
+                                    : const Text('Select Date'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24.h),
+                      const BloodGroupInput(),
+                      SizedBox(height: 24.h),
+                      CityInput(
+                          controller: cityController,
+                          textInputAction: TextInputAction.next),
+                      SizedBox(height: 24.h),
+                      CountryInput(
+                        onTap: () async {
+                          selectedCountry = await showModalBottomSheet<String>(
                             context: context,
                             builder: (context) {
-                              return AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    20.r,
-                                  ),
-                                ),
-                                backgroundColor: const Color(0xFF252525),
-                                icon: SvgPicture.asset(
-                                  AppImages.lock,
-                                ),
-                                title: Text(
-                                  "Book appointment ? ",
-                                  style: TextStyle(
-                                    color: const Color(0xFFCFCFCF),
-                                    fontSize: 23.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                actions: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        width: 112.w,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFFFF0000),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                5.r,
-                                              ),
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "No",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 112.w,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFF30BE71),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                5.r,
-                                              ),
-                                            ),
-                                          ),
-                                          onPressed: () async {},
-                                          child: Text(
-                                            "Yes",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              return CountriesDropDown(
+                                items: AppConstants.countries,
+                                textEditingController: searchController,
                               );
                             },
                           );
 
-                          debugPrint(
-                              "$patientModel---------------------create patient screen");
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF93B8FE),
+                          if (selectedCountry != null) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Selected country: $selectedCountry',
+                                ),
+                              ),
+                            );
+                          }
+                          setState(() {});
+                        },
                       ),
-                      child: const Text(
-                        "Book",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+                      SizedBox(height: 24.h),
+                      PhoneNumberInput(
+                        controller: phoneNumberController,
+                        textInputAction: TextInputAction.next,
                       ),
+                      SizedBox(height: 24.h),
+                      GenderSelector(
+                        selectedGender: selectedGender,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedGender = value;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 24.h),
+                      ProblemDescriptionInput(
+                          controller: problemDescriptionController,
+                          textInputAction: TextInputAction.done),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 55.h,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (addressController.text.isNotEmpty ||
+                        firstNameController.text.isNotEmpty ||
+                        cityController.text.isNotEmpty ||
+                        lastNameController.text.isNotEmpty ||
+                        addressController.text.isNotEmpty ||
+                        cityController.text.isNotEmpty) {
+                      PatientModel patientModel = PatientModel(
+                        address: addressController.text,
+                        birthDate:
+                            selectedDate!.toIso8601String().substring(0, 10),
+                        bloodGroup: bloodGroup,
+                        city: cityController.text,
+                        country: selectedCountry!,
+                        firstName: firstNameController.text,
+                        gender: selectedGender == 1 ? "female" : "male",
+                        lastName: lastNameController.text,
+                        patientProblem: problemDescriptionController.text,
+                        phoneNumber:
+                            phoneNumberController.text.replaceAll(" ", ""),
+                      );
+
+                      context.read<AppointmentBloc>().add(
+                            Addkasal(
+                              patientModel: patientModel,
+                            ),
+                          );
+
+                      debugPrint(
+                          "PatientModel: $patientModel------------------create patient screen");
+
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (context) {
+                      //     return AlertDialog.adaptive(
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(
+                      //           20.r,
+                      //         ),
+                      //       ),
+                      //       backgroundColor: const Color(0xFF252525),
+                      //       icon: SvgPicture.asset(
+                      //         AppImages.lock,
+                      //       ),
+                      //       title: Text(
+                      //         "Book appointment ? ",
+                      //         style: TextStyle(
+                      //           color: const Color(0xFFCFCFCF),
+                      //           fontSize: 23.sp,
+                      //           fontWeight: FontWeight.w400,
+                      //         ),
+                      //       ),
+                      //       actions: [
+                      //         Row(
+                      //           mainAxisAlignment:
+                      //               MainAxisAlignment.spaceEvenly,
+                      //           children: [
+                      //             SizedBox(
+                      //               width: 112.w,
+                      //               child: TextButton(
+                      //                 style: TextButton.styleFrom(
+                      //                   backgroundColor:
+                      //                       const Color(0xFFFF0000),
+                      //                   shape: RoundedRectangleBorder(
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(
+                      //                       5.r,
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 onPressed: () {
+                      //                   Navigator.pop(context);
+                      //                 },
+                      //                 child: Text(
+                      //                   "No",
+                      //                   style: TextStyle(
+                      //                     color: Colors.white,
+                      //                     fontSize: 18.sp,
+                      //                     fontWeight: FontWeight.w400,
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 112.w,
+                      //               child: TextButton(
+                      //                 style: TextButton.styleFrom(
+                      //                   backgroundColor:
+                      //                       const Color(0xFF30BE71),
+                      //                   shape: RoundedRectangleBorder(
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(
+                      //                       5.r,
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 onPressed: () async {},
+                      //                 child: Text(
+                      //                   "Yes",
+                      //                   style: TextStyle(
+                      //                     color: Colors.white,
+                      //                     fontSize: 18.sp,
+                      //                     fontWeight: FontWeight.w400,
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ],
+                      //     );
+                      //   },
+                      // );
+
+                      debugPrint(
+                          "$patientModel---------------------create patient screen");
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF93B8FE),
+                  ),
+                  child: const Text(
+                    "Book",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                20.getH(),
-              ],
-            ),
-          );
-        },
+              ),
+              20.getH(),
+            ],
+          ),
+        ),
       ),
     );
   }
