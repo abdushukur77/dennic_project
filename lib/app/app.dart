@@ -46,7 +46,8 @@ class App extends StatelessWidget {
             create: (context) => SearchCountryBloc(),
           ),
           BlocProvider(
-            create: (context) => AppointmentBloc(),
+            create: (context) => AppointmentBloc(
+                doctorRepository: context.read<DoctorRepository>()),
           ),
           BlocProvider(
             create: (context) =>

@@ -3,7 +3,6 @@ import 'package:dennic_project/blocs/appoinment/event.dart';
 import 'package:dennic_project/blocs/appoinment/state.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
-import 'package:dennic_project/blocs/doctor/doctor_event.dart';
 import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:dennic_project/screens/global_widget/countries_drop_down.dart';
@@ -15,7 +14,6 @@ import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/name_input.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/phone_number.dart';
 import 'package:dennic_project/screens/tab_box/appointment/patient_screen/widget/problem_description.dart';
-import 'package:dennic_project/screens/tab_box/history/history_screen.dart';
 import 'package:dennic_project/screens/tab_box/tab_box_screen.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/constants/app_constants.dart';
@@ -263,132 +261,141 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                     builder: (BuildContext context, AppointmentState state) {
                       return ElevatedButton(
                         onPressed: () async {
-                          PatientModel patientModel = PatientModel(
-                            address: addressController.text,
-                            birthDate: selectedDate!
-                                .toIso8601String()
-                                .substring(0, 10),
-                            bloodGroup: bloodGroup,
-                            city: cityController.text,
-                            country: selectedCountry!,
-                            firstName: firstNameController.text,
-                            gender: selectedGender == 1 ? "female" : "male",
-                            lastName: lastNameController.text,
-                            patientProblem: problemDescriptionController.text,
-                            phoneNumber:
-                                phoneNumberController.text.replaceAll(" ", ""),
-                          );
-                          context.read<AppointmentBloc>().add(
-                                Addkasal(
-                                  patientModel: patientModel,
-                                ),
-                              );
+                          if (addressController.text.isNotEmpty ||
+                              firstNameController.text.isNotEmpty ||
+                              cityController.text.isNotEmpty ||
+                              lastNameController.text.isNotEmpty ||
+                              addressController.text.isNotEmpty ||
+                              cityController.text.isNotEmpty) {
+                            PatientModel patientModel = PatientModel(
+                              address: addressController.text,
+                              birthDate: selectedDate!
+                                  .toIso8601String()
+                                  .substring(0, 10),
+                              bloodGroup: bloodGroup,
+                              city: cityController.text,
+                              country: selectedCountry!,
+                              firstName: firstNameController.text,
+                              gender: selectedGender == 1 ? "female" : "male",
+                              lastName: lastNameController.text,
+                              patientProblem: problemDescriptionController.text,
+                              phoneNumber: phoneNumberController.text
+                                  .replaceAll(" ", ""),
+                            );
+                            context.read<AppointmentBloc>().add(
+                                  Addkasal(
+                                    patientModel: patientModel,
+                                  ),
+                                );
 
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    20.r,
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      20.r,
+                                    ),
                                   ),
-                                ),
-                                backgroundColor: const Color(0xFF252525),
-                                icon: SvgPicture.asset(
-                                  AppImages.lock,
-                                ),
-                                title: Text(
-                                  "Book appointment ? ",
-                                  style: TextStyle(
-                                    color: const Color(0xFFCFCFCF),
-                                    fontSize: 23.sp,
-                                    fontWeight: FontWeight.w400,
+                                  backgroundColor: const Color(0xFF252525),
+                                  icon: SvgPicture.asset(
+                                    AppImages.lock,
                                   ),
-                                ),
-                                actions: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        width: 112.w,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFFFF0000),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                5.r,
+                                  title: Text(
+                                    "Book appointment ? ",
+                                    style: TextStyle(
+                                      color: const Color(0xFFCFCFCF),
+                                      fontSize: 23.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          width: 112.w,
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color(0xFFFF0000),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  5.r,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "No",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w400,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "No",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 112.w,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFF30BE71),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                5.r,
+                                        SizedBox(
+                                          width: 112.w,
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color(0xFF30BE71),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  5.r,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          onPressed: () async {
-                                            context.read<DoctorBloc>().add(
-                                                  PostAppointment(
-                                                    appointmentModel: context
-                                                        .read<AppointmentBloc>()
-                                                        .state
-                                                        .appointment,
-                                                  ),
-                                                );
+                                            onPressed: () async {
+                                              context
+                                                  .read<AppointmentBloc>()
+                                                  .add(
+                                                    CreateBookAppointment(
+                                                      appointmentModel: context
+                                                          .read<
+                                                              AppointmentBloc>()
+                                                          .state
+                                                          .appointment,
+                                                    ),
+                                                  );
 
-                                            debugPrint(
-                                                "${state.appointment}+++++++++++++++++++++appointment");
+                                              debugPrint(
+                                                  "${state.appointment}+++++++++++++++++++++appointment");
 
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const TabBoxScreen(),
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const TabBoxScreen(),
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              "Yes",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.w400,
                                               ),
-                                            );
-                                          },
-                                          child: Text(
-                                            "Yes",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w400,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
 
-                          print(patientModel.toString() +
-                              "---------------------");
+                            print("$patientModel---------------------");
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF93B8FE),
@@ -418,7 +425,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
             );
             context.read<AppointmentBloc>().add(UpdatePatientId(id));
 
-            context.read<DoctorBloc>().add(PostAppointment(
+            context.read<AppointmentBloc>().add(CreateBookAppointment(
                 appointmentModel:
                     context.read<AppointmentBloc>().state.appointment));
             debugPrint(

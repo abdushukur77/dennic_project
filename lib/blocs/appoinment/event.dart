@@ -1,5 +1,7 @@
+import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/rendering.dart';
 
 abstract class AppointmentEvent extends Equatable {
   const AppointmentEvent();
@@ -57,4 +59,10 @@ class Addkasal extends AppointmentEvent {
   final PatientModel patientModel;
 
   const Addkasal({required this.patientModel});
+}
+
+class CreateBookAppointment extends AppointmentEvent {
+  const CreateBookAppointment({required this.appointmentModel});
+
+  final AppointmentModel appointmentModel;
 }

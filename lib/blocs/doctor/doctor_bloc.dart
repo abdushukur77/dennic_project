@@ -28,7 +28,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<GetTable>(_onFetchTableDoctor);
     on<GetDoctorService>(_onFetchDoctorService);
     on<PostPatient>(_onPostPatient);
-    on<PostAppointment>(_onPostAppointment);
+    // on<PostAppointment>(_onPostAppointment);
   }
 
   Future<void> _onFetchDoctors(
@@ -205,28 +205,28 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     }
   }
 
-  Future<void> _onPostAppointment(PostAppointment event, emit) async {
-    emit(state.copyWith(formStatus: FormStatus.loading));
-
-    NetworkResponse networkResponse =
-        await doctorRepository.postAppointment(event.appointmentModel);
-
-    if (networkResponse.errorText.isEmpty) {
-      debugPrint("On post appointment blocda DONEEEEEEEEEEEEEE");
-      emit(
-        state.copyWith(
-          formStatus: FormStatus.success,
-          id: networkResponse.data,
-        ),
-      );
-    } else {
-      debugPrint("On post appointment blocda else ning ichiga tushdi");
-      emit(
-        state.copyWith(
-          formStatus: FormStatus.error,
-          errorMessage: networkResponse.errorText,
-        ),
-      );
-    }
-  }
+  // Future<void> _onPostAppointment(PostAppointment event, emit) async {
+  //   emit(state.copyWith(formStatus: FormStatus.loading));
+  //
+  //   NetworkResponse networkResponse =
+  //       await doctorRepository.postAppointment(event.appointmentModel);
+  //
+  //   if (networkResponse.errorText.isEmpty) {
+  //     debugPrint("On post appointment blocda DONEEEEEEEEEEEEEE");
+  //     emit(
+  //       state.copyWith(
+  //         formStatus: FormStatus.success,
+  //         id: networkResponse.data,
+  //       ),
+  //     );
+  //   } else {
+  //     debugPrint("On post appointment blocda else ning ichiga tushdi");
+  //     emit(
+  //       state.copyWith(
+  //         formStatus: FormStatus.error,
+  //         errorMessage: networkResponse.errorText,
+  //       ),
+  //     );
+  //   }
+  // }
 }

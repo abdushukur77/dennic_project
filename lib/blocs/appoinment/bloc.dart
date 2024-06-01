@@ -4,11 +4,14 @@ import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/appointment/appointment_model.dart';
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
 import 'package:dennic_project/data/network/api_provider.dart';
+import 'package:dennic_project/data/repositories/doctor_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
-  AppointmentBloc()
+  final DoctorRepository doctorRepository;
+
+  AppointmentBloc({required this.doctorRepository})
       : super(
           AppointmentState(
             appointment: AppointmentModel.initial(),
@@ -65,6 +68,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
     });
 
     on<Addkasal>(_addKasal);
+    on<CreateBookAppointment>(_onPostAppointment);
   }
 
   _addKasal(Addkasal event, emit) async {
@@ -94,6 +98,29 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
           formStatus: FormStatus.error,
           errorText: networkResponse.errorText,
           statusMessage: "",
+        ),
+      );
+    }
+  }
+
+  Future<void> _onPostAppointment(CreateBookAppointment event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+
+    NetworkResponse networkResponse =
+        await doctorRepository.postAppointment(event.appointmentModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      debugPrint("On post appointment blocda DONEEEEEEEEEEEEEE");
+      emit(
+        state.copyWith(
+            formStatus: FormStatus.success, appointment: networkResponse.data),
+      );
+    } else {
+      debugPrint("On post appointment blocda else ning ichiga tushdi");
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.error,
+          errorText: networkResponse.errorText,
         ),
       );
     }

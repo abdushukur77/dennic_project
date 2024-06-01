@@ -195,8 +195,6 @@ class ApiProvider {
             networkResponse.data["message"] as String? ?? "";
       }
     } catch (error) {
-
-
       networkResponse.errorText =
           networkResponse.data["message"] as String? ?? "";
     }
@@ -600,9 +598,6 @@ class ApiProvider {
             "If ga tushdi ------------------------------------------------createAppointment");
 
         networkResponse.data = jsonDecode(response.body);
-
-        debugPrint(networkResponse.data + "${response.body}"
-            "-------------------------createAppointment");
       } else {
         jsonDecode(response.body);
         networkResponse.errorText = response.body;
@@ -678,11 +673,13 @@ class ApiProvider {
         debugPrint(
             "AWWWWWWWWWWW ${response.body}--------------getAppointmentHistory");
 
-        List<AppointmentHistoryModel> histories = (jsonDecode(response.body)["appointments"] as List?)
-                ?.map((e) => AppointmentHistoryModel.fromJson(e))
-                .toList() ??
-            [];
-debugPrint("Length Lits _______________________________${histories.length}");
+        List<AppointmentHistoryModel> histories =
+            (jsonDecode(response.body)["appointments"] as List?)
+                    ?.map((e) => AppointmentHistoryModel.fromJson(e))
+                    .toList() ??
+                [];
+        debugPrint(
+            "Length Lits _______________________________${histories.length}");
         return NetworkResponse(data: histories);
       } else {
         debugPrint(
