@@ -32,13 +32,11 @@ class _DetailAppointmentScreenState extends State<DetailAppointmentScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             AppointmentWidget(
-              doctorName: widget.appointmentHistoryModel.doctorLastName +
-                  " " +
-                  widget.appointmentHistoryModel.doctorLastName,
+              doctorName: "${widget.appointmentHistoryModel.doctorLastName} ${widget.appointmentHistoryModel.doctorLastName}",
               time: widget.appointmentHistoryModel.appointmentStartTime,
               status: widget.appointmentHistoryModel.patientStatus,
               imageUrlDoc: context
@@ -69,7 +67,7 @@ class _DetailAppointmentScreenState extends State<DetailAppointmentScreen> {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -95,19 +93,19 @@ class _DetailAppointmentScreenState extends State<DetailAppointmentScreen> {
                     ),
                   ),
                   SizedBox(height: 16.0.h),
-                  SectionTitle(title: 'Visit Time'),
+                  const SectionTitle(title: 'Visit Time'),
                   SizedBox(height: 8.0.h),
                   Text(formatDateTime(DateTime.parse(widget.appointmentHistoryModel.appointmentDate.toString()).toString()),
                       style: TextStyle(fontSize: 16.0.sp)),
                   Text('${widget.appointmentHistoryModel.appointmentStartTime.substring(0,5)} - ${widget.appointmentHistoryModel.appointmentFinishTime.substring(0,5)}', style: TextStyle(fontSize: 16.0.sp)),
                   Divider(height: 32.0.h),
-                  SectionTitle(title: 'Patient Information'),
+                  const SectionTitle(title: 'Patient Information'),
                   SizedBox(height: 8.0.h),
                   InfoRow(label: 'Full Name', value: widget.appointmentHistoryModel.patientFullName),
                   InfoRow(label: 'Birth date', value: widget.appointmentHistoryModel.birth),
                   InfoRow(label: 'Phone', value: widget.appointmentHistoryModel.patientPhoneNumber),
                   Divider(height: 32.0.h),
-                  SectionTitle(title: 'Fee Information'),
+                  const SectionTitle(title: 'Fee Information'),
                   SizedBox(height: 8.0.h),
                   Text('${widget.appointmentHistoryModel.paymentAmount} UZS',
                       style: TextStyle(fontSize: 16.0.sp, color: Colors.blue)),

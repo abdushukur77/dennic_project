@@ -1,6 +1,6 @@
-import 'package:dennic_project/blocs/appoinment/bloc.dart';
-import 'package:dennic_project/blocs/appoinment/event.dart';
-import 'package:dennic_project/blocs/appoinment/state.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_bloc.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_event.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_state.dart';
 import 'package:dennic_project/blocs/appointment_history/appointment_history_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/patient/patient_modedl.dart';
@@ -84,8 +84,9 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
           if (state.formStatus == FormStatus.success) {
             debugPrint("Good");
             if (state.statusMessage == "ok") {
-              debugPrint("Good okokokokokokokokokokok");
-              context.read<AppointmentHistoryBloc>().add(GetAppointmentHistoryEvent());
+              context
+                  .read<AppointmentHistoryBloc>()
+                  .add(GetAppointmentHistoryEvent());
 
               Navigator.pushAndRemoveUntil(
                 context,
@@ -150,6 +151,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                               _selectDate(context);
                               setState(() {});
                             },
+                            borderRadius: BorderRadius.circular(100.r),
                             child: Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 24.w,
@@ -284,99 +286,23 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                               patientModel: patientModel,
                             ),
                           );
-
-                      debugPrint(
-                          "PatientModel: $patientModel------------------create patient screen");
-
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (context) {
-                      //     return AlertDialog.adaptive(
-                      //       shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(
-                      //           20.r,
-                      //         ),
-                      //       ),
-                      //       backgroundColor: const Color(0xFF252525),
-                      //       icon: SvgPicture.asset(
-                      //         AppImages.lock,
-                      //       ),
-                      //       title: Text(
-                      //         "Book appointment ? ",
-                      //         style: TextStyle(
-                      //           color: const Color(0xFFCFCFCF),
-                      //           fontSize: 23.sp,
-                      //           fontWeight: FontWeight.w400,
-                      //         ),
-                      //       ),
-                      //       actions: [
-                      //         Row(
-                      //           mainAxisAlignment:
-                      //               MainAxisAlignment.spaceEvenly,
-                      //           children: [
-                      //             SizedBox(
-                      //               width: 112.w,
-                      //               child: TextButton(
-                      //                 style: TextButton.styleFrom(
-                      //                   backgroundColor:
-                      //                       const Color(0xFFFF0000),
-                      //                   shape: RoundedRectangleBorder(
-                      //                     borderRadius:
-                      //                         BorderRadius.circular(
-                      //                       5.r,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 onPressed: () {
-                      //                   Navigator.pop(context);
-                      //                 },
-                      //                 child: Text(
-                      //                   "No",
-                      //                   style: TextStyle(
-                      //                     color: Colors.white,
-                      //                     fontSize: 18.sp,
-                      //                     fontWeight: FontWeight.w400,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             SizedBox(
-                      //               width: 112.w,
-                      //               child: TextButton(
-                      //                 style: TextButton.styleFrom(
-                      //                   backgroundColor:
-                      //                       const Color(0xFF30BE71),
-                      //                   shape: RoundedRectangleBorder(
-                      //                     borderRadius:
-                      //                         BorderRadius.circular(
-                      //                       5.r,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 onPressed: () async {},
-                      //                 child: Text(
-                      //                   "Yes",
-                      //                   style: TextStyle(
-                      //                     color: Colors.white,
-                      //                     fontSize: 18.sp,
-                      //                     fontWeight: FontWeight.w400,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ],
-                      //     );
-                      //   },
-                      // );
-
-                      debugPrint(
-                          "$patientModel---------------------create patient screen");
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Malumotlar to'liq kiritilmagan!",
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF93B8FE),
+                    backgroundColor: AppColors.c_2972FE,
                   ),
                   child: const Text(
                     "Book",

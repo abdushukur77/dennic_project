@@ -1,5 +1,5 @@
-import 'package:dennic_project/blocs/appoinment/bloc.dart';
-import 'package:dennic_project/blocs/appoinment/event.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_bloc.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';
@@ -158,7 +158,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               ...List.generate(state.tableModels.length,
                                   (index) {
                                 return CategoryItems(
-                                  // isBusy:state.tableModels[index].status ,
                                   day: day,
                                   title:
                                       state.tableModels[index].time.toString(),
@@ -231,16 +230,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                             child: const Icon(Icons.message),
                                           ),
                                           SizedBox(width: 10.w),
-                                          Text(
-                                            state.serviceModels[index].name,
-                                            style: AppTextStyle.urbanistBold
-                                                .copyWith(
-                                              color: isTapped == index
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                          Expanded(
+                                            child: Text(
+                                              state.serviceModels[index].name,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: AppTextStyle.urbanistBold
+                                                  .copyWith(
+                                                color: isTapped == index
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
                                             ),
                                           ),
-                                          const Spacer(),
                                           Text(
                                             "${state.serviceModels[index].offlinePrice} UZS"
                                                 .toString(),
@@ -273,26 +275,38 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             w: 10,
             title: "Next ",
             onTap: () {
-              context
-                  .read<AppointmentBloc>()
-                  .add(UpdateDoctorId(widget.doctorModel.id));
-              context.read<AppointmentBloc>().add(UpdateDoctorServiceId(id));
+              if (actIndex != -1 && isTapped != -1) {
+                context
+                    .read<AppointmentBloc>()
+                    .add(UpdateDoctorId(widget.doctorModel.id));
+                context.read<AppointmentBloc>().add(UpdateDoctorServiceId(id));
 
-              // appointmentModel =
-              //     appointmentModel.copyWith(doctorId: widget.doctorModel.id,doctorServiceId: id);
-              debugPrint(
-                  "${context.read<AppointmentBloc>().state.appointment.toString()}--------------------------------");
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const CreatePatientScreen();
-                  },
-                ),
-              );
+                debugPrint(
+                    "${context.read<AppointmentBloc>().state.appointment.toString()}--------------------------------");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const CreatePatientScreen();
+                    },
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Soat yoki information kiritilmagan",
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                );
+              }
             },
           ),
-          SizedBox(height: 60.h)
         ],
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/data/model/appointment/appointment_model.dart';
-import 'package:equatable/equatable.dart';
 
 class AppointmentState {
   final AppointmentModel appointment;
@@ -14,7 +13,6 @@ class AppointmentState {
     required this.errorText,
     required this.statusMessage,
   });
-
 
   AppointmentState copyWith({
     AppointmentModel? appointment,

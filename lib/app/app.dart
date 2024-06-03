@@ -1,4 +1,4 @@
-import 'package:dennic_project/blocs/appoinment/bloc.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_bloc.dart';
 import 'package:dennic_project/blocs/appointment_history/appointment_history_bloc.dart';
 import 'package:dennic_project/blocs/auth/auth_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';

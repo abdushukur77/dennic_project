@@ -331,6 +331,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         );
                                                       },
                                                     );
+
+                                                    Navigator.pop(context);
                                                   },
                                                   leading: IconButton(
                                                     onPressed: () {},
@@ -830,7 +832,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                             ),
                                                                           );
 
-                                                                          Navigator.pop(context);
+                                                                          Navigator.pop(
+                                                                              context);
                                                                         },
                                                                         child:
                                                                             Text(

@@ -1,5 +1,5 @@
-import 'package:dennic_project/blocs/appoinment/bloc.dart';
-import 'package:dennic_project/blocs/appoinment/event.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_bloc.dart';
+import 'package:dennic_project/blocs/appoinment/appointment_event.dart';
 import 'package:dennic_project/blocs/auth/auth_state.dart';
 import 'package:dennic_project/blocs/doctor/doctor_bloc.dart';
 import 'package:dennic_project/blocs/doctor/doctor_event.dart';

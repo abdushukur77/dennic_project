@@ -20,105 +20,96 @@ class MyAppointmentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        70.getH(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      const DoctorLogo(),
-                      20.getW(),
-                      Text(
-                        "My Appointments",
-                        style: AppTextStyle.urbanistMedium.copyWith(
-                          color: AppColors.c_2C3A4B,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      RingAndFavoriteItems(
-                        icon: const Icon(
-                          Icons.add_circle_outline_sharp,
-                          color: AppColors.c_2972FE,
-                        ),
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         const NotificationScreen(),
-                          //   ),
-                          // );
-                        },
-                      ),
-                    ],
+                  const DoctorLogo(),
+                  20.getW(),
+                  Text(
+                    "My Appointments",
+                    style: AppTextStyle.urbanistMedium.copyWith(
+                      color: AppColors.c_2C3A4B,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  26.getH(),
+                  const Spacer(),
+                  RingAndFavoriteItems(
+                    icon: const Icon(
+                      Icons.add_circle_outline_sharp,
+                      color: AppColors.c_2972FE,
+                    ),
+                    onTap: () {},
+                  ),
                 ],
               ),
-            ),
-            BlocBuilder<AppointmentHistoryBloc, AppointmentHistoryState>(
-                builder: (context, state) {
-              debugPrint(
-                  "++++++++++++++++++++++++++${state.formStatus}++++++++++++");
-              if (state.formStatus == FormStatus.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state.formStatus == FormStatus.error) {
-                return Center(
-                  child: Text(state.errorText),
-                );
-              }
-              if (state.formStatus == FormStatus.success) {
-                return Expanded(
-                  child: ListView.builder(
-                      padding: EdgeInsets.only(bottom: 100.h),
-                      itemCount: state.appointmentHistories.length,
-                      itemBuilder: (context, index) {
-                        debugPrint(
-                            "----------0987866787877---------------$index");
-                        return AppointmentWidget(
-                          onTap: () {
-                            context.read<DoctorBloc>().add(FetchDoctorById(
-                                state.appointmentHistories[index].doctorId));
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return DetailAppointmentScreen(
-                                      appointmentHistoryModel:
-                                          state.appointmentHistories[index]);
-                                },
-                              ),
-                            );
-                          },
-                          doctorName:
-                              "${state.appointmentHistories[index].doctorFirstName} ${state.appointmentHistories[index].doctorLastName}",
-                          time: state
-                              .appointmentHistories[index].appointmentStartTime,
-                          status:
-                              state.appointmentHistories[index].patientStatus,
-                          imageUrlDoc: context
-                              .read<DoctorBloc>()
-                              .state
-                              .doctors
-                              .where((element) =>
-                                  element.id ==
-                                  state.appointmentHistories[index].doctorId)
-                              .toList()[0]
-                              .imageUrl,
+              26.getH(),
+            ],
+          ),
+        ),
+        BlocBuilder<AppointmentHistoryBloc, AppointmentHistoryState>(
+            builder: (context, state) {
+          debugPrint(
+              "++++++++++++++++++++++++++${state.formStatus}++++++++++++");
+          if (state.formStatus == FormStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state.formStatus == FormStatus.error) {
+            return Center(
+              child: Text(state.errorText),
+            );
+          }
+          if (state.formStatus == FormStatus.success) {
+            return Expanded(
+              child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 100.h),
+                  itemCount: state.appointmentHistories.length,
+                  itemBuilder: (context, index) {
+                    debugPrint("----------0987866787877---------------$index");
+                    return AppointmentWidget(
+                      onTap: () {
+                        context.read<DoctorBloc>().add(FetchDoctorById(
+                            state.appointmentHistories[index].doctorId));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DetailAppointmentScreen(
+                                  appointmentHistoryModel:
+                                      state.appointmentHistories[index]);
+                            },
+                          ),
                         );
-                      }),
-                );
-              }
-              return const SizedBox.shrink();
-            }),
-          ],
-        ));
+                      },
+                      doctorName:
+                          "${state.appointmentHistories[index].doctorFirstName} ${state.appointmentHistories[index].doctorLastName}",
+                      time: state
+                          .appointmentHistories[index].appointmentStartTime,
+                      status: state.appointmentHistories[index].patientStatus,
+                      imageUrlDoc: context
+                          .read<DoctorBloc>()
+                          .state
+                          .doctors
+                          .where((element) =>
+                              element.id ==
+                              state.appointmentHistories[index].doctorId)
+                          .toList()[0]
+                          .imageUrl,
+                    );
+                  }),
+            );
+          }
+          return const SizedBox.shrink();
+        }),
+      ],
+    ));
   }
 }

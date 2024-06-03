@@ -35,15 +35,17 @@ class CategoryItems extends StatelessWidget {
             borderRadius: BorderRadius.circular(24.r),
             side: BorderSide(
               width: 2.w,
-              color: subtitle == day ? AppColors.c_2972FE : AppColors.c_93B8FE.withOpacity(0.1),
+              color: subtitle == day
+                  ? AppColors.c_2972FE
+                  : AppColors.c_93B8FE.withOpacity(0.1),
             ),
           ),
         ),
         onPressed: subtitle == ''
             ? onTap
             : subtitle == day
-            ? onTap
-            : null,
+                ? onTap
+                : null,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
