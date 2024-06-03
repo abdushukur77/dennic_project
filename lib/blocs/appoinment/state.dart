@@ -15,6 +15,7 @@ class AppointmentState {
     required this.statusMessage,
   });
 
+
   AppointmentState copyWith({
     AppointmentModel? appointment,
     String? errorText,
