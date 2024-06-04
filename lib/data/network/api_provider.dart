@@ -13,6 +13,7 @@ import 'package:dennic_project/data/model/user_info/my_user_model.dart';
 import 'package:dennic_project/data/model/user_model/user_model.dart';
 import 'package:dennic_project/data/model/verify_model/verify_model.dart';
 import 'package:dennic_project/data/model/networ_respons_model/network_response.dart';
+import 'package:dennic_project/utils/constants/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
 
@@ -24,7 +25,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/register");
+      Uri uri = Uri.parse(AppConstants.registerUrl);
 
       http.Response response = await http.post(
         uri,
@@ -51,7 +52,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/verify");
+      Uri uri = Uri.parse(AppConstants.verifyUserUrl);
 
       http.Response response = await http.post(
         uri,
@@ -86,7 +87,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/login");
+      Uri uri = Uri.parse(AppConstants.loginUserUrl);
 
       http.Response response = await http.post(
         uri,
@@ -126,7 +127,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/logout");
+      Uri uri = Uri.parse(AppConstants.logoutUrl);
 
       http.Response response = await http.post(
         uri,
@@ -152,7 +153,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/customer/forget-password");
+      Uri uri = Uri.parse(AppConstants.forgetPasswordUrl);
 
       http.Response response = await http.post(
         uri,
@@ -180,7 +181,7 @@ class ApiProvider {
 
     try {
       Uri uri = Uri.parse(
-          "https://swag.dennic.uz/v1/customer/verify-otp-code?code=$code&phone_number=%2B${phoneNumber.replaceAll("+", "")}");
+          "${AppConstants.verifyOtpCodeUrl}?code=$code&phone_number=%2B${phoneNumber.replaceAll("+", "")}");
 
       http.Response response = await http.post(
         uri,
@@ -194,6 +195,8 @@ class ApiProvider {
         networkResponse.errorText =
             networkResponse.data["message"] as String? ?? "";
       }
+    } on FormatException {
+      networkResponse.errorText = "Format Exception";
     } catch (error) {
       networkResponse.errorText =
           networkResponse.data["message"] as String? ?? "";
@@ -207,7 +210,7 @@ class ApiProvider {
     NetworkResponse networkResponse = NetworkResponse();
     try {
       Uri uri = Uri.parse(
-          "https://swag.dennic.uz/v1/customer/update-password?NewPassword=$newPassword");
+          "${AppConstants.updateUserPasswordUrl}?NewPassword=$newPassword");
 
       http.Response response = await http.put(
         uri,
@@ -221,6 +224,8 @@ class ApiProvider {
       } else {
         networkResponse.errorText = response.statusCode.toString();
       }
+    } on FormatException {
+      networkResponse.errorText = "Format Exception";
     } catch (error) {
       networkResponse.errorText = "network error :)";
     }
@@ -235,8 +240,7 @@ class ApiProvider {
     debugPrint("$myRefreshToken ------------------");
 
     try {
-      Uri uri =
-          Uri.parse("https://swag.dennic.uz/v1/user/update-refresh-token");
+      Uri uri = Uri.parse(AppConstants.updateTokenUrl);
       http.Response response = await http.put(
         uri,
         headers: {
@@ -274,7 +278,7 @@ class ApiProvider {
     debugPrint("myError.isEmpty ----------------------$userToken-");
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/get");
+      Uri uri = Uri.parse(AppConstants.getUserUrl);
       http.Response response = await http.get(
         uri,
         headers: {
@@ -300,6 +304,8 @@ class ApiProvider {
       } else {
         networkResponse.errorText = myInfo["message"] as String? ?? "";
       }
+    } on FormatException {
+      networkResponse.errorText = "Format Exception";
     } catch (error) {
       networkResponse.errorText = error.toString();
     }
@@ -307,8 +313,7 @@ class ApiProvider {
   }
 
   static Future<NetworkResponse> fetchDoctors() async {
-    final response =
-        await http.get(Uri.parse('https://swag.dennic.uz/v1/doctor'));
+    final response = await http.get(Uri.parse(AppConstants.fetchDoctorsUrl));
 
     try {
       if (response.statusCode == 200) {
@@ -322,6 +327,8 @@ class ApiProvider {
       } else {
         return NetworkResponse(errorText: 'Failed to load doctors');
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
@@ -329,7 +336,7 @@ class ApiProvider {
 
   static Future<NetworkResponse> fetchSpecializations() async {
     final response =
-        await http.get(Uri.parse('https://swag.dennic.uz/v1/specialization'));
+        await http.get(Uri.parse(AppConstants.fetchSpecializationsUrl));
 
     try {
       if (response.statusCode == 200) {
@@ -342,6 +349,8 @@ class ApiProvider {
       } else {
         return NetworkResponse(errorText: "Failed to load Specializations");
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
@@ -350,7 +359,7 @@ class ApiProvider {
   static Future<NetworkResponse> fetchBySpecializations(
       String specializationId) async {
     final response = await http.get(Uri.parse(
-        "https://swag.dennic.uz/v1/doctor/spec?specialization_id=$specializationId"));
+        "${AppConstants.fetchBySpecializationsUrl}?specialization_id=$specializationId"));
 
     try {
       if (response.statusCode == 200) {
@@ -362,6 +371,8 @@ class ApiProvider {
       } else {
         return NetworkResponse(errorText: "Failed to load Doctors");
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
@@ -370,7 +381,7 @@ class ApiProvider {
   static Future<NetworkResponse> fetchByDoctorId(String doctorId) async {
     NetworkResponse networkResponse = NetworkResponse();
     final response = await http
-        .get(Uri.parse("https://swag.dennic.uz/v1/doctor/get?id=$doctorId"));
+        .get(Uri.parse("${AppConstants.fetchByDoctorId}?id=$doctorId"));
 
     try {
       if (response.statusCode == 200) {
@@ -383,6 +394,8 @@ class ApiProvider {
       } else {
         return NetworkResponse(errorText: "Failed to load Doctor");
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       return NetworkResponse(errorText: error.toString());
     }
@@ -396,7 +409,7 @@ class ApiProvider {
     debugPrint("Api Provider update ${updateUserModel.birthDate}");
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/user/update");
+      Uri uri = Uri.parse(AppConstants.updateUserUrl);
 
       http.Response response = await http.put(
         uri,
@@ -418,6 +431,8 @@ class ApiProvider {
         final responseData = jsonDecode(response.body);
         networkResponse.errorText = responseData["message"] ?? "Unknown error";
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       debugPrint('Error in updateUser: $error');
       return NetworkResponse(errorText: error.toString());
@@ -426,10 +441,8 @@ class ApiProvider {
     return networkResponse;
   }
 
-  /////////////////////////////////////////////////
-
   static Future<NetworkResponse> getDate() async {
-    Uri uri = Uri.parse("https://swag.dennic.uz/v1/appointment/dates");
+    Uri uri = Uri.parse(AppConstants.getDateUrl);
 
     try {
       http.Response response = await http.get(uri);
@@ -447,14 +460,15 @@ class ApiProvider {
             errorText:
                 "Failed to load dates. Status code: ${response.statusCode}");
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       return NetworkResponse(errorText: "An error occurred: $error");
     }
   }
 
   static Future<NetworkResponse> getDoctorService(String id) async {
-    Uri uri =
-        Uri.parse("https://swag.dennic.uz/v1/doctor-services?doctor_id=$id");
+    Uri uri = Uri.parse("${AppConstants.getDoctorServiceUrl}?doctor_id=$id");
 
     try {
       http.Response response = await http.get(uri);
@@ -482,6 +496,8 @@ class ApiProvider {
             errorText:
                 "Failed to load dates. Status code: ${response.statusCode}");
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       debugPrint(
           "Catch keldi ------------------------------------------------getDoctorService $error");
@@ -499,7 +515,7 @@ class ApiProvider {
 
     try {
       final response = await http.post(
-        Uri.parse("https://swag.dennic.uz/v1/appointment/booking"),
+        Uri.parse(AppConstants.bookAppointmentUrl),
         headers: {
           'accept': 'application/json',
           'Authorization': token,
@@ -532,6 +548,8 @@ class ApiProvider {
           errorText: networkResponse.data['message'],
         );
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       debugPrint(
           "Catch keldi ------------------------------------------------bookAppointment");
@@ -543,7 +561,7 @@ class ApiProvider {
       PatientModel patientModel) async {
     NetworkResponse networkResponse = NetworkResponse();
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/patient/create");
+      Uri uri = Uri.parse(AppConstants.createPatientUrl);
 
       http.Response response = await http.post(
         uri,
@@ -561,6 +579,8 @@ class ApiProvider {
         final responseJson = jsonDecode(response.body);
         networkResponse.errorText = responseJson["messages"] ?? "Unknown error";
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       debugPrint(
           "Catch keldi----------------------------createPatient ${error.toString()}");
@@ -580,7 +600,7 @@ class ApiProvider {
 
     try {
       final response = await http.post(
-        Uri.parse("https://swag.dennic.uz/v1/appointment/create"),
+        Uri.parse(AppConstants.createAppointmentUrl),
         headers: {
           'accept': 'application/json',
           'Authorization': token,
@@ -592,7 +612,6 @@ class ApiProvider {
       if (response.statusCode == 200) {
         debugPrint(
             "If ga tushdi ------------------------------------------------createAppointment");
-        // debugPrint("Data: ${response.body}");
 
         networkResponse.data = "";
       } else {
@@ -604,6 +623,8 @@ class ApiProvider {
           errorText: networkResponse.errorText,
         );
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       debugPrint(
           "Catch keldi -------------${error.toString()}-----------------------------------createAppointment");
@@ -612,12 +633,10 @@ class ApiProvider {
     return networkResponse;
   }
 
-  static const String _baseUrl = 'https://swag.dennic.uz/v1';
-
   static Future<NetworkResponse> sendSupportMessage({
     required SupportModel supportModel,
   }) async {
-    final url = Uri.parse('$_baseUrl/support');
+    final url = Uri.parse('${AppConstants.baseUrl}/support');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
@@ -635,7 +654,6 @@ class ApiProvider {
         debugPrint('Support message sent successfully.');
         return NetworkResponse(data: 'Support message sent successfully.');
       } else {
-        // Handle error response
         debugPrint(
             'Failed to send support message. Status code: ${response.statusCode}');
         return NetworkResponse(
@@ -643,6 +661,8 @@ class ApiProvider {
               'Failed to send support message. Status code: ${response.statusCode}',
         );
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (e) {
       debugPrint('Error sending support message: $e');
       return NetworkResponse(
@@ -657,7 +677,7 @@ class ApiProvider {
     debugPrint("myError.isEmpty ----------------------$userToken-");
 
     try {
-      Uri uri = Uri.parse("https://swag.dennic.uz/v1/appointment");
+      Uri uri = Uri.parse(AppConstants.getAppointmentHistoryUrl);
       http.Response response = await http.get(
         uri,
         headers: {
@@ -685,6 +705,8 @@ class ApiProvider {
         return NetworkResponse(
             errorText: "Else qismiga tushdi: ${response.statusCode}");
       }
+    } on FormatException {
+      return NetworkResponse(errorText: "Format Exception");
     } catch (error) {
       debugPrint(
           "Catch keldi----------------------------getAppointmentHistory");

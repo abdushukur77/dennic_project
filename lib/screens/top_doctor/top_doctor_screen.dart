@@ -37,145 +37,146 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            72.getH(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const DoctorLogo(),
-                      20.getW(),
-                      Text(
-                        "Dennic",
+      body: Column(
+        children: [
+          72.getH(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const DoctorLogo(),
+                    20.getW(),
+                    Text(
+                      "Dennic",
+                      style: AppTextStyle.urbanistMedium.copyWith(
+                        color: AppColors.c_2C3A4B,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const Spacer(),
+                    RingAndFavoriteItems(
+                      icon: const Icon(Icons.add_alert_sharp,
+                          color: AppColors.c_2972FE),
+                      onTap: () {},
+                    ),
+                    16.getW(),
+                    RingAndFavoriteItems(
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: AppColors.c_2972FE,
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+                26.getH(),
+                const TextFieldItems(),
+                24.getH(),
+                Row(
+                  children: [
+                    Text("Specialist Doctor",
                         style: AppTextStyle.urbanistMedium.copyWith(
                           color: AppColors.c_2C3A4B,
-                          fontSize: 26.sp,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      RingAndFavoriteItems(
-                        icon: const Icon(Icons.add_alert_sharp,
-                            color: AppColors.c_2972FE),
-                        onTap: () {},
-                      ),
-                      16.getW(),
-                      RingAndFavoriteItems(
-                        icon: const Icon(
-                          Icons.favorite,
-                          color: AppColors.c_2972FE,
-                        ),
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                  26.getH(),
-                  const TextFieldItems(),
-                  24.getH(),
-                  Row(
-                    children: [
-                      Text("Specialist Doctor",
-                          style: AppTextStyle.urbanistMedium.copyWith(
-                            color: AppColors.c_2C3A4B,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600,
-                          )),
-                      const Spacer(),
-                      SeeAllItems(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const SpecialistDoctorScreen();
-                          }));
-                        },
-                        title: '',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20.h),
-            BlocBuilder<SpecializationBloc, SpecializationState>(
-              builder: (context, state) {
-                if (state.formStatus == FormStatus.loading) {
-                  return const CircularProgressIndicator();
-                }
-                if (state.formStatus == FormStatus.error) {
-                  return Text(state.errorMessage);
-                }
-                if (state.formStatus == FormStatus.success) {
-                  return SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        CategoryItems(
-                          day: '',
-                          title: "All",
-                          isSelected: activeIndex == -1,
-                          onTap: () {
-                            context.read<DoctorBloc>().add(FetchDoctors());
-                            activeIndex = -1;
-                            setState(() {});
-                          },
-                          subtitle: '',
-                        ),
-                        ...List.generate(
-                          state.specializations.length,
-                          (index) {
-                            return CategoryItems(
-                              day: '',
-                              title: state.specializations[index].name,
-                              isSelected: activeIndex == index,
-                              onTap: () {
-                                context.read<DoctorBloc>().add(
-                                      FetchDoctorsBySpecialization(
-                                        state.specializations[index].id,
-                                      ),
-                                    );
-                                activeIndex = index;
-                                setState(() {});
-                              },
-                              subtitle: '',
-                            );
-                          },
-                        ),
-                      ],
+                        )),
+                    const Spacer(),
+                    SeeAllItems(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const SpecialistDoctorScreen();
+                            },
+                          ),
+                        );
+                      },
+                      title: '',
                     ),
-                  );
-                }
-                return const SizedBox();
-              },
+                  ],
+                ),
+              ],
             ),
-            BlocBuilder<DoctorBloc, DoctorState>(
-              builder: (context, state) {
-                if (state.formStatus == FormStatus.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (state.formStatus == FormStatus.error) {
-                  return Text(state.errorMessage);
-                }
-                if (state.formStatus == FormStatus.success) {
-                  return Column(
+          ),
+          SizedBox(height: 20.h),
+          BlocBuilder<SpecializationBloc, SpecializationState>(
+            builder: (context, state) {
+              if (state.formStatus == FormStatus.loading) {
+                return const CircularProgressIndicator();
+              }
+              if (state.formStatus == FormStatus.error) {
+                return Text(state.errorMessage);
+              }
+              if (state.formStatus == FormStatus.success) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
                     children: [
-                      24.getH(),
-                      SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        child: Padding(
+                      CategoryItems(
+                        day: '',
+                        title: "All",
+                        isSelected: activeIndex == -1,
+                        onTap: () {
+                          context.read<DoctorBloc>().add(FetchDoctors());
+                          activeIndex = -1;
+                          setState(() {});
+                        },
+                        subtitle: '',
+                      ),
+                      ...List.generate(
+                        state.specializations.length,
+                        (index) {
+                          return CategoryItems(
+                            day: '',
+                            title: state.specializations[index].name,
+                            isSelected: activeIndex == index,
+                            onTap: () {
+                              context.read<DoctorBloc>().add(
+                                    FetchDoctorsBySpecialization(
+                                      state.specializations[index].id,
+                                    ),
+                                  );
+                              activeIndex = index;
+                              setState(() {});
+                            },
+                            subtitle: '',
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+          BlocBuilder<DoctorBloc, DoctorState>(
+            builder: (context, state) {
+              if (state.formStatus == FormStatus.loading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state.formStatus == FormStatus.error) {
+                return Text(state.errorMessage);
+              }
+              if (state.formStatus == FormStatus.success) {
+                return Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        24.getH(),
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24.w),
                           child: Column(
                             children: [
@@ -184,7 +185,8 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                                 (index) {
                                   return TopDoctorItems(
                                     image: state.searchDoctors[index].imageUrl,
-                                    name: "${state.searchDoctors[index].firstName} ${state.searchDoctors[index].lastName}",
+                                    name:
+                                        "${state.searchDoctors[index].firstName} ${state.searchDoctors[index].lastName}",
                                     description: state.searchDoctors[index].bio,
                                     rate: (4.7).toString(),
                                     review: 4692.toString(),
@@ -204,15 +206,15 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-          ],
-        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+        ],
       ),
     );
   }
