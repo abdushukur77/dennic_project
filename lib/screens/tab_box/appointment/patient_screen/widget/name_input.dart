@@ -56,6 +56,7 @@ class NameInput extends StatelessWidget {
             ],
           ),
           child: TextField(
+            textInputAction: TextInputAction.next,
             controller: firstNameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(

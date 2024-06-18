@@ -52,6 +52,7 @@ class CityInput extends StatelessWidget {
             ],
           ),
           child: TextField(
+            textInputAction: TextInputAction.next,
             controller: controller,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(

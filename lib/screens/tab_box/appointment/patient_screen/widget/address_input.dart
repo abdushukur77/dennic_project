@@ -52,6 +52,8 @@ class AddressInput extends StatelessWidget {
             ],
           ),
           child: TextField(
+            textInputAction: TextInputAction.next,
+
             controller: controller,
             keyboardType: TextInputType.streetAddress,
             decoration: InputDecoration(

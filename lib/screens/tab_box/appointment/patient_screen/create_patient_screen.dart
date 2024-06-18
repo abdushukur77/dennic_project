@@ -260,11 +260,11 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                 height: 55.h,
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (addressController.text.isNotEmpty ||
-                        firstNameController.text.isNotEmpty ||
-                        cityController.text.isNotEmpty ||
-                        lastNameController.text.isNotEmpty ||
-                        addressController.text.isNotEmpty ||
+                    if (addressController.text.isNotEmpty &&
+                        firstNameController.text.isNotEmpty &&
+                        cityController.text.isNotEmpty &&
+                        lastNameController.text.isNotEmpty &&
+                        addressController.text.isNotEmpty &&
                         cityController.text.isNotEmpty) {
                       PatientModel patientModel = PatientModel(
                         address: addressController.text,

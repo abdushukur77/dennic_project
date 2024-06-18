@@ -5,6 +5,7 @@ import 'package:dennic_project/blocs/doctor/doctor_state.dart';
 import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
 import 'package:dennic_project/blocs/specialization/specialization_state.dart';
 import 'package:dennic_project/screens/detail/detail_screen.dart';
+import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
 import 'package:dennic_project/screens/specialist_doctor/specialist_doctor_screen.dart';
 import 'package:dennic_project/screens/tab_box/home/widgets/see_all_items.dart';
 import 'package:dennic_project/screens/top_doctor/widgets/category_items.dart';
@@ -108,7 +109,7 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
             BlocBuilder<SpecializationBloc, SpecializationState>(
               builder: (context, state) {
                 if (state.formStatus == FormStatus.loading) {
-                  return const CircularProgressIndicator();
+                  return  ShimmerWidget(width: double.infinity, height: 100.h);
                 }
                 if (state.formStatus == FormStatus.error) {
                   return Text(state.errorMessage);
@@ -161,8 +162,11 @@ class _TopDoctorScreenState extends State<TopDoctorScreen> {
             BlocBuilder<DoctorBloc, DoctorState>(
               builder: (context, state) {
                 if (state.formStatus == FormStatus.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return  Center(
+                    child: Padding(
+                      padding:  EdgeInsets.all(20.w),
+                      child: ShimmerWidget(width: double.infinity, height: 100.h),
+                    ),
                   );
                 }
                 if (state.formStatus == FormStatus.error) {

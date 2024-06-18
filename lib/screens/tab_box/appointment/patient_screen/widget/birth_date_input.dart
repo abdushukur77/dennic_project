@@ -52,6 +52,7 @@ class BirthDateInput extends StatelessWidget {
             ],
           ),
           child: TextField(
+            textInputAction: TextInputAction.next,
             controller: controller,
             keyboardType: TextInputType.datetime,
             decoration: InputDecoration(

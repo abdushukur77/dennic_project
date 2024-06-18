@@ -52,6 +52,7 @@ class ProblemDescriptionInput extends StatelessWidget {
             ],
           ),
           child: TextField(
+            textInputAction: TextInputAction.next,
             controller: controller,
             keyboardType: TextInputType.multiline,
             maxLines: 3,

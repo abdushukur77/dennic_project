@@ -55,6 +55,7 @@ class PhoneNumberInput extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+
             inputFormatters: [AppInputFormatters.phoneFormatter],
             controller: controller,
             maxLength: 17,

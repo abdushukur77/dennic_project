@@ -1,5 +1,6 @@
 import 'package:dennic_project/blocs/specialization/specialization_bloc.dart';
 import 'package:dennic_project/blocs/specialization/specialization_state.dart';
+import 'package:dennic_project/screens/global_widget/shimer_widget.dart';
 import 'package:dennic_project/screens/specialist_doctor/widgets/specialist_items.dart';
 import 'package:dennic_project/utils/colors/app_colors.dart';
 import 'package:dennic_project/utils/size/size_utils.dart';
@@ -69,7 +70,7 @@ class _SpecialistDoctorScreenState extends State<SpecialistDoctorScreen> {
           BlocBuilder<SpecializationBloc, SpecializationState>(
             builder: (context, state) {
               if (state.formStatus == FormStatus.loading) {
-                return const CircularProgressIndicator();
+                return  ShimmerWidget(width: double.infinity, height: 100.h);
               }
               if (state.formStatus == FormStatus.error) {
                 return Text(state.errorMessage);
