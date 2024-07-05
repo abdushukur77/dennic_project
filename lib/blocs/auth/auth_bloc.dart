@@ -74,6 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _registerUser(RegisterUserEvent event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
     NetworkResponse networkResponse =
         await _appRepository.registerUser(userModel: event.userModel);
 

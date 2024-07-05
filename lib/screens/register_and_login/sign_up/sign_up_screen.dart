@@ -329,13 +329,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           );
                         }
                       },
-                      child: Text(
-                        "Sign Up",
-                        style: AppTextStyle.urbanistBold.copyWith(
-                          fontSize: 14.sp,
-                          color: AppColors.cFFFFFF,
-                        ),
-                      ),
+                      child: state.formStatus == FormStatus.loading
+                          ? Center(
+                              child: SizedBox(
+                                width: 25.we(),
+                                height: 25.he(),
+                                child:
+                                    const CircularProgressIndicator.adaptive(),
+                              ),
+                            )
+                          : Text(
+                              "Sign Up",
+                              style: AppTextStyle.urbanistBold.copyWith(
+                                fontSize: 14.sp,
+                                color: AppColors.cFFFFFF,
+                              ),
+                            ),
                     ),
                   ),
                   20.getH(),

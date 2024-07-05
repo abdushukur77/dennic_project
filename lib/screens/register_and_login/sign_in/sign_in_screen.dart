@@ -149,8 +149,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           );
                     },
                     child: _loading
-                        ? const Center(
-                            child: CircularProgressIndicator.adaptive(),
+                        ? Center(
+                            child: SizedBox(
+                              width: 25.we(),
+                              height: 25.he(),
+                              child: const CircularProgressIndicator.adaptive(),
+                            ),
                           )
                         : Text(
                             "Sign In",
@@ -250,7 +254,6 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-
 }
 
 late AnimationController globalAnimationController;
